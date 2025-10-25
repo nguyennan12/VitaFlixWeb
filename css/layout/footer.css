@@ -1,0 +1,133 @@
+.container-footer{
+  width: 100vw;
+  height: 40vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 250px;
+  background: rgba(27, 27, 27, 0.4); 
+}
+
+.about-me{
+  height: 90%;
+  width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.logo-name{
+  display:flex;
+  height: 70px;
+  width: 100%;
+  justify-content: start;
+  align-items: center;
+}
+
+.logo{
+  height: 60px;
+  width: 60px;
+  overflow: hidden;
+}
+
+.logo img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.name{
+  display: flex;
+  flex-direction: column;
+}
+
+.name p{
+  display: inline-block;
+  background: linear-gradient(90deg, #4084f2, #a36af2,  #f0ccff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.name span{
+  color: rgb(115, 115, 115);
+}
+
+.link-mxh{
+  display:flex;
+  gap: 12px;
+  height: 70px;
+  align-items: center;
+  gap:14px;
+  width: 100%;
+}
+
+.link-mxh div{
+  height: auto;
+  width: auto;
+  padding: 8px 13px;
+  border-radius: 30px;
+  background-color: rgba(118, 118, 118, 0.3);
+  overflow: hidden;
+}
+
+.link-mxh div a{
+  display: inline-block;
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 18px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.introduce{
+  color: rgb(131, 130, 130);
+  letter-spacing: 1px;
+}
+
+.service{
+  height: 90%;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.subscribe h5,
+.service h5{
+  display: inline-block;
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.subscribe a,
+.service a{
+  color: rgb(131, 130, 130);
+  font-size: 15px;
+  letter-spacing: 1px;
+  transition: 0.15s;
+  text-decoration: none;
+}
+
+.service a:hover{
+  color: rgb(231, 230, 230);
+}
+
+.subscribe{
+  height: 90%;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+
+.subscribe input{
+  color: white;
+  width: 280px;
+
+}
+
