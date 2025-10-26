@@ -124,7 +124,6 @@ body {
 }
 
 .auth-buttons button:hover {
-  background: linear-gradient(45deg, #00d4ff, #8a2be2);
   color: #fff;
   transform: scale(1.05);
 }
@@ -142,6 +141,96 @@ body {
     text-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
     z-index: 10;
   }
+/* ----------Form Đăng Nhập---------------- */
+
+.login-form-container {
+  position: absolute;
+  z-index: 100;
+}
+
+.login-form-container .btn-danger {
+    background-image: linear-gradient(80deg, #00b4ff, #7f00ff); 
+    border: none; 
+    color: white; 
+}
+
+.login-form-container .btn-danger:hover {
+    background-image: linear-gradient(80deg, #0099d8, #6300cc); 
+    opacity: 0.9;
+}
+
+.login-form-container .text-danger {
+    color: #00b4ff !important; 
+}
+
+.login-form-container .card{
+    width: 30vw;
+    height: 70vh;
+}
+
+/* ----------Form Đăng Nhập----------------- */
+
+/* ----------Form Đăng Ký------------------- */
+
+.register-form-container {
+  position: absolute;
+  z-index: 100;
+}
+
+.register-form-container .card {
+    max-width: 50vw;
+    max-height: 70vh;
+    overflow-y: auto; 
+}
+
+.login-form-container .card, 
+.register-form-container .card {
+    position: relative;
+}
+
+.register-form-container .btn-danger {
+    background-image: linear-gradient(80deg, #00b4ff, #7f00ff); 
+    border: none; 
+    color: white; 
+}
+
+.register-form-container .btn-danger:hover {
+    background-image: linear-gradient(80deg, #0099d8, #6300cc); 
+    opacity: 0.9;
+}
+
+.register-form-container .text-danger {
+    color: #00b4ff !important; 
+}
+/* ----------Form Đăng Ký------------------- */
+
+
+/* ---------------Nút đóng trên form---------------- */
+.close-btn {
+    position: absolute;
+    top: 15px;      
+    right: 20px;   
+    background: none;
+    border: none;
+    font-size: 1.5rem; 
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.close-btn:hover {
+    opacity: 1;
+}
+
+.close-btn span {
+    display: block;
+    line-height: 1;
+}
+/* ---------------Nút đóng trên form---------------- */
+
+
+
 
 /* --------------------REPONSIVE----------------------------- */
 @media (max-width: 768px) {
@@ -170,6 +259,18 @@ body {
     padding: 6px 14px;
     font-size: 0.9rem;
   } 
+  .login-form-container .card, 
+    .register-form-container .card {
+        
+        max-width: 550px; 
+        width: 90%;
+        max-height: 85vh; 
+        padding: 2.5rem;
+    }
+    .slider-text {
+        font-size: 2.5rem; 
+        max-width: 90%;
+    }
 }
 
 @media (max-width: 576px) {
@@ -193,6 +294,31 @@ body {
     padding: 6px 12px;
     font-size: 0.85rem;
   }
+  .login-form-container .card, 
+    .register-form-container .card {
+        max-width: 95%; 
+        width: 95%;
+        max-height: 90vh; 
+        padding: 1.5rem !important; 
+    }
+    
+    .close-btn {
+        top: 10px;
+        right: 15px;
+        font-size: 1.2rem;
+    }
+    .register-form-container .col-md-6 {
+        margin-bottom: 0.5rem;
+    }
+    .register-form-container .col-md-6:last-child {
+        margin-bottom: 0;
+    }
+
+    .slider-text {
+        font-size: 1.8rem; 
+        max-width: 95%;
+        top: 40%; 
+    }
 }
 
 

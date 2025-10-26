@@ -42,6 +42,111 @@
     <div class="slider-text">
         Phim, series không giới hạn và nhiều nội dung khác
     </div>
+
+    <div
+        class="login-form-container d-flex align-items-center justify-content-center w-100 h-100 position-absolute top-0">
+        <div class="card p-4 p-md-5 mx-2" style="max-width: 520px; background-color: rgba(0, 0, 0, 0.85); ">
+            <h2 class="text-white text-center mb-4" style="font-weight: bold;">Đăng Nhập</h2>
+            <form>
+                <div class="form-group mb-3">
+                    <label for="emailInput" class="form-label text-white-50">Email hoặc Tên người dùng</label>
+                    <input type="email" class="form-control form-control-lg" id="emailInput"
+                        placeholder="Nhập email hoặc tên người dùng" required>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for="passwordInput" class="form-label text-white-50">Mật khẩu</label>
+                    <input type="password" class="form-control form-control-lg" id="passwordInput"
+                        placeholder="Nhập mật khẩu" required>
+                </div>
+
+                <button type="button" class="close-btn text-white" aria-label="Close" id="close-login-form">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <button type="submit" class="btn btn-danger btn-lg w-100 mb-3 fw-bold">
+                    Đăng Nhập
+                </button>
+
+                <div class="d-flex justify-content-between align-items-center text-white-50 small">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="rememberCheck">
+                        <label class="form-check-label" for="rememberCheck">
+                            Ghi nhớ tôi
+                        </label>
+                    </div>
+                    <a href="#" class="text-white-50 text-decoration-none">Quên mật khẩu?</a>
+                </div>
+
+                <hr class="my-4 border-secondary">
+
+                <p class="text-white mt-3 text-center">
+                    Bạn chưa có tài khoản? <a href="#" class="text-danger fw-bold text-decoration-none"
+                        id="show-register">Đăng ký ngay</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+
+    <div
+        class="register-form-container d-flex align-items-center justify-content-center w-100 h-100 position-absolute top-0 d-none">
+        <div class="card p-4 p-md-5 mx-2 login-card" style="background-color: rgba(0, 0, 0, 0.85);">
+            <h2 class="text-white text-center mb-4">Đăng Ký Tài Khoản</h2>
+            <form>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="lastName" class="form-label text-white-50">Họ</label>
+                        <input type="text" class="form-control form-control-lg" id="lastName" placeholder="Nhập Họ"
+                            required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="firstName" class="form-label text-white-50">Tên</label>
+                        <input type="text" class="form-control form-control-lg" id="firstName" placeholder="Nhập Tên"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="usernameInput" class="form-label text-white-50">Tên người dùng</label>
+                    <input type="text" class="form-control form-control-lg" id="usernameInput"
+                        placeholder="Chọn tên người dùng" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="regEmailInput" class="form-label text-white-50">Địa chỉ Email</label>
+                    <input type="email" class="form-control form-control-lg" id="regEmailInput" placeholder="Nhập email"
+                        required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="regPasswordInput" class="form-label text-white-50">Mật khẩu</label>
+                    <input type="password" class="form-control form-control-lg" id="regPasswordInput"
+                        placeholder="Nhập mật khẩu" required>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for="confirmPasswordInput" class="form-label text-white-50">Xác nhận mật khẩu</label>
+                    <input type="password" class="form-control form-control-lg" id="confirmPasswordInput"
+                        placeholder="Nhập lại mật khẩu" required>
+                </div>
+
+                <button type="button" class="close-btn text-white" aria-label="Close" id="close-register-form">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <button type="submit" class="btn btn-danger btn-lg w-100 mb-3 fw-bold">
+                    Tạo Tài Khoản
+                </button>
+
+                <p class="text-white mt-3 text-center">
+                    Đã có tài khoản? <a href="#" class="text-danger fw-bold text-decoration-none" id="show-login">Đăng
+                        nhập</a>
+                </p>
+            </form>
+        </div>
+    </div>
 </body>
+<script src="/auth/scripts/login.js"></script>
 
 </html>
