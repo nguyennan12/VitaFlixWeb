@@ -1,0 +1,198 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ------------------------SLIDER --------------------------- */
+#container-slider {
+    overflow: hidden;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+
+.bg-slider {
+    display: flex;
+    width: calc(100vw*6);
+    height: 100%;
+    animation: slideShow 45s infinite;
+}
+
+.bg-slider img {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* --- HIỆU ỨNG TRƯỢT ẢNH --- */
+@keyframes slideShow {
+  0%   { transform: translateX(0); }
+  14%  { transform: translateX(0); }
+
+  16%  { transform: translateX(-100vw); }
+  30%  { transform: translateX(-100vw); }
+
+  32%  { transform: translateX(-200vw); }
+  46%  { transform: translateX(-200vw); }
+
+  48%  { transform: translateX(-300vw); }
+  62%  { transform: translateX(-300vw); }
+
+  64%  { transform: translateX(-400vw); }
+  78%  { transform: translateX(-400vw); }
+
+  80%  { transform: translateX(-500vw); }
+  94%  { transform: translateX(-500vw); }
+
+  100% { transform: translateX(0); }
+}
+
+/* ------------------------SLIDER --------------------------- */
+
+/* --- Lớp phủ mờ (overlay) --- */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); 
+  z-index: 1; 
+  
+}
+
+/* -----------------------LOGO------------------------------- */
+.logo-img {
+  transition: transform 0.3s ease, filter 0.3s ease;
+  z-index: 10;
+}
+
+.logo-img:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+  cursor: pointer;
+}
+
+.logo-text {
+  font-size: 2rem; 
+  font-weight: 700;
+  background: linear-gradient(80deg, #00b4ff, #7f00ff); 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  z-index: 10;
+}
+
+.logo-text:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+  cursor: pointer;
+}
+/* -----------------------LOGO------------------------------- */
+
+/* -----------------NÚT ĐĂNG KÍ ĐĂNG NHẬP--------------------- */
+
+.auth-buttons {
+  position: absolute;
+  top: 40px;
+  right: 60px;
+  display: flex;
+  gap: 15px;
+  z-index: 3;
+}
+
+.auth-buttons button {
+  background: transparent;
+  border: 2px solid #00d4ff;
+  color: #00d4ff;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.auth-buttons button:hover {
+  background: linear-gradient(45deg, #00d4ff, #8a2be2);
+  color: #fff;
+  transform: scale(1.05);
+}
+/* -----------------NÚT ĐĂNG KÍ ĐĂNG NHẬP--------------------- */
+
+.slider-text {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+    z-index: 10;
+  }
+
+/* --------------------REPONSIVE----------------------------- */
+@media (max-width: 768px) {
+  .logo-text {
+    font-size: 1.5rem;
+  }
+  .logo-img {
+    height: 30px;
+  }
+  .bg-slider {
+    animation: none;
+    width: 100vw;
+  }
+  .bg-slider img {
+    width: 100%;
+    height: 100%;
+    display: none;
+  }
+  .bg-slider img:first-child {
+    display: block;  
+  }        
+  .auth-buttons {
+    padding: 1rem;
+  }
+  .btn-auth {
+    padding: 6px 14px;
+    font-size: 0.9rem;
+  } 
+}
+
+@media (max-width: 576px) {
+  .logo-text {
+    font-size: 1.2rem;
+  }
+  .logo-img {
+    height: 25px;
+  }
+  .bg-slider {
+    animation-duration: 24s;
+  }
+  .auth-buttons {
+    flex-direction: column;
+    gap: 8px;
+    top: 10px;
+    right: 10px;
+  }
+  .btn-auth {
+    width: 100px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+
