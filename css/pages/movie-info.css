@@ -1,0 +1,453 @@
+/*main*/
+.thumb-box{
+  position: relative;
+  height: 70vh;
+  width: 100vw;
+  overflow: hidden;
+}
+.thumb-box img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.thumb-box::before{
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 2;
+  background:
+    linear-gradient(to right, rgba(30,30,30,0.6), rgba(30,30,30,0.1) 50%, rgba(0,0,0,0)),
+    linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0) 40%, rgba(0,0,0,0.5));
+  backdrop-filter: blur(2px); 
+}
+
+.thumb-box::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(10,10,10,0.6) 100%);
+  z-index: 2;
+  
+
+
+}
+
+.box-content{
+  height: auto;
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 3;
+  margin-top: -20px; 
+  background: rgba(27, 27, 27, 0.4);  
+  backdrop-filter: blur(10px);   
+  border-radius: 30px 30px 0 0;
+}
+
+/*left*/
+.left-box{
+  position: relative;
+  height:auto;
+  width: 30vw;
+  padding-bottom: 20px;
+  border-right: 1px solid rgb(75, 75, 75);
+  border-bottom: 1px solid rgb(75, 75, 75);
+}
+
+.poster-left-box{
+  position: relative;
+  top: -120px;
+  left: 60px;
+  height: 380px;
+  width: 260px;
+  z-index: 3;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 0 12px rgba(212, 212, 212, 0.5);
+  
+}
+
+.poster-left-box img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.info-left-box{
+  position: relative;
+  bottom: 80px;
+  left: 40px;
+  height: 120px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.info{
+  display: flex;
+  justify-content: space-between;
+}
+
+.info div{
+  height: 28px;
+  width: auto;
+  padding: 6px 10px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.info div:first-child{
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border: 1px solid #97dde8;
+}
+
+.info div:nth-child(2){
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  color: black !important;
+  border:1px;
+}
+
+.info div:nth-child(3),
+.info div:last-child{
+  background-color: rgba(100,100,100,0.1);
+  color: rgb(220, 220, 220);
+  border: 1px solid rgb(211, 211, 211);
+}
+
+.button-box{
+  height: 80px;
+  width: 100%;
+  display:flex;
+  justify-content: space-around;
+  transition: 0.15s;
+  align-items: center;
+}
+
+.button-play{
+  height: 60px;
+  width: 60px;
+  background-color: transparent;
+  border-radius: 30px;
+  border: 3px solid #97dde8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(98, 98, 98, 0.5);
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.button-play a i{
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  font-size: 20px;
+}
+
+.button-play .see-more-text {
+  opacity: 0;
+  width: 0;
+  transition: all 0.8s ease;
+  overflow: hidden;
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.button-play:hover {
+  height: 50px;
+  width: 130px; 
+  background-color: transparent;
+  justify-content: flex-start;
+  padding-left: 14px;
+  border: 2px solid #8fd3dd;
+}
+
+.button-play:hover .see-more-text {
+  opacity: 1;
+  width: auto;
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.button-like-share{
+  height: 50px;
+  width: 120px;
+  background-color: #8fd3dd;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 25px;
+  background-color: rgba(100,100,100,0.1);
+  
+  border: 1px solid rgb(211, 211, 211);
+}
+
+.button-like-share div{
+  height: 26px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-like-share div:first-child{
+  border-right: 1px solid rgb(211,211,211);
+}
+
+.button-like-share div i{
+  font-size: 22px;
+  color: rgb(220, 220, 220);
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.button-like-share div i:hover{
+  background: linear-gradient(90deg, #97dde8 20%, #ffccf2 70%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/*right*/
+.right-box{
+  height: auto;
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  padding-bottom: 20px;
+  padding-left: 20px;
+}
+
+.title-right-box{
+  padding-top: 6px;
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 14px;
+}
+
+.title-right-box p{
+  font-family: Oswald;
+  letter-spacing: 1.5px;
+  font-size: 40px;
+  color: white;
+}
+
+.title-right-box span{
+  font-family: Poppins;
+  font-size: 30px;
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.info-right-box{
+  padding: 20px 0px;
+  max-height: 280px;
+  width: 100%;
+  border-bottom: 1px solid rgb(75, 75, 75);
+}
+
+.genre p{
+  color: rgb(125, 125, 125);
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.genre-content{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+
+.genre span{
+  color: rgb(229, 229, 229);
+  font-weight: 500;
+}
+
+.episode-right-box{
+  height: 240px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title-episode-list{
+  height: 40px;
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.title-episode-list div:first-child{
+  font-size: 20px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.complete{
+  font-size: 14px;
+  color: rgb(19, 215, 19);
+  display: flex;
+  align-items: center;
+  background-color: rgba(17, 196, 50, 0.5);
+  padding: 4px 8px;
+  border-radius: 14px;
+}
+
+.ongoing{
+  font-size: 14px;
+  color: rgb(252, 137, 6);
+  display: flex;
+  align-items: center;
+  background-color: rgba(132, 77, 15, 0.5);
+  padding: 4px 8px;
+  border-radius: 14px;
+}
+
+.title-episode-list span{
+  padding-right: 6px;
+  font-size: 14px;
+}
+
+.list-episode-box{
+  height: 190px;
+  width: 100%;
+  border-radius: 18px;
+  padding: 6px;
+  border: 1px solid rgb(28, 28, 28);
+  box-shadow:inset 0 0 14px rgba(87, 87, 87, 0.3);
+}
+
+.season-movie{
+  display: flex;
+  height: 32px;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.season-movie p{
+  color: white;
+  padding: 4px 0px 4px 12px;
+}
+
+.season-movie p:first-child{
+  font-size: 18px;
+
+}
+
+.season-movie p:last-child{
+  font-size: 14px;
+  border-left: 1px solid rgb(211,211,211);
+
+}
+
+.season-movie span{
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-right: 8px;
+}
+
+.episode-list{
+  max-height: 132px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  flex-direction: row !important;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.episode-list::-webkit-scrollbar {
+  display: none; 
+}
+
+.episode-list div{
+  background-color: rgba(107, 103, 125, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 140px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.episode-list div a{
+  color: white;
+  text-decoration: none;
+}
+
+.episode-list div:hover a{
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.episode-list div a i{
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+/*recommend*/
+.recommend-container{
+  position: relative;
+  height:auto;
+  width: 30vw;
+  border-right: 1px solid rgb(75, 75, 75);
+  padding-bottom: 50px;
+  border-bottom: 1px solid rgb(75, 75, 75);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title-recommend{
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  font-size: 30px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.movie-list-recommend{
+  height:100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
