@@ -1,5 +1,5 @@
 .home-header {
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
@@ -37,16 +37,22 @@
 }
 
 .logo-img {
-  height: 55px;
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
 }
 
+
 .logo-text {
-  font-size: 2rem;
-  font-weight: 700;
-  background: linear-gradient(80deg, #00b4ff, #7f00ff);
+  font-size: 24px; 
+  font-weight: 600;
+  background: linear-gradient(90deg, #4084f2, #a36af2, #f0ccff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.2;
 }
+
 .main-nav {
   display: flex;
   align-items: center;
