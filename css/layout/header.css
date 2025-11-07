@@ -37,8 +37,7 @@
 }
 
 .logo-img {
-  height: 60px;
-  width: 60px;
+  height: 45px;
   object-fit: cover;
 }
 
@@ -80,29 +79,47 @@
 }
 
 .search {
-  position: relative;
+  
   display: flex;
   align-items: center;
-  max-width: 200px;
-  height: 38px;
+  height: 40px;
+  width: 220px;
   border-radius: 40px;
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 0 10px;
+  background-color: rgba(252, 252, 252, 0.1);
+  padding-right: 10px;
+  overflow: hidden;
 }
 
 .search input {
-  border: none;
-  background: transparent;
-  outline: none;
-  color: white;
   width: 100%;
-  padding-left: 25px;
+  height: 100%;
+  font-size: 14px;
+  color: white;
+  background: transparent;
+  border: none;
+  border-radius: 40px;
+  padding-left: 20px;
+  outline: none;
+}
+
+.search input::placeholder {
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .search i {
-  position: absolute;
-  left: 10px;
+  display: inline-block;
+  left: 15px;
   color: white;
+  padding-right: 10px;
+}
+
+
+.search i:hover{
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .user-profile {
@@ -166,10 +183,10 @@
 }
 @media (max-width: 768px) {
   .main-nav {
-    display: none; /* Ẩn menu PC */
+    display: none; 
   }
   .menu-toggle {
-    display: block; /* Hiện nút 3 gạch */
+    display: block; 
   }
   .logo-text {
     font-size: 1.5rem;
