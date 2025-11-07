@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="asset/css/style.css">
+    <link rel="stylesheet" href="/VitaFlixWeb-main/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/VitaFlixWeb-main/auth/asset/css/style.css">
     <title>Đăng Nhập</title>
 </head>
 
@@ -27,7 +27,7 @@
         <div
             class="container-fluid d-flex align-items-center justify-content-between justify-content-md-center justify-content-lg-start">
             <div class="d-flex align-items-center">
-                <img src="/assets/images/VitaFlix.png" alt="Logo" class="logo-img img-fluid me-2"
+                <img src="/VitaFlixWeb-main/assets/images/VitaFlix.png" alt="Logo" class="logo-img img-fluid me-2"
                     style="max-height: 80px;">
                 <h1 class="logo-text h4 mb-0 fw-bold text-white">VitaFlix</h1>
             </div>
@@ -47,10 +47,10 @@
         class="login-form-container d-flex align-items-center justify-content-center w-100 h-100 position-absolute top-0">
         <div class="card p-4 p-md-5 mx-2" style="max-width: 520px; background-color: rgba(0, 0, 0, 0.85); ">
             <h2 class="text-white text-center mb-4" style="font-weight: bold;">Đăng Nhập</h2>
-            <form>
-                <div class="form-group mb-3">
-                    <label for="emailInput" class="form-label text-white-50">Email hoặc Tên người dùng</label>
-                    <input type="email" class="form-control form-control-lg" id="emailInput"
+            <form id="login-form">
+                <div class="form-group mb-4">
+                    <label for="emailInput" class="form-label text-white-50">Tên người dùng</label>
+                    <input type="text" class="form-control form-control-lg" id="emailInput"
                         placeholder="Nhập email hoặc tên người dùng" required>
                 </div>
 
@@ -93,7 +93,7 @@
         class="register-form-container d-flex align-items-center justify-content-center w-100 h-100 position-absolute top-0 d-none">
         <div class="card p-4 p-md-5 mx-2 login-card" style="background-color: rgba(0, 0, 0, 0.85);">
             <h2 class="text-white text-center mb-4">Đăng Ký Tài Khoản</h2>
-            <form>
+            <form id="register-form">
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="lastName" class="form-label text-white-50">Họ</label>
@@ -147,6 +147,6 @@
         </div>
     </div>
 </body>
-<script src="/auth/scripts/login.js"></script>
+<script src="/VitaFlixWeb-main/auth/scripts/login.js"></script>
 
 </html>
