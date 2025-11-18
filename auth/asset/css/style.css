@@ -1,59 +1,91 @@
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* ------------------------SLIDER --------------------------- */
 #container-slider {
-    overflow: hidden;
-    overflow: hidden;
-    width: 100vw;
-    height: 100vh;
+  overflow: hidden;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 }
 
 .bg-slider {
-    display: flex;
-    width: calc(100vw*6);
-    height: 100%;
-    animation: slideShow 45s infinite;
+  display: flex;
+  width: calc(100vw*6);
+  height: 100%;
+  animation: slideShow 45s infinite;
 }
 
 .bg-slider img {
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    object-position: center;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* --- HIỆU ỨNG TRƯỢT ẢNH --- */
 @keyframes slideShow {
-  0%   { transform: translateX(0); }
-  14%  { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
 
-  16%  { transform: translateX(-100vw); }
-  30%  { transform: translateX(-100vw); }
+  14% {
+    transform: translateX(0);
+  }
 
-  32%  { transform: translateX(-200vw); }
-  46%  { transform: translateX(-200vw); }
+  16% {
+    transform: translateX(-100vw);
+  }
 
-  48%  { transform: translateX(-300vw); }
-  62%  { transform: translateX(-300vw); }
+  30% {
+    transform: translateX(-100vw);
+  }
 
-  64%  { transform: translateX(-400vw); }
-  78%  { transform: translateX(-400vw); }
+  32% {
+    transform: translateX(-200vw);
+  }
 
-  80%  { transform: translateX(-500vw); }
-  94%  { transform: translateX(-500vw); }
+  46% {
+    transform: translateX(-200vw);
+  }
 
-  100% { transform: translateX(0); }
+  48% {
+    transform: translateX(-300vw);
+  }
+
+  62% {
+    transform: translateX(-300vw);
+  }
+
+  64% {
+    transform: translateX(-400vw);
+  }
+
+  78% {
+    transform: translateX(-400vw);
+  }
+
+  80% {
+    transform: translateX(-500vw);
+  }
+
+  94% {
+    transform: translateX(-500vw);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /* ------------------------SLIDER --------------------------- */
@@ -65,9 +97,9 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); 
-  z-index: 1; 
-  
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+
 }
 
 /* -----------------------LOGO------------------------------- */
@@ -83,9 +115,9 @@ body {
 }
 
 .logo-text {
-  font-size: 2rem; 
+  font-size: 2rem;
   font-weight: 700;
-  background: linear-gradient(80deg, #00b4ff, #7f00ff); 
+  background: linear-gradient(90deg, #4084f2, #a36af2, #f0ccff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -99,6 +131,7 @@ body {
   filter: brightness(1.2);
   cursor: pointer;
 }
+
 /* -----------------------LOGO------------------------------- */
 
 /* -----------------NÚT ĐĂNG KÍ ĐĂNG NHẬP--------------------- */
@@ -127,20 +160,22 @@ body {
   color: #fff;
   transform: scale(1.05);
 }
+
 /* -----------------NÚT ĐĂNG KÍ ĐĂNG NHẬP--------------------- */
 
 .slider-text {
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 3.5rem;
-    font-weight: bold;
-    text-align: center;
-    text-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
-    z-index: 10;
-  }
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 3.5rem;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+
 /* ----------Form Đăng Nhập---------------- */
 
 .login-form-container {
@@ -149,23 +184,23 @@ body {
 }
 
 .login-form-container .btn-danger {
-    background-image: linear-gradient(80deg, #00b4ff, #7f00ff); 
-    border: none; 
-    color: white; 
+  background: linear-gradient(90deg, #4084f2, #a36af2, #f0ccff);
+  border: none;
+  color: white;
 }
 
 .login-form-container .btn-danger:hover {
-    background-image: linear-gradient(80deg, #0099d8, #6300cc); 
-    opacity: 0.9;
+  background: linear-gradient(90deg, #4084f2, #a36af2, #f0ccff);
+  opacity: 0.9;
 }
 
 .login-form-container .text-danger {
-    color: #00b4ff !important; 
+  color: #00b4ff !important;
 }
 
-.login-form-container .card{
-    width: 30vw;
-    height: 70vh;
+.login-form-container .card {
+  width: 30vw;
+  height: 70vh;
 }
 
 /* ----------Form Đăng Nhập----------------- */
@@ -178,55 +213,57 @@ body {
 }
 
 .register-form-container .card {
-    max-width: 50vw;
-    max-height: 70vh;
-    overflow-y: auto; 
+  max-width: 50vw;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
-.login-form-container .card, 
+.login-form-container .card,
 .register-form-container .card {
-    position: relative;
+  position: relative;
 }
 
 .register-form-container .btn-danger {
-    background-image: linear-gradient(80deg, #00b4ff, #7f00ff); 
-    border: none; 
-    color: white; 
+  background: linear-gradient(90deg, #4084f2, #a36af2, #f0ccff);
+  border: none;
+  color: white;
 }
 
 .register-form-container .btn-danger:hover {
-    background-image: linear-gradient(80deg, #0099d8, #6300cc); 
-    opacity: 0.9;
+  background: linear-gradient(90deg, #4084f2, #a36af2, #f0ccff);
+  opacity: 0.9;
 }
 
 .register-form-container .text-danger {
-    color: #00b4ff !important; 
+  color: #00b4ff !important;
 }
+
 /* ----------Form Đăng Ký------------------- */
 
 
 /* ---------------Nút đóng trên form---------------- */
 .close-btn {
-    position: absolute;
-    top: 15px;      
-    right: 20px;   
-    background: none;
-    border: none;
-    font-size: 1.5rem; 
-    font-weight: bold;
-    cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.2s;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
 }
 
 .close-btn:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 .close-btn span {
-    display: block;
-    line-height: 1;
+  display: block;
+  line-height: 1;
 }
+
 /* ---------------Nút đóng trên form---------------- */
 
 
@@ -237,88 +274,101 @@ body {
   .logo-text {
     font-size: 1.5rem;
   }
+
   .logo-img {
     height: 30px;
   }
+
   .bg-slider {
     animation: none;
     width: 100vw;
   }
+
   .bg-slider img {
     width: 100%;
     height: 100%;
     display: none;
   }
+
   .bg-slider img:first-child {
-    display: block;  
-  }        
+    display: block;
+  }
+
   .auth-buttons {
     padding: 1rem;
   }
+
   .btn-auth {
     padding: 6px 14px;
     font-size: 0.9rem;
-  } 
-  .login-form-container .card, 
-    .register-form-container .card {
-        
-        max-width: 550px; 
-        width: 90%;
-        max-height: 85vh; 
-        padding: 2.5rem;
-    }
-    .slider-text {
-        font-size: 2.5rem; 
-        max-width: 90%;
-    }
+  }
+
+  .login-form-container .card,
+  .register-form-container .card {
+
+    max-width: 550px;
+    width: 90%;
+    max-height: 85vh;
+    padding: 2.5rem;
+  }
+
+  .slider-text {
+    font-size: 2.5rem;
+    max-width: 90%;
+  }
 }
 
 @media (max-width: 576px) {
   .logo-text {
     font-size: 1.2rem;
   }
+
   .logo-img {
     height: 25px;
   }
+
   .bg-slider {
     animation-duration: 24s;
   }
+
   .auth-buttons {
     flex-direction: column;
     gap: 8px;
     top: 10px;
     right: 10px;
   }
+
   .btn-auth {
     width: 100px;
     padding: 6px 12px;
     font-size: 0.85rem;
   }
-  .login-form-container .card, 
-    .register-form-container .card {
-        max-width: 95%; 
-        width: 95%;
-        max-height: 90vh; 
-        padding: 1.5rem !important; 
-    }
-    
-    .close-btn {
-        top: 10px;
-        right: 15px;
-        font-size: 1.2rem;
-    }
-    .register-form-container .col-md-6 {
-        margin-bottom: 0.5rem;
-    }
-    .register-form-container .col-md-6:last-child {
-        margin-bottom: 0;
-    }
 
-    .slider-text {
-        font-size: 1.8rem; 
-        max-width: 95%;
-        top: 40%; 
-    }
+  .login-form-container .card,
+  .register-form-container .card {
+    max-width: 95%;
+    width: 95%;
+    max-height: 90vh;
+    padding: 1.5rem !important;
+  }
+
+  .close-btn {
+    top: 10px;
+    right: 15px;
+    font-size: 1.2rem;
+  }
+
+  .register-form-container .col-md-6 {
+    margin-bottom: 0.5rem;
+  }
+
+  .register-form-container .col-md-6:last-child {
+    margin-bottom: 0;
+  }
+
+  .slider-text {
+    font-size: 1.8rem;
+    max-width: 95%;
+    top: 40%;
+  }
 }
-
-
