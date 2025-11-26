@@ -18,7 +18,122 @@
     <body>
         <div id="header"></div>
         <main>
-            Trang chủ
+            <section class="profile-container">
+      <div class="profile-box">
+        <div class="cricle">
+          <img src="assets/images/avatar-nan.jpg">
+        </div>
+        <div class="content-profile">
+          <p>Nguyen An &#183; <span>Nann</span></p>
+          <div>Love faded, peace stayed</div>
+        </div>
+      </div>
+      <div class="movie-continute-container">
+        <div class="title-list-box">
+          <div class="titlle-movie-continute">
+            Xem Tiếp Nào Bạn Êy
+          </div>
+        </div>
+          <div class="list-movie-continute js-movie-list-continute"></div>
+      </div>
+    </section>
+    
+    <section class="container-movie">
+      <!--List 1-->
+      <div class="title-list">
+        <h2>Hàn Xẻng Nay Có Gì Hot ?</h2>
+        <div class="see-more-button">
+          <i class="fa-solid fa-angle-right"></i>
+          <span class="see-more-text">Xem thêm </span>
+        </div>
+      </div>
+      <div class="movie-wrapper">
+        <div class="scroll-button js-scroll-button prev" data-slug="korea">
+          <i class="fa-solid fa-caret-left"></i>
+        </div>
+        <div class="movie-list js-movie-list-korea"></div>
+        <div class="scroll-button js-scroll-button next" data-slug="korea">
+          <i class="fa-solid fa-caret-right"></i>
+        </div>
+      </div>
+      
+      <!--List 2-->
+      <div class="title-list">
+        <h2>Cập Nhật Hoa Ngữ Hôm Nay</h2>
+        <div class="see-more-button">
+          <i class="fa-solid fa-angle-right"></i>
+          <span class="see-more-text">Xem thêm</span>
+        </div>
+      </div>
+      <div class="movie-wrapper">
+        <div class="scroll-button js-scroll-button prev" data-slug="china">
+          <i class="fa-solid fa-caret-left"></i>
+        </div>
+        <div class="movie-list js-movie-list-china"></div>
+        <div class="scroll-button js-scroll-button next" data-slug="china">
+          <i class="fa-solid fa-caret-right"></i>
+        </div>
+      </div>
+      
+      <!--List 3-->
+      <div class="container-movie-single">
+        <div class="content-movie-single">
+          Bom Tấn Cập Cảng!
+        </div>
+        <div>
+          <div class="movie-wrapper">
+            <div class="scroll-button js-scroll-button prev1" data-slug="single-korea">
+              <i class="fa-solid fa-caret-left"></i>
+            </div>
+            <div class="list-movie-single js-movie-list-single-korea"></div>
+            <div class="scroll-button js-scroll-button next1" data-slug="single-korea">
+              <i class="fa-solid fa-caret-right"></i>
+            </div>
+          </div>
+
+          <div class="movie-wrapper">
+            <div class="scroll-button js-scroll-button prev1" data-slug="single-auMy">
+              <i class="fa-solid fa-caret-left"></i>
+            </div>
+            <div class="list-movie-single js-movie-list-single-auMy"></div> 
+            <div class="scroll-button js-scroll-button next1" data-slug="single-auMy">
+              <i class="fa-solid fa-caret-right"></i>
+            </div>
+          </div> 
+        </div> 
+      </div>
+      
+      <!--List 4-->
+      <div class="title-list">
+        <h2>Mới Ra Lò &#45 Anime Nóng Hổi</h2>
+        <div class="see-more-button">
+          <i class="fa-solid fa-angle-right"></i>
+          <span class="see-more-text">Xem thêm</span>
+        </div>
+      </div>
+      <div class="movie-wrapper">
+        <div class="scroll-button js-scroll-button prev" data-slug="japan">
+          <i class="fa-solid fa-caret-left"></i>
+        </div>
+        <div class="movie-list js-movie-list-japan"></div>
+        <div class="scroll-button js-scroll-button next" data-slug="japan">
+          <i class="fa-solid fa-caret-right"></i>
+        </div>
+      </div>
+      
+      <!--List 5-->
+      <div class="title-list">
+        <h2>Không Biết Xem Gì ?</h2>
+        <div class="see-more-button js-reload-button">
+          <i class="fa-solid fa-rotate"></i>
+          <span class="see-more-text">Random </span>
+        </div>
+      </div>
+      <div class="movie-wrapper">
+        <div class="movie-list random js-movie-list-random"></div>
+      </div>
+    </section>
+
         </main>
         <div id="footer"></div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -28,3 +143,4 @@
 
 
 </html>
+    
