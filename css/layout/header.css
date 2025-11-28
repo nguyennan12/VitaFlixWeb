@@ -1,5 +1,5 @@
 .home-header {
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -41,14 +41,13 @@
   object-fit: cover;
 }
 
-
 .logo-text {
-  font-size: 24px; 
+  font-size: 24px;
   font-weight: 600;
   background: linear-gradient(90deg, #4084f2, #a36af2, #f0ccff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.2;
 }
 
@@ -79,7 +78,6 @@
 }
 
 .search {
-  
   display: flex;
   align-items: center;
   height: 40px;
@@ -115,8 +113,7 @@
   padding-right: 10px;
 }
 
-
-.search i:hover{
+.search i:hover {
   background: linear-gradient(90deg, #97dde8, #ffccf2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -135,7 +132,7 @@
 .mobile-menu {
   position: fixed;
   top: 0;
-  left: -260px; 
+  left: -260px;
   width: 250px;
   height: 100vh;
   background-color: #1a1a1a;
@@ -145,7 +142,7 @@
 }
 
 .mobile-menu.active {
-  left: 0; 
+  left: 0;
 }
 
 .mobile-menu ul {
@@ -183,10 +180,10 @@
 }
 @media (max-width: 768px) {
   .main-nav {
-    display: none; 
+    display: none;
   }
   .menu-toggle {
-    display: block; 
+    display: block;
   }
   .logo-text {
     font-size: 1.5rem;

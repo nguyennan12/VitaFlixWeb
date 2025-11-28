@@ -286,14 +286,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rbga(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
 
 .carousel {
   position: relative;
   height: 400px;
-  perspective: 1500;
+  perspective: 1500px;
 }
 
 .carousel .carousel-item {
