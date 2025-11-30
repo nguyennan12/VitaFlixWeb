@@ -3,220 +3,182 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VitaFlix</title>
+    <title>Hè Rồi Nghỉ Việc Thôi - VitaFlix</title>
     <link rel="icon" href="/assets/images/VitaFlix.png" type="images/png">
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="/css/main.css">
+    
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    
     <link rel="stylesheet" href="/css/layout/header.css">
     <link rel="stylesheet" href="/css/layout/footer.css">
+
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    
     <link rel="stylesheet" href="/css/pages/watch.css">
     <link rel="stylesheet" href="/css/components/comment.css">
     <link rel="stylesheet" href="/css/components/recommend.css">
   </head>
   <body>
+    
     <div id="header"></div>
 
-    <main>
-      <section class="play-container">
-        <div class="name-film-play">
-          <p>Hè Rồi Nghỉ Việc Thôi</p>
-        </div>
-        <div class="play-box">
+    <main class="py-4"> 
+      <div class="container"> 
         
+        <section class="mb-4">
+            <div class="d-flex align-items-center mb-3">
+                <h2 class="h4 fw-bold text-warning m-0">Hè Rồi Nghỉ Việc Thôi</h2>
+            </div>
 
-          <video class="video" id="video" playsinline controls ></video>
+            <div class="ratio ratio-16x9 bg-black rounded mb-3 shadow overflow-hidden">
+                 <video id="video" playsinline controls>
+                 </video>
+            </div>
 
-        </div>
-        <div class="bar-play">
-          <div class="left">
-            <div class="like">
-              <p><span><i class="fa-solid fa-heart" aria-hidden="true"></i></span>Yêu thích</p>
+            <div class="bg-glass-dark p-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <div class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-sm btn-outline-danger border-0">
+                        <i class="fa-solid fa-heart me-1"></i> Yêu thích
+                    </button>
+                    <button class="btn btn-sm btn-outline-light border-0">
+                        <i class="fa-solid fa-expand me-1"></i> Rạp phim
+                    </button>
+                    <button class="btn btn-sm btn-outline-light border-0">
+                        <i class="fa-solid fa-arrows-rotate me-1"></i> Chuyển tập
+                    </button>
+                    <button class="btn btn-sm btn-outline-light border-0">
+                        <i class="fa-solid fa-backward me-1"></i> Tập trước
+                    </button>
+                    <button class="btn btn-sm btn-outline-light border-0">
+                        Tập sau <i class="fa-solid fa-forward ms-1"></i>
+                    </button>
+                </div>
+                <div class="d-flex gap-2 mt-2 mt-md-0">
+                    <button class="btn btn-sm btn-outline-secondary border-0">
+                        <i class="fa-solid fa-share me-1"></i> Chia sẻ
+                    </button>
+                    <button class="btn btn-sm btn-outline-warning border-0">
+                        <i class="fa-solid fa-flag me-1"></i> Báo lỗi
+                    </button>
+                </div>
             </div>
-            <div class="cinema">
-              <p>Rạp phim <span>on</span></p>
-            </div>
-            <div class="change-episode">
-              <p>Chuyển tập <span>on</span></p>
-            </div>
-            <div class="prev-episode">
-              <p><span><i class="fa-solid fa-backward"></i></span>Tập trước</p>
-            </div>
-            <div class="next-episode">
-              <p>Tập sau<span><i class="fa-solid fa-forward"></i></span></p>
-            </div>
+        </section>
+        
+        <div class="row gy-4">
             
-          </div>
-          <div class="right">
-            <div class="share">
-              <p><span><i class="fa-solid fa-share" aria-hidden="true"></i></span>Chia sẻ</p>
-            </div>
-            <div class="repost">
-              <p><span><i class="fa-solid fa-flag"></i></span>Báo lỗi</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      <section class="total-container">
-              <div class="box-content">
-        <div class="right-box">
-          <div class="info-film">
-            <div class="poster">
-              <img src="https://phimimg.com/upload/vod/20230912-1/5a4383479fdc69809ce32b51bc6cabe3.jpg">
-            </div>
-            <div class="info">
-              <div class="left-content">
-                <div class="name-film">
-                  Hè rồi, nghỉ việc thôi
-                </div>
-                <div class="origin_name">
-                  Summer Strike
-                </div>
-                <div class="total-info">
-                  <div class="imdb">IMDb 8.3</div>
-                  <div class="quality">HD</div>
-                  <div class="year">2022</div>
-                  <div class="episode">Tập 12</div>
-                </div>
-                <div class="genre-list">
-                  <div>Tình cảm</div>
-                  <div>Chính kịch</div>
-                  <div>Tâm lý</div>
-                </div>
-                <div class="content-film">
-                  <p>Một đứa trẻ mất tích đặt bốn gia đình vào một cuộc săn lùng điên cuồng để tìm câu trả lời khi họ phát hiện một bí ẩn kinh hoàng kéo dài ba thế hệ.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="episode-right-box">
-            <div class="title-episode-list">
-              <div>
-                <p>Danh sách tập</p>
-              </div>
-              <div class="status complite ongoing">
-                <p><span><i class="fa-solid fa-circle-check"></i></span>hoàn thành</p>
-              </div>
-            </div>
-            <div class="list-episode-box">
-              <div class="season-movie">
+            <div class="col-lg-8 col-md-12">
                 
-                <p><span><i class="fa-solid fa-bars-staggered"></i></span>Phần 1</p>
-              
-                <p><span><i class="fa-regular fa-closed-captioning"></i></span>Phụ đề</p>
-              </div>
-              <div class="episode-list">
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 1</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 2</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 3</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 4</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 5</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 6</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 7</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 8</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 9</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 10</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 11</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 12</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 13</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 14</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 15</a>
-                </div>
-                <div>
-                  <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Tập 16</a>
-                </div>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-        <div class="comment-container">
-          <div class="title-comment-box">
-            <div class="title-comment">
-              <p><span><i class="fa-solid fa-comment-dots"></i></span>Bình luận</p>
-            </div>
-            <div class="info-viewer-comment">
-              <div class="info-viewer-comment-box">
-                <div class="avatar">
-                  <img id="avatar-viewer-comment" src="/assets/images/VitaFlix.png">
-                </div>
-                <p id="name-viewer-comment">Ẩn danh</p>
-              </div>
-              <div class="status-comment js-status-comment">
-                <p id="privacy-text">Ẩn danh<span><i class="fa-solid fa-rotate"></i></span></p>
-              </div>
-              
-              <div class="text-comment-box">
-                <div>
-                  <textarea class="js-textarea" placeholder="Viết bình luận"></textarea>
-                  <p><span class="js-quanity-charater-comment">0</span> / 1000</p>
-                </div>
-                <p class="js-send-button">Gửi<span><i class="fa-solid fa-paper-plane"></i></span></p>
-              </div>
-            </div>
-          </div>
-          <div class="show-comment-box">
-            <div class="comment js-comment">
+                <div class="bg-glass-dark p-4 mb-4">
+                    <div class="row">
+                        <div class="col-sm-3 d-none d-sm-block">
+                            <img src="https://phimimg.com/upload/vod/20230912-1/5a4383479fdc69809ce32b51bc6cabe3.jpg" class="poster-img shadow">
+                        </div>
+                        <div class="col-sm-9">
+                            <h3 class="h5 text-warning fw-bold">Hè rồi, nghỉ việc thôi</h3>
+                            <p class="text-white-50 fst-italic mb-2">Summer Strike</p>
+                            
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-warning text-dark">IMDb 8.3</span>
+                                <span class="badge bg-success">HD</span>
+                                <span class="badge bg-secondary">2022</span>
+                                <span class="badge bg-info">Tập 12</span>
+                            </div>
 
-              
+                            <div class="mb-3 text-light small">
+                                <span class="me-3"><i class="fa-solid fa-film text-secondary me-1"></i> Tình cảm</span>
+                                <span class="me-3">Chính kịch</span>
+                                <span>Tâm lý</span>
+                            </div>
+
+                            <p class="text-white-50 small mb-0">
+                                Một đứa trẻ mất tích đặt bốn gia đình vào một cuộc săn lùng điên cuồng để tìm câu trả lời khi họ phát hiện một bí ẩn kinh hoàng kéo dài ba thế hệ.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-glass-dark p-4">
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-secondary pb-2 mb-3">
+                        <h5 class="m-0"><i class="fa-solid fa-comment-dots me-2 text-white"></i>Bình luận</h5>
+                    </div>
+
+                    <div class="d-flex gap-3 mb-4">
+                        <div class="flex-shrink-0">
+                            <img id="avatar-viewer-comment" src="/assets/images/VitaFlix.png" class="rounded-circle" width="45" height="45">
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-bold small" id="name-viewer-comment">Ẩn danh</span>
+                                <span class="text-secondary small cursor-pointer js-status-comment">Ẩn danh <i class="fa-solid fa-rotate"></i></span>
+                            </div>
+                            <textarea class="form-control bg-dark text-white border-secondary mb-2 js-textarea" rows="2" placeholder="Viết bình luận của bạn..."></textarea>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-secondary small"><span class="js-quanity-charater-comment">0</span>/1000</span>
+                                <button class="btn btn-primary btn-sm js-send-button">Gửi <i class="fa-solid fa-paper-plane ms-1"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="show-comment-box js-comment">
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <div class="col-lg-4 col-md-12">
+                
+                <div class="bg-glass-dark p-3 mb-4">
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-secondary pb-2 mb-3">
+                        <span class="fw-bold"><i class="fa-solid fa-list me-2 text-warning"></i>Danh sách tập</span>
+                        <div class="d-flex gap-2">
+                            <span class="badge bg-secondary"><i class="fa-solid fa-bars-staggered"></i> Phần 1</span>
+                            <span class="badge bg-success">Full</span>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-2 episode-list-container">
+                        <div class="col-3"><a href="#" class="btn btn-outline-light w-100 btn-sm btn-episode active">1</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">2</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">3</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">4</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">5</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">6</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">7</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">8</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">9</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">10</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">11</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">12</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">13</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">14</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">15</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-secondary w-100 btn-sm btn-episode">16</a></div>
+                    </div>
+                </div>
+
+                <div class="bg-glass-dark p-3">
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-secondary pb-2 mb-3">
+                        <span class="fw-bold">Đề xuất cho bạn</span>
+                    </div>
+                    <div class="movie-list-recommend js-movie-list-recommend">
+                        <div class="text-center text-secondary py-3 small">
+                            Đang tải đề xuất...
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
       </div>
-
-      <div class="box-utils">
-        
-        <div class="recommend-container">
-          <div class="title-recommend">
-            <p>Đề xuất cho bạn</p>
-          </div>
-          <div class="movie-list-recommend js-movie-list-recommend">
-            <div style="text-align: center; padding: 20px; color: #666;">
-              Đang tải đề xuất...
-            </div>
-          </div>
-        </div>
-      </div>
-      </section>
-
-
     </main>
 
     <div id="footer"></div>
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/plyr@latest"></script> -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
     <script src="/js/main.js"></script>
+    
+    <script>
+        const player = new Plyr('#video');
+    </script>
   </body>
 </html>
