@@ -5,7 +5,7 @@ import { delay } from "../utils/movie-utils.js";
 async function loadPreBuiltMovies() {
   try {
     console.log("Loading pre-built movies...");
-    const response = await fetch("../movie.json");
+    const response = await fetch("./data/movie.json");
     console.log(response);
     if (response.ok) {
       const data = await response.json();
