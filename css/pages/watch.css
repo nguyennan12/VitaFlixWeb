@@ -266,22 +266,31 @@
   justify-content: space-between;
 }
 
-.title-episode-list{
+.title-episode-list {
   height: 50px;
   width: 100%;
   display: flex;
   gap: 20px;
   align-items: center;
   padding-left: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 15px;
 }
 
-.title-episode-list div:first-child{
+.title-episode-list p {
+  margin: 0 !important;
+  line-height: 1;
+}
+
+.title-episode-list div:first-child {
   font-size: 20px;
   font-weight: 600;
   background: linear-gradient(90deg, #97dde8, #ffccf2);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
 }
 
 .complete{
@@ -291,17 +300,24 @@
   align-items: center;
   background-color: rgba(17, 196, 50, 0.5);
   padding: 4px 8px;
-  border-radius: 14px;
+  border-radius: 10px;
 }
-
+.status p {
+    margin: 0 !important; 
+    padding: 0;
+    line-height: 1; 
+    display: flex;
+    align-items: center;
+}
 .ongoing{
   font-size: 14px;
   color: rgb(252, 137, 6);
   display: flex;
   align-items: center;
+  justify-content: center;
   background-color: rgba(132, 77, 15, 0.5);
   padding: 4px 8px;
-  border-radius: 14px;
+  border-radius: 10px;
 }
 
 .title-episode-list span{
@@ -398,10 +414,12 @@
   max-height: 1600px;
   display: flex;
   background: transparent;
+  
 }
 
 .total-container{
   display: flex;
+  flex-wrap: wrap;
   margin-top: 12px;
 }
 

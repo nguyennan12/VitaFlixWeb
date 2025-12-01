@@ -17,6 +17,7 @@ footer {
     font-weight: 600;
     line-height: 1.2;
     background: linear-gradient(90deg, #4084f2, #a36af2, #f0ccff);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -40,6 +41,7 @@ footer {
 .social-links i {
     font-size: 16px;
     background: linear-gradient(90deg, #97dde8, #ffccf2);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -48,8 +50,10 @@ footer {
     font-size: 18px;
     font-weight: 600;
     background: linear-gradient(90deg, #97dde8, #ffccf2);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    display: inline-block;
 }
 
 .footer-link {
@@ -60,7 +64,10 @@ footer {
 }
 
 .footer-link:hover {
-    color: #fff;
+    background: linear-gradient(90deg, #97dde8, #ffccf2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     padding-left: 5px;
 }
 
