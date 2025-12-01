@@ -72,6 +72,7 @@
     height: 100%;
     width: 100%;
     object-fit: cover;
+    object-position: center;
 }
 
 .info-viewer-comment-box p {
@@ -106,6 +107,11 @@
     background: linear-gradient(90deg, #97dde8, #ffccf2);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.status-comment p span {
+    margin-left: 8px;
+    font-size: 14px;
 }
 
 .text-comment-box {
@@ -149,6 +155,12 @@ textarea {
     right: 16px;
     color: rgb(161, 161, 161) !important;
     font-size: 13px;
+    margin: 0;
+}
+
+textarea::placeholder {
+    color: rgb(161, 161, 161);
+    font-family: arial !important;
 }
 
 .text-comment-box > p {
@@ -164,6 +176,10 @@ textarea {
     margin: 0;
 }
 
+.text-comment-box > p span {
+    margin-left: 10px;
+}
+
 .show-comment-box {
     height: auto;
     min-height: 300px;
@@ -173,4 +189,97 @@ textarea {
     display: flex;
     justify-content: center;
     padding-bottom: 20px;
+}
+
+.comment {
+    height: auto;
+    width: 96%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-top: 20px;
+}
+
+.viewer-comment {
+    display: flex;
+    height: auto;
+    gap: 10px;
+}
+
+.avatar-show-comment {
+    height: auto;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.place-viewer-comment {
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.place-viewer-comment div {
+    height: auto;
+    margin-top: 4px;
+}
+
+.name-comment p {
+    color: rgb(105, 105, 105);
+    font-size: 14px;
+    margin: 0;
+}
+
+.name-comment span {
+    background: linear-gradient(90deg, #97dde8, #ffccf2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 16px;
+}
+
+.content-comment {
+    height: auto;
+    max-height: 90px;
+    display: flex;
+    flex-direction: column;
+    color: rgb(125, 125, 125);
+    justify-content: space-between;
+}
+
+.react-comment {
+    display: flex;
+    gap: 10px;
+}
+
+.react-comment p {
+    color: rgb(125, 125, 125);
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.15s;
+    margin: 0;
+}
+
+.react-comment p:first-child:hover {
+    color: rgb(3, 171, 3);
+    transform: scale(1.1);
+}
+
+.react-comment p:nth-child(2):hover {
+    color: rgb(230, 2, 2);
+    transform: scale(1.1);
+}
+
+.react-comment p:nth-child(3):hover,
+.react-comment p:last-child:hover {
+    background: linear-gradient(90deg, #97dde8, #ffccf2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: scale(1.1);
+}
+
+.react-comment span {
+    font-size: 11px;
+    margin-left: 6px;
 }
