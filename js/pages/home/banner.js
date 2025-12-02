@@ -1,6 +1,6 @@
-import { catagorMovie, movieListPromise } from "../../../data/movie-list.js";
-import { randomIDMb } from "./utils-content.js";
 
+import { randomIDMb } from "./utils-content.js";
+import { catagorMovie, movieListPromise } from "../../modules/categorize.js";
 // Expose to global for debugging
 window.catagorMovie = catagorMovie;
 window.movieListPromise = movieListPromise;
@@ -35,13 +35,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (validFavMovies.length > 0) {
           renderCarousel(validFavMovies);
           changeBanner(validFavMovies[0]);
+          // Gọi renderBanner() SAU KHI đã render carousel
+          renderBanner();
         } else {
           console.error("No valid favMovie data found, using fallback");
           useFallbackMovies();
         }
       }
-
-      renderBanner();
     })
     .catch((error) => {
       console.error("Error in banner initialization:", error);
@@ -56,6 +56,7 @@ function useFallbackMovies() {
     const fallbackMovies = catagorMovie.korea.series.slice(0, 5);
     renderCarousel(fallbackMovies);
     changeBanner(fallbackMovies[0]);
+    renderBanner();
   }
   // Fallback 2: Sử dụng từ full list
   else if (catagorMovie.full && catagorMovie.full.length > 0) {
@@ -67,6 +68,7 @@ function useFallbackMovies() {
     );
     renderCarousel(fallbackMovies);
     changeBanner(fallbackMovies[0]);
+    renderBanner();
   } else {
     console.error("No movie data available at all!");
     showBannerError();

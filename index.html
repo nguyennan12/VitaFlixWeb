@@ -5,6 +5,7 @@
         <meta name="theme-color" content="#17191d">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>VitaFlix</title>
+        
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/pages/home/main.css">
         <link rel="stylesheet" href="/css/layout/header.css">
@@ -17,6 +18,25 @@
     </head>
     <body>
       <div id="header"></div>
+
+    <div class="banner js-banner">
+        <div class="content-box js-content-box"></div> 
+        <div class="carousel-box">  
+          <div class="carousel js-carousel"></div>
+        </div>
+        <ul class="sci">
+          <li>
+            <a href="https://www.facebook.com/share/1C3dBYkqY7/" target="_blank"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/nannn1204?igsh=MTdpb3IxMDBuencw" target="_blank"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/nguyennan12" target="_blank"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+          </li>
+        </ul>
+      </div>
+
       <main>
         <section class="profile-container">
           <div class="profile-box">
@@ -136,6 +156,11 @@
 
       </main>
       <div id="footer"></div>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    
+    <!-- Load Materialize sau jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
       <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
       <script src="js/modules/api.js" type="module" defer></script>
       <script src="js/modules/categorize.js" type="module" defer></script>

@@ -1,4 +1,4 @@
-import { catagorMovie, movieListPromise } from "../../../data/movie-list.js";
+import { catagorMovie, updateMovieCategories } from "../../modules/categorize.js";
 import { randomFilm } from "./button.js";
 import { randomContinute, randomIDMb } from "./utils-content.js";
 
@@ -84,6 +84,17 @@ function renderListMovieSingle(movies, titleList) {
 
 function renderListMovieContinute(movies, titleList) {
   let html = "";
+  
+  // Kiểm tra xem có movies hay không
+  if (!movies || !Array.isArray(movies) || movies.length === 0) {
+    console.warn("No continute movies available");
+    const element = document.querySelector(titleList);
+    if (element) {
+      element.innerHTML = '<p>Chưa có phim đang xem</p>';
+    }
+    return;
+  }
+  
   const movieLimited = movies.slice(0, 6);
   movieLimited.forEach((movie) => {
     html += `
@@ -101,8 +112,15 @@ function renderListMovieContinute(movies, titleList) {
   }
 }
 
+
 // Hàm render tất cả
 function renderAllLists() {
+  // Kiểm tra dữ liệu trước khi render
+  if (!catagorMovie.korea?.series) {
+    console.warn("Korea series not available yet");
+    return;
+  }
+  
   renderListMovie(catagorMovie.korea.series, ".js-movie-list-korea");
   renderListMovie(catagorMovie.china.series, ".js-movie-list-china");
   renderListMovie(catagorMovie.japan.anime, ".js-movie-list-japan");
@@ -112,20 +130,21 @@ function renderAllLists() {
     ".js-movie-list-single-korea"
   );
   renderListMovieSingle(catagorMovie.auMy.single, ".js-movie-list-single-auMy");
-  renderListMovieContinute(catagorMovie.continute, ".js-movie-list-continute");
+  
+  // Kiểm tra continute movies trước khi render
+  if (catagorMovie.continute && catagorMovie.continute.length > 0) {
+    renderListMovieContinute(catagorMovie.continute, ".js-movie-list-continute");
+  } else {
+    console.warn("No continute movies found");
+    const element = document.querySelector(".js-movie-list-continute");
+    if (element) {
+      element.innerHTML = '<p>Chưa có phim đang xem</p>';
+    }
+  }
 }
 
-//load từ biến moviePromise (không trực tiếp từ loadMoviesFetch)
-movieListPromise.then(() => {
-  renderAllLists();
-  console.log(" Initial render complete");
-});
-
-// Listen for movie updates và re-render
 window.addEventListener("moviesUpdated", (event) => {
-  console.log("Movies updated, re-rendering...");
+  const categories = event.detail;
+  console.log("Movies updated event received", categories);
   renderAllLists();
 });
-
-// Export để có thể gọi manual
-export { renderListMovie, renderAllLists };
