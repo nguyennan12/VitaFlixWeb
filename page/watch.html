@@ -26,11 +26,11 @@
         
         <section class="play-container mb-4">
             <div class="name-film-play w-100">
-                <p>Hè Rồi Nghỉ Việc Thôi</p>
+                <p>Đang tải...</p>
             </div>
             
             <div class="play-box bg-black">
-                 <video class="video" id="video" playsinline controls poster="https://phimimg.com/upload/vod/20230912-1/5a4383479fdc69809ce32b51bc6cabe3.jpg"></video>
+                 <video class="video" id="video" playsinline controls poster=""></video>
             </div>
 
             <div class="bar-play">
@@ -159,7 +159,10 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/main.js"></script>
+    <script type="module" src="/js/pages/watch.js"></script>
     <script>const player = new Plyr('#video');</script>
   </body>
 </html>

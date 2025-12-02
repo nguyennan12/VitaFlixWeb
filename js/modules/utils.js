@@ -23,5 +23,5 @@ export const getMovieBySlug = async (slug) => {
 
 
 
-const movie = await getMovieBySlug('nguu-lang-chuc-nu');
-console.log(movie);
+// const movie = await getMovieBySlug('nguu-lang-chuc-nu');
+// console.log(movie);

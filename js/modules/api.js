@@ -1,5 +1,5 @@
 import {Movie, MovieDetail} from "./model.js";
-const BASE_URL = './data/movie.json';
+const BASE_URL = '../../data/movie.json';
 
 export const loadMoviesFetch = () => {
     return axios({
