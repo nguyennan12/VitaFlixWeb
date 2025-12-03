@@ -1,7 +1,5 @@
-// js/pages/home/banner.js
 import { randomIDMb } from "./utils-content.js";
 import { catagorMovie, movieListPromise } from "../../modules/categorize.js";
-import { MovieDetail } from "../../modules/model.js";
 
 // Expose to global for debugging
 window.catagorMovie = catagorMovie;
@@ -10,44 +8,44 @@ window.movieListPromise = movieListPromise;
 document.addEventListener("DOMContentLoaded", function () {
   movieListPromise
     .then(() => {
-      console.log("🎬 Movies loaded, initializing banner...");
-
       // Kiểm tra dữ liệu favMovie
       if (!catagorMovie.favMovie || catagorMovie.favMovie.length === 0) {
-        console.warn("⚠️ No favMovie data found, using fallback");
+        console.error("No favMovie data found, using fallback");
         useFallbackMovies();
       } else {
         console.log(
-          "✓ Using favMovie data:",
+          "Using favMovie data:",
           catagorMovie.favMovie.length,
           "movies"
         );
 
         // Kiểm tra và filter các movie có đủ data
-        const validFavMovies = catagorMovie.favMovie.filter((movie) => {
-          const isValid =
-            movie &&
-            movie.name &&
-            movie.category &&
-            Array.isArray(movie.category);
-          if (!isValid) {
-            console.warn("Invalid movie data:", movie?.name || "unnamed movie");
+        if (catagorMovie.favMovie.length > 0) {
+          // Vẫn nên kiểm tra nhanh nếu có thể
+          const firstValidMovie = catagorMovie.favMovie.find(
+            (m) => m && m.name
+          );
+          if (firstValidMovie) {
+            console.log(
+              "✓ Using favMovie data:",
+              catagorMovie.favMovie.length,
+              "movies"
+            );
+            renderCarousel(catagorMovie.favMovie);
+            changeBanner(firstValidMovie);
+            renderBanner();
+          } else {
+            console.warn("⚠️ No valid favMovie data found, using fallback");
+            useFallbackMovies();
           }
-          return isValid;
-        });
-
-        if (validFavMovies.length > 0) {
-          renderCarousel(validFavMovies);
-          changeBanner(validFavMovies[0]);
-          renderBanner();
         } else {
-          console.warn("⚠️ No valid favMovie data found, using fallback");
+          console.warn("⚠️ No favMovie data found, using fallback");
           useFallbackMovies();
         }
       }
     })
     .catch((error) => {
-      console.error("❌ Error in banner initialization:", error);
+      console.error("Error in banner initialization:", error);
       showBannerError();
     });
 });
@@ -56,27 +54,14 @@ document.addEventListener("DOMContentLoaded", function () {
 function useFallbackMovies() {
   // Fallback 1: Sử dụng phim từ Korea series
   if (catagorMovie.korea?.series && catagorMovie.korea.series.length > 0) {
-    const fallbackMovies = catagorMovie.korea.series
-      .slice(0, 5)
-      .map((movie) => ({
-        ...movie,
-        category: movie.category || [
-          { name: "Phim hay" },
-          { name: "Đáng xem" },
-        ],
-        content: movie.content || "Đang cập nhật nội dung...",
-      }));
+    const fallbackMovies = catagorMovie.korea.series.slice(0, 5);
     renderCarousel(fallbackMovies);
     changeBanner(fallbackMovies[0]);
     renderBanner();
   }
   // Fallback 2: Sử dụng từ full list
   else if (catagorMovie.full && catagorMovie.full.length > 0) {
-    const fallbackMovies = catagorMovie.full.slice(0, 5).map((movie) => ({
-      ...movie,
-      category: movie.category || [{ name: "Phim hay" }, { name: "Đáng xem" }],
-      content: movie.content || "Đang cập nhật nội dung...",
-    }));
+    const fallbackMovies = catagorMovie.full.slice(0, 5);
     console.log(
       "Using full list as fallback:",
       fallbackMovies.length,
@@ -141,40 +126,34 @@ function renderCarousel(movies) {
   if (carouselElement) {
     carouselElement.innerHTML = html;
 
-    // Khởi tạo carousel với đúng cấu hình
+    // CRITICAL FIX: Khởi tạo carousel với đúng cấu hình
     setTimeout(() => {
       if (typeof $ !== "undefined" && carouselElement.children.length > 0) {
         try {
           // Destroy carousel cũ nếu có
           const $carousel = $(".js-carousel");
-          if ($carousel.hasClass("slick-initialized")) {
-            $carousel.slick("unslick");
+          if ($carousel.hasClass("carousel-initialized")) {
+            const instance = M.Carousel.getInstance($carousel[0]);
+            if (instance) {
+              instance.destroy();
+            }
           }
 
-          // Khởi tạo carousel mới
-          $carousel.slick({
-            dots: true,
-            infinite: true,
-            speed: 500,
-            slidesToShow: 5,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 3000,
-            responsive: [
-              {
-                breakpoint: 1024,
-                settings: {
-                  slidesToShow: 3,
-                },
-              },
-              {
-                breakpoint: 600,
-                settings: {
-                  slidesToShow: 2,
-                },
-              },
-            ],
+          // Khởi tạo carousel mới với options
+          $carousel.carousel({
+            fullWidth: true,
+            indicators: true,
+            duration: 200,
+            shift: 0,
+            padding: 0,
+            numVisible: 5,
+            noWrap: false,
           });
+
+          // Tự động chuyển slide
+          setInterval(() => {
+            $carousel.carousel("next");
+          }, 3000); // Chuyển sau mỗi 3 giây
 
           console.log("Carousel initialized successfully");
         } catch (error) {
@@ -262,12 +241,30 @@ function changeBanner(movie) {
   const banner = document.querySelector(".js-banner");
 
   if (banner) {
-    const imageUrl = `https://phimimg.com/${movie.thumb_url}`;
+    const imageUrlSegment = movie.thumb_url || movie.poster_url;
 
-    banner.style.background = `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("${imageUrl}")`;
-    banner.style.backgroundSize = "cover";
-    banner.style.backgroundPosition = "center";
-    banner.style.backgroundRepeat = "no-repeat";
+    if (imageUrlSegment) {
+      const imageUrl = `https://phimimg.com/${imageUrlSegment}`;
+
+      const img = new Image();
+      img.onload = () => {
+        banner.style.background = `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("${imageUrl}")`;
+        banner.style.backgroundSize = "cover";
+        banner.style.backgroundPosition = "center";
+        banner.style.backgroundRepeat = "no-repeat";
+      };
+      img.onerror = () => {
+        console.warn(
+          `Không thể tải ảnh banner cho ${movie.name}, sử dụng ảnh dự phòng.`
+        );
+        banner.style.background =
+          "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+      };
+      img.src = imageUrl;
+    } else {
+      console.error("Không tìm thấy URL ảnh cho banner");
+      showBannerError();
+    }
   } else {
     console.error("Banner element not found");
   }

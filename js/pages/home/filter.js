@@ -1,4 +1,8 @@
 import { catagorMovie, movieListPromise } from "../../modules/categorize.js";
+import {
+  createMovieCardHTML,
+  attachMovieCardClickHandlers,
+} from "../../modules/movieCardHandler.js";
 
 // Hàm render danh sách phim
 function renderMovieList(movies, containerClass) {
@@ -8,34 +12,11 @@ function renderMovieList(movies, containerClass) {
   container.innerHTML = "";
 
   movies.forEach((movie) => {
-    const movieCard = `
-      <div class="movie-card" data-slug="${movie.slug}">
-        <div class="movie-poster">
-          <img src="${movie.poster_url || movie.thumb_url}" 
-               alt="${movie.name}"
-               loading="lazy"
-               onerror="this.src='assets/images/default-poster.jpg'">
-          <div class="movie-overlay">
-            <div class="movie-quality">${movie.quality}</div>
-            <div class="movie-episode">${movie.episode_current}</div>
-          </div>
-        </div>
-        <div class="movie-info">
-          <h3 class="movie-title">${movie.name}</h3>
-          <p class="movie-origin">${movie.origin_name}</p>
-        </div>
-      </div>
-    `;
-    container.innerHTML += movieCard;
+    container.innerHTML += createMovieCardHTML(movie);
   });
 
-  // Thêm sự kiện click cho các card
-  container.querySelectorAll(".movie-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      const slug = card.dataset.slug;
-      window.location.href = `/page/movie-info.html?slug=${slug}`;
-    });
-  });
+  // Attach click handlers sau khi render
+  attachMovieCardClickHandlers(container);
 }
 
 // Hàm xử lý filter
@@ -47,7 +28,6 @@ function handleFilter(filterType) {
       filteredMovies = catagorMovie.full || [];
       break;
     case "series":
-      // Lấy tất cả phim bộ từ các quốc gia
       filteredMovies = [
         ...(catagorMovie.korea?.series || []),
         ...(catagorMovie.china?.series || []),
@@ -57,7 +37,6 @@ function handleFilter(filterType) {
       ];
       break;
     case "single":
-      // Lấy tất cả phim lẻ
       filteredMovies = [
         ...(catagorMovie.korea?.single || []),
         ...(catagorMovie.china?.single || []),
@@ -73,10 +52,8 @@ function handleFilter(filterType) {
       filteredMovies = catagorMovie.full || [];
   }
 
-  // Render kết quả
   renderFilteredResults(filteredMovies, filterType);
 
-  // Scroll to results
   const resultsSection = document.querySelector(".filter-results");
   if (resultsSection) {
     resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -85,7 +62,6 @@ function handleFilter(filterType) {
 
 // Hàm hiển thị kết quả filter
 function renderFilteredResults(movies, filterType) {
-  // Ẩn các section mặc định
   const defaultSections = document.querySelectorAll(
     ".container-movie > div:not(.filter-results), .profile-container"
   );
@@ -93,7 +69,6 @@ function renderFilteredResults(movies, filterType) {
     section.style.display = "none";
   });
 
-  // Tạo hoặc lấy section kết quả filter
   let resultsSection = document.querySelector(".filter-results");
   if (!resultsSection) {
     resultsSection = document.createElement("div");
@@ -106,7 +81,6 @@ function renderFilteredResults(movies, filterType) {
     }
   }
 
-  // Tên filter
   const filterNames = {
     all: "Tất Cả Phim",
     series: "Phim Bộ",
@@ -122,37 +96,13 @@ function renderFilteredResults(movies, filterType) {
     <div class="filter-results-grid"></div>
   `;
 
-  // Render danh sách phim
   const grid = resultsSection.querySelector(".filter-results-grid");
   movies.forEach((movie) => {
-    const movieCard = `
-      <div class="movie-card" data-slug="${movie.slug}">
-        <div class="movie-poster">
-          <img src="${movie.poster_url || movie.thumb_url}" 
-               alt="${movie.name}"
-               loading="lazy"
-               onerror="this.src='/assets/images/default-poster.jpg'">
-          <div class="movie-overlay">
-            <div class="movie-quality">${movie.quality}</div>
-            <div class="movie-episode">${movie.episode_current}</div>
-          </div>
-        </div>
-        <div class="movie-info">
-          <h3 class="movie-title">${movie.name}</h3>
-          <p class="movie-origin">${movie.origin_name}</p>
-        </div>
-      </div>
-    `;
-    grid.innerHTML += movieCard;
+    grid.innerHTML += createMovieCardHTML(movie);
   });
 
-  // Thêm sự kiện click
-  grid.querySelectorAll(".movie-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      const slug = card.dataset.slug;
-      window.location.href = `/page/movie-info.html?slug=${slug}`;
-    });
-  });
+  // Attach click handlers cho tất cả movie cards
+  attachMovieCardClickHandlers(grid);
 
   resultsSection.style.display = "block";
 }
@@ -171,7 +121,6 @@ function resetToHome() {
     section.style.display = "block";
   });
 
-  // Reset active state của filter buttons
   document.querySelectorAll(".filter-btn").forEach((btn) => {
     btn.classList.remove("active");
     if (btn.dataset.filter === "all") {
@@ -179,7 +128,6 @@ function resetToHome() {
     }
   });
 
-  // Scroll to top
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -189,16 +137,11 @@ function initFilterButtons() {
 
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      // Remove active class từ tất cả buttons
       filterButtons.forEach((btn) => btn.classList.remove("active"));
-
-      // Add active class cho button được click
       button.classList.add("active");
 
-      // Lấy filter type
       const filterType = button.dataset.filter;
 
-      // Xử lý filter
       if (filterType === "all") {
         resetToHome();
       } else {
@@ -210,7 +153,6 @@ function initFilterButtons() {
 
 // Hàm khởi tạo navigation links
 function initNavigationLinks() {
-  // Lắng nghe event từ header
   window.addEventListener("navigationClick", (e) => {
     const page = e.detail.page;
 
@@ -227,15 +169,12 @@ function initNavigationLinks() {
         updateFilterButtonState("series");
         break;
       case "category":
-        // TODO: Implement category page
         console.log("Chức năng Chủ đề đang phát triển");
         break;
       case "genre":
-        // TODO: Implement genre page
         console.log("Chức năng Thể loại đang phát triển");
         break;
       case "country":
-        // TODO: Implement country page
         console.log("Chức năng Quốc gia đang phát triển");
         break;
       default:
@@ -267,11 +206,15 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Lỗi khởi tạo filters:", error);
     });
 
-  // Lắng nghe event cập nhật phim
   window.addEventListener("moviesUpdated", () => {
     console.log("Phim đã được cập nhật");
   });
 });
 
-// Export các hàm để có thể sử dụng ở nơi khác
-export { handleFilter, resetToHome, initFilterButtons, initNavigationLinks };
+export {
+  renderMovieList,
+  handleFilter,
+  resetToHome,
+  initFilterButtons,
+  initNavigationLinks,
+};

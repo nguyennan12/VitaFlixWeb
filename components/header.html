@@ -34,11 +34,30 @@
         <li>
           <a href="#" class="nav-link-custom" data-page="genre">Thể loại</a>
         </li>
-        <li>
-          <a href="#" class="nav-link-custom" data-page="single">Phim lẻ</a>
+        <li class="nav-item has-dropdown" data-list-type="series">
+          <a href="#" class="filter-btn" data-filter="series"
+            >Phim Bộ <i class="fa-solid fa-caret-down"></i
+          ></a>
+          <div class="dropdown-content js-series-dropdown">
+            <p class="dropdown-title">Phim Bộ Nổi Bật</p>
+            <div class="dropdown-list"></div>
+            <a href="#" class="dropdown-more filter-btn" data-filter="series"
+              >Xem Thêm Phim Bộ...</a
+            >
+          </div>
         </li>
-        <li>
-          <a href="#" class="nav-link-custom" data-page="series">Phim bộ</a>
+
+        <li class="nav-item has-dropdown" data-list-type="single">
+          <a href="#" class="filter-btn" data-filter="single"
+            >Phim Lẻ <i class="fa-solid fa-caret-down"></i
+          ></a>
+          <div class="dropdown-content js-single-dropdown">
+            <p class="dropdown-title">Phim Lẻ Nổi Bật</p>
+            <div class="dropdown-list"></div>
+            <a href="#" class="dropdown-more filter-btn" data-filter="single"
+              >Xem Thêm Phim Lẻ...</a
+            >
+          </div>
         </li>
         <li>
           <a href="#" class="nav-link-custom" data-page="country">Quốc gia</a>
@@ -168,7 +187,7 @@
     document.body.style.overflow = "";
   }
 
-  // Xử lý navigation cho desktop
+  // Xử lý navigation cho desktop và DROPDOWN LINKS
   document.querySelectorAll(".nav-link-custom").forEach((link) => {
     link.addEventListener("click", handleNavClick);
   });
@@ -194,7 +213,10 @@
       });
 
     // Add active cho link được click
-    e.currentTarget.classList.add("active");
+    // Kiểm tra xem link có phải là link trong dropdown không
+    if (!e.currentTarget.classList.contains("dropdown-more")) {
+      e.currentTarget.classList.add("active");
+    }
 
     // Dispatch custom event để filter.js xử lý
     const event = new CustomEvent("navigationClick", {

@@ -284,3 +284,106 @@
     transform: translateX(0);
   }
 }
+/* Container menu */
+.header-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Giả sử menu là flex */
+}
+
+.nav-item {
+  position: relative;
+  padding: 10px 15px;
+}
+
+/* Kích hoạt Dropdown khi hover */
+.has-dropdown {
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none; /* Mặc định ẩn */
+  position: absolute;
+  top: 100%; /* Đặt dưới menu cha */
+  left: 0;
+  background-color: #1a1a1a; /* Màu nền tối */
+  border: 1px solid #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  min-width: 300px;
+  z-index: 100; /* Đảm bảo nổi lên trên */
+  padding: 15px;
+  border-radius: 5px;
+}
+
+/* Hiển thị khi hover */
+.has-dropdown:hover > .dropdown-content {
+  display: block;
+}
+
+.dropdown-title {
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 5px;
+}
+
+.dropdown-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-movie {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  text-decoration: none;
+  color: #ccc;
+  transition: background-color 0.2s;
+  border-radius: 3px;
+}
+
+.dropdown-movie:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.dropdown-movie img {
+  width: 40px; /* Kích thước nhỏ của poster */
+  height: 60px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 3px;
+}
+
+.movie-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-name {
+  font-weight: 500;
+  font-size: 0.9em;
+  color: #fff;
+}
+
+.movie-year {
+  font-size: 0.8em;
+  color: #aaa;
+}
+
+.dropdown-more {
+  display: block;
+  text-align: center;
+  padding: 8px;
+  margin-top: 10px;
+  background-color: #555;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 3px;
+}
+.dropdown-more:hover {
+  background-color: #777;
+}
