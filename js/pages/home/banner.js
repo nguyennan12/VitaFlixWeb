@@ -1,6 +1,6 @@
-
 import { randomIDMb } from "./utils-content.js";
 import { catagorMovie, movieListPromise } from "../../modules/categorize.js";
+
 // Expose to global for debugging
 window.catagorMovie = catagorMovie;
 window.movieListPromise = movieListPromise;
@@ -125,27 +125,41 @@ function renderCarousel(movies) {
   if (carouselElement) {
     carouselElement.innerHTML = html;
 
-    // Chờ DOM update và kiểm tra element tồn tại
-    requestAnimationFrame(() => {
-      // Kiểm tra jQuery và element có sẵn không
+    // CRITICAL FIX: Khởi tạo carousel với đúng cấu hình
+    setTimeout(() => {
       if (typeof $ !== "undefined" && carouselElement.children.length > 0) {
         try {
-          // Kiểm tra element có clientWidth không
-          if (carouselElement.clientWidth > 0) {
-            $(".js-carousel").carousel();
-          } else {
-            // Chờ thêm một chút nếu element chưa có kích thước
-            setTimeout(() => {
-              if (carouselElement.clientWidth > 0) {
-                $(".js-carousel").carousel();
-              }
-            }, 100);
+          // Destroy carousel cũ nếu có
+          const $carousel = $(".js-carousel");
+          if ($carousel.hasClass('carousel-initialized')) {
+            const instance = M.Carousel.getInstance($carousel[0]);
+            if (instance) {
+              instance.destroy();
+            }
           }
+
+          // Khởi tạo carousel mới với options
+          $carousel.carousel({
+            fullWidth: true,
+            indicators: true,
+            duration: 200,
+            shift: 0,
+            padding: 0,
+            numVisible: 5,
+            noWrap: false
+          });
+
+          // Tự động chuyển slide
+          setInterval(() => {
+            $carousel.carousel('next');
+          }, 3000); // Chuyển sau mỗi 3 giây
+
+          console.log("Carousel initialized successfully");
         } catch (error) {
-          console.warn("Carousel initialization failed:", error);
+          console.error("Carousel initialization failed:", error);
         }
       }
-    });
+    }, 100);
   }
 }
 
