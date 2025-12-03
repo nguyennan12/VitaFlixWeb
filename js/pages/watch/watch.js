@@ -1,6 +1,6 @@
-import { getMovieBySlug } from '../modules/utils.js';
-import { fetchNewMovies } from '../modules/api.js';
-import { initCommentManager } from '../../auth/scripts/comment.js';
+import { getMovieBySlug } from '../../modules/utils.js';
+import { fetchNewMovies } from '../../modules/api.js';
+import { initCommentManager } from '../../../auth/scripts/comment.js';
 
 async function initWatchPage() {
     const video = document.getElementById('video');
