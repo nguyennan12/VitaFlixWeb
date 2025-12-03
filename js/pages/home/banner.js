@@ -1,5 +1,7 @@
+// js/pages/home/banner.js
 import { randomIDMb } from "./utils-content.js";
 import { catagorMovie, movieListPromise } from "../../modules/categorize.js";
+import { MovieDetail } from "../../modules/model.js";
 
 // Expose to global for debugging
 window.catagorMovie = catagorMovie;
@@ -8,13 +10,15 @@ window.movieListPromise = movieListPromise;
 document.addEventListener("DOMContentLoaded", function () {
   movieListPromise
     .then(() => {
+      console.log("🎬 Movies loaded, initializing banner...");
+
       // Kiểm tra dữ liệu favMovie
       if (!catagorMovie.favMovie || catagorMovie.favMovie.length === 0) {
-        console.error("No favMovie data found, using fallback");
+        console.warn("⚠️ No favMovie data found, using fallback");
         useFallbackMovies();
       } else {
         console.log(
-          "Using favMovie data:",
+          "✓ Using favMovie data:",
           catagorMovie.favMovie.length,
           "movies"
         );
@@ -35,16 +39,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if (validFavMovies.length > 0) {
           renderCarousel(validFavMovies);
           changeBanner(validFavMovies[0]);
-          // Gọi renderBanner() SAU KHI đã render carousel
           renderBanner();
         } else {
-          console.error("No valid favMovie data found, using fallback");
+          console.warn("⚠️ No valid favMovie data found, using fallback");
           useFallbackMovies();
         }
       }
     })
     .catch((error) => {
-      console.error("Error in banner initialization:", error);
+      console.error("❌ Error in banner initialization:", error);
       showBannerError();
     });
 });
@@ -53,14 +56,27 @@ document.addEventListener("DOMContentLoaded", function () {
 function useFallbackMovies() {
   // Fallback 1: Sử dụng phim từ Korea series
   if (catagorMovie.korea?.series && catagorMovie.korea.series.length > 0) {
-    const fallbackMovies = catagorMovie.korea.series.slice(0, 5);
+    const fallbackMovies = catagorMovie.korea.series
+      .slice(0, 5)
+      .map((movie) => ({
+        ...movie,
+        category: movie.category || [
+          { name: "Phim hay" },
+          { name: "Đáng xem" },
+        ],
+        content: movie.content || "Đang cập nhật nội dung...",
+      }));
     renderCarousel(fallbackMovies);
     changeBanner(fallbackMovies[0]);
     renderBanner();
   }
   // Fallback 2: Sử dụng từ full list
   else if (catagorMovie.full && catagorMovie.full.length > 0) {
-    const fallbackMovies = catagorMovie.full.slice(0, 5);
+    const fallbackMovies = catagorMovie.full.slice(0, 5).map((movie) => ({
+      ...movie,
+      category: movie.category || [{ name: "Phim hay" }, { name: "Đáng xem" }],
+      content: movie.content || "Đang cập nhật nội dung...",
+    }));
     console.log(
       "Using full list as fallback:",
       fallbackMovies.length,
@@ -125,34 +141,40 @@ function renderCarousel(movies) {
   if (carouselElement) {
     carouselElement.innerHTML = html;
 
-    // CRITICAL FIX: Khởi tạo carousel với đúng cấu hình
+    // Khởi tạo carousel với đúng cấu hình
     setTimeout(() => {
       if (typeof $ !== "undefined" && carouselElement.children.length > 0) {
         try {
           // Destroy carousel cũ nếu có
           const $carousel = $(".js-carousel");
-          if ($carousel.hasClass('carousel-initialized')) {
-            const instance = M.Carousel.getInstance($carousel[0]);
-            if (instance) {
-              instance.destroy();
-            }
+          if ($carousel.hasClass("slick-initialized")) {
+            $carousel.slick("unslick");
           }
 
-          // Khởi tạo carousel mới với options
-          $carousel.carousel({
-            fullWidth: true,
-            indicators: true,
-            duration: 200,
-            shift: 0,
-            padding: 0,
-            numVisible: 5,
-            noWrap: false
+          // Khởi tạo carousel mới
+          $carousel.slick({
+            dots: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            responsive: [
+              {
+                breakpoint: 1024,
+                settings: {
+                  slidesToShow: 3,
+                },
+              },
+              {
+                breakpoint: 600,
+                settings: {
+                  slidesToShow: 2,
+                },
+              },
+            ],
           });
-
-          // Tự động chuyển slide
-          setInterval(() => {
-            $carousel.carousel('next');
-          }, 3000); // Chuyển sau mỗi 3 giây
 
           console.log("Carousel initialized successfully");
         } catch (error) {

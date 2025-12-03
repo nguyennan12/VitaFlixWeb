@@ -2,6 +2,7 @@
   <div
     class="container-fluid px-4 d-flex justify-content-between align-items-center position-relative"
   >
+    <!-- Logo và Menu Button -->
     <div class="d-flex align-items-center">
       <button
         class="btn border-0 text-white d-md-none me-3 p-0"
@@ -19,19 +20,33 @@
       </a>
     </div>
 
+    <!-- Desktop Navigation -->
     <nav
       class="d-none d-md-block position-absolute start-50 translate-middle-x"
     >
       <ul class="list-unstyled d-flex align-items-center gap-4 m-0">
-        <li><a href="#" class="nav-link-custom">Trang chủ</a></li>
-        <li><a href="#" class="nav-link-custom">Chủ đề</a></li>
-        <li><a href="#" class="nav-link-custom">Thể loại</a></li>
-        <li><a href="#" class="nav-link-custom">Phim lẻ</a></li>
-        <li><a href="#" class="nav-link-custom">Phim bộ</a></li>
-        <li><a href="#" class="nav-link-custom">Quốc gia</a></li>
+        <li>
+          <a href="#" class="nav-link-custom" data-page="home">Trang chủ</a>
+        </li>
+        <li>
+          <a href="#" class="nav-link-custom" data-page="category">Chủ đề</a>
+        </li>
+        <li>
+          <a href="#" class="nav-link-custom" data-page="genre">Thể loại</a>
+        </li>
+        <li>
+          <a href="#" class="nav-link-custom" data-page="single">Phim lẻ</a>
+        </li>
+        <li>
+          <a href="#" class="nav-link-custom" data-page="series">Phim bộ</a>
+        </li>
+        <li>
+          <a href="#" class="nav-link-custom" data-page="country">Quốc gia</a>
+        </li>
       </ul>
     </nav>
 
+    <!-- Search và User Profile -->
     <div class="d-flex align-items-center gap-3">
       <div class="search-box d-none d-sm-flex align-items-center">
         <input
@@ -53,56 +68,148 @@
   </div>
 </header>
 
+<!-- Mobile Menu -->
 <div class="mobile-menu">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="logo-text m-0">VitaFlix</h3>
-    <button class="btn text-white border-0" onclick="closeMenu()">
+    <button class="btn text-white border-0" id="closeMobileMenu">
       <i class="fa-solid fa-xmark fs-4"></i>
     </button>
   </div>
   <ul class="list-unstyled d-flex flex-column gap-3">
     <li>
-      <a href="#" class="text-white text-decoration-none fs-5"
-        ><i class="fa-solid fa-house me-2"></i> Trang chủ</a
+      <a
+        href="#"
+        class="text-white text-decoration-none fs-5 mobile-nav-link"
+        data-page="home"
       >
+        <i class="fa-solid fa-house me-2"></i> Trang chủ
+      </a>
     </li>
     <li>
-      <a href="#" class="text-white-50 text-decoration-none fs-5">Chủ đề</a>
+      <a
+        href="#"
+        class="text-white-50 text-decoration-none fs-5 mobile-nav-link"
+        data-page="category"
+      >
+        Chủ đề
+      </a>
     </li>
     <li>
-      <a href="#" class="text-white-50 text-decoration-none fs-5">Thể loại</a>
+      <a
+        href="#"
+        class="text-white-50 text-decoration-none fs-5 mobile-nav-link"
+        data-page="genre"
+      >
+        Thể loại
+      </a>
     </li>
     <li>
-      <a href="#" class="text-white-50 text-decoration-none fs-5">Phim lẻ</a>
+      <a
+        href="#"
+        class="text-white-50 text-decoration-none fs-5 mobile-nav-link"
+        data-page="single"
+      >
+        Phim lẻ
+      </a>
     </li>
     <li>
-      <a href="#" class="text-white-50 text-decoration-none fs-5">Phim bộ</a>
+      <a
+        href="#"
+        class="text-white-50 text-decoration-none fs-5 mobile-nav-link"
+        data-page="series"
+      >
+        Phim bộ
+      </a>
     </li>
     <li>
-      <a href="#" class="text-white-50 text-decoration-none fs-5">Quốc gia</a>
+      <a
+        href="#"
+        class="text-white-50 text-decoration-none fs-5 mobile-nav-link"
+        data-page="country"
+      >
+        Quốc gia
+      </a>
     </li>
   </ul>
 </div>
 <div class="overlay"></div>
 
 <script>
+  // Mobile Menu Toggle
   const menuBtn = document.querySelector("#menuToggle");
   const mobileMenu = document.querySelector(".mobile-menu");
   const overlay = document.querySelector(".overlay");
+  const closeMobileMenuBtn = document.querySelector("#closeMobileMenu");
 
+  // Mở menu
   if (menuBtn) {
     menuBtn.addEventListener("click", () => {
       mobileMenu.classList.add("active");
       overlay.classList.add("active");
-    });
-    overlay.addEventListener("click", () => {
-      mobileMenu.classList.remove("active");
-      overlay.classList.remove("active");
+      document.body.style.overflow = "hidden";
     });
   }
 
+  // Đóng menu khi click overlay
+  if (overlay) {
+    overlay.addEventListener("click", closeMenu);
+  }
+
+  // Đóng menu khi click nút X
+  if (closeMobileMenuBtn) {
+    closeMobileMenuBtn.addEventListener("click", closeMenu);
+  }
+
+  // Hàm đóng menu
   function closeMenu() {
     if (mobileMenu) mobileMenu.classList.remove("active");
     if (overlay) overlay.classList.remove("active");
+    document.body.style.overflow = "";
   }
+
+  // Xử lý navigation cho desktop
+  document.querySelectorAll(".nav-link-custom").forEach((link) => {
+    link.addEventListener("click", handleNavClick);
+  });
+
+  // Xử lý navigation cho mobile
+  document.querySelectorAll(".mobile-nav-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      handleNavClick(e);
+      closeMenu();
+    });
+  });
+
+  // Hàm xử lý click navigation
+  function handleNavClick(e) {
+    e.preventDefault();
+    const page = e.currentTarget.dataset.page;
+
+    // Remove active từ tất cả links
+    document
+      .querySelectorAll(".nav-link-custom, .mobile-nav-link")
+      .forEach((l) => {
+        l.classList.remove("active");
+      });
+
+    // Add active cho link được click
+    e.currentTarget.classList.add("active");
+
+    // Dispatch custom event để filter.js xử lý
+    const event = new CustomEvent("navigationClick", {
+      detail: { page: page },
+    });
+    window.dispatchEvent(event);
+  }
+
+  // Highlight active page khi load
+  document.addEventListener("DOMContentLoaded", () => {
+    const currentPath = window.location.pathname;
+    if (currentPath === "/index.html" || currentPath === "/") {
+      document.querySelectorAll('[data-page="home"]').forEach((link) => {
+        link.classList.add("active");
+      });
+    }
+  });
 </script>
