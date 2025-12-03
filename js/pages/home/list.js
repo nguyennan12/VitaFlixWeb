@@ -34,14 +34,12 @@ function renderListMovie(movies, titleList) {
             </div>
 
             <div class="util-preview-8">
-              <a href="preview/${
-                movie.slug
-              }">Thông tin phim<i class="fa-solid fa-angle-right"></i></a>
+              <a href="movie-info.html?slug=${movie.slug}">Thông tin phim<i class="fa-solid fa-angle-right"></i></a>
             </div>
           </div>
         </div>
       
-        <a href="preview/${movie.slug}">
+        <a href="movie-info.html?slug=${movie.slug}">
           <img src="https://phimimg.com/${
             movie.poster_url
           }" alt="" class="pposter movie">
@@ -66,7 +64,7 @@ function renderListMovieSingle(movies, titleList) {
   movieLimited.forEach((movie) => {
     html += `
       <div class="movie-single-box">
-        <a href="preview/${movie.slug}">
+        <a href="movie-info.html?slug=${movie.slug}">
           <img src="https://phimimg.com/${movie.poster_url}">
         </a>
         <div class="content-name-movie">
@@ -99,7 +97,7 @@ function renderListMovieContinute(movies, titleList) {
   movieLimited.forEach((movie) => {
     html += `
       <div class="movie-continute-box">
-        <a href="preview/${movie.slug}">
+        <a href="movie-info.html?slug=${movie.slug}">
           <img src="https://phimimg.com/${movie.poster_url}">
         </a>
         <p>${randomContinute(movie.type, movie.episode_total)}</p>
