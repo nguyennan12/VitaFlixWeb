@@ -1,381 +1,311 @@
-/* --- 1. KHUNG CHỨA CHUNG --- */
-.comment-container {
-    height: auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-    padding: 20px 0 50px 0;
-    border-bottom: 1px solid rgb(75, 75, 75);
-    background: rgba(27, 27, 27, 0.4);
-    border-radius: 12px;
+
+
+.comment-container{
+  height: auto;
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 0 50px 0;
+  border-bottom: 1px solid rgb(75, 75, 75);
 }
 
-.title-comment-box {
-    height: 300px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+
+.title-comment-box{
+  height: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-/* Tiêu đề mục "Bình luận" (Giữ Gradient) */
-.title-comment {
-    height: 40px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
+.title-comment{
+  height: 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
 }
 
-.title-comment p {
-    font-size: 24px;
-    font-weight: 600;
-    background: linear-gradient(90deg, #97dde8, #ffccf2);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 0;
+.title-comment p{
+  font-size: 24px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.title-comment span { margin-right: 10px; }
-
-/* --- 2. KHUNG NHẬP LIỆU (Input Box) --- */
-.info-viewer-comment {
-    height: 240px;
-    width: 100%;
-    position: relative;
+.title-comment span{
+  margin-right: 10px;
 }
 
-.info-viewer-comment-box {
-    display: flex;
-    position: absolute;
-    width: auto;
-    left: 20px;
-    padding: 6px 14px 0 10px;
-    height: auto;
-    background-color: rgb(53, 52, 52);
-    align-items: center;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    z-index: 2;
+.info-viewer-comment{
+  height: 240px;
+  width: 100%;
+  position: relative;
 }
 
-.avatar {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 1px solid white;
-    flex-shrink: 0;
+.info-viewer-comment-box{
+  display: flex;
+  position: absolute;
+  width: auto;
+  left: 20px;
+  padding: 6px 14px 0 10px;
+  height: auto;
+  background-color:rgb(53, 52, 52);
+  align-items: center;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
-.avatar img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+.avatar{
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid white; 
 }
 
-.info-viewer-comment-box p {
-    font-size: 16px;
-    font-weight: 600;
-    background: linear-gradient(90deg, #97dde8, #ffccf2);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-left: 12px;
-    margin-bottom: 0;
+.avatar img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
-/* Nút trạng thái (Ẩn danh/Công khai) */
-.status-comment {
-    position: absolute;
-    top: 3px;
-    right: 32px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    border: 1px solid #8fd3dd;
-    cursor: pointer;
-    transition: 0.15s;
+.info-viewer-comment-box p{
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-left: 12px;
 }
 
-.status-comment p {
-    font-size: 14px;
-    color: white;
-    font-weight: 300 !important;
-    margin: 0;
-    background: none !important;
-    -webkit-text-fill-color: white !important;
+.status-comment{
+  position: absolute  ;
+  top: 3px;
+  right: 32px ;
+  padding: 0px 12px;
+  border-radius: 20px;
+  border: 1px solid #8fd3dd;
+  cursor: pointer;
+  transition: 0.15s;
 }
 
-.status-comment:hover p {
-    background: linear-gradient(90deg, #97dde8, #ffccf2) !important;
-    background-clip: text !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
+.status-comment p{
+  font-size: 14px;
+  color: white;
+  font-weight: 300 !important;
 }
 
-.text-comment-box {
-    position: absolute;
-    bottom: 10px;
-    left: 20px;
-    right: 20px;
-    height: 184px;
-    background-color: rgb(53, 52, 52);
-    border-radius: 20px;
-    border-top-left-radius: 0;
+.status-comment p:hover{
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.text-comment-box div {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    left: 14px;
-    bottom: 50px;
-    border-radius: 16px;
-    background-color: #1f2025;
+.status-comment p span{
+  margin-left: 8px;
+  font-size: 14px;
+}
+
+.text-comment-box{
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  right: 20px;
+  height: 184px;
+  background-color:rgb(53, 52, 52);
+  border-radius: 20px;
+  border-top-left-radius: 0;
+}
+
+#privacy-text{
+    margin: 4px;
+}
+
+#name-viewer-comment{
+    margin: 8px;
+}
+
+#name-comment{
+    margin: 0px;
+}
+
+
+.js-send-button{
+    margin: 0px;
+}
+
+.name-comment{
+    margin: 0px;
+}
+
+.text-comment-box div{
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  left: 14px;
+  bottom: 50px;
+  border-radius: 16px;
+  border: none;
+  background-color: #1f2025;
+  
 }
 
 textarea {
-    width: 100%;
-    height: 100%;
-    padding: 14px;
-    font-size: 16px;
-    border: none;
-    border-radius: 14px;
-    resize: none;
-    background: rgba(27, 27, 27, 0.4);
-    color: rgb(236, 236, 236);
-    outline: none;
+  width: 100%;
+  height: 100%;
+  padding: 14px 14px;
+  font-size: 16px;
+  border: none;
+  border-radius: 14px;
+  resize: none;
+  box-sizing: border-box;
+  background: rgba(27, 27, 27, 0.4);
+  color: rgb(236, 236, 236);
 }
 
-.text-comment-box > p {
-    position: absolute;
-    bottom: 16px;
-    right: 30px;
-    font-size: 16px;
-    background: linear-gradient(90deg, #97dde8, #ffccf2);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 600;
-    cursor: pointer;
-    margin: 0;
+.text-comment-box div p{
+  position: absolute;
+  top: 10px;
+  right:16px;
+  color: rgb(161, 161, 161) !important;
+  font-size: 13px;
 }
 
-/* --- 3. DANH SÁCH BÌNH LUẬN (QUAN TRỌNG) --- */
-.show-comment-box {
-    height: auto;
-    min-height: 300px;
-    width: 95%;
-    border-radius: 14px;
-    border: 1px solid rgb(75, 75, 75);
-    display: flex;
-    justify-content: center;
-    padding-bottom: 20px;
+textarea::placeholder{
+  color: rgb(161, 161, 161);
+  font-family: arial !important;
 }
 
-.comment {
-    height: auto;
-    width: 96%;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    padding-top: 20px;
+.text-comment-box p{
+  position: absolute;
+  bottom: 16px;
+  right: 30px;
+  font-size: 16px;
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-/* --- ITEM BÌNH LUẬN CHA --- */
-.viewer-comment {
-    display: flex;
-    gap: 15px;
-    width: 100%;
-    align-items: flex-start;
+.text-comment-box p span{
+  margin-left: 10px;
 }
 
-.avatar-show-comment {
-    width: 45px;
-    flex-shrink: 0;
+
+.show-comment-box{
+  height: auto;
+  min-height: 300px;
+  width: 95%;
+  border-radius: 14px;
+  border: 1px solid rgb(75, 75, 75);
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+.comment{
+  height: auto;
+  width: 96%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-top: 20px;
 }
 
-.place-viewer-comment {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+.viewer-comment{
+  display:flex;
+  height: auto;
+  gap:10px;
 }
 
-.name-comment {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+
+.avatar-show-comment{
+  height: auto;
+  width: 50px;
+  display: flex;
+  justify-content: center;
 }
 
-/* Tên người dùng (Trắng + Đậm) */
-.name-comment span {
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 700;
-    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+.place-viewer-comment{
+  height: auto;
+  width:auto ;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.name-comment p {
-    color: rgb(105, 105, 105);
-    font-size: 13px;
-    margin: 0;
+.place-viewer-comment div{
+  height: auto;
+  margin-top: 4px;
 }
+
+.name-comment p{
+  color: rgb(105, 105, 105);
+  font-size: 14px;
+}
+
+.name-comment span{
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 16px;
+}
+
+.content-comment .comment-content-text {
+   display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
 
 .content-comment {
-    color: rgb(220, 220, 220);
-    font-size: 15px;
-    line-height: 1.5;
-    word-break: break-word;
+  height: auto;
+  max-width: 800px;
+  display: block; 
+  flex-direction: column;
+  color: rgb(125, 125, 125);
+  justify-content: space-between;
+  width: 100%;
+}
+.react-comment{
+  display:flex;
+  gap: 10px;
 }
 
-/* --- THANH CÔNG CỤ (LIKE/REPLY/DELETE) --- */
-.react-comment, .reply-actions {
-    display: flex;
-    gap: 20px;
-    margin-top: 5px;
+.react-comment p{
+  color: rgb(125, 125, 125);
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.15s;
 }
 
-.react-comment p, .action-btn {
-    color: rgb(140, 140, 140);
-    font-size: 13px;
-    cursor: pointer;
-    transition: 0.2s;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 500;
+.react-comment p:first-child:hover{
+  color: rgb(3, 171, 3);
+  transform: scale(1.1);
 }
 
-.react-comment .btn-like:hover, .action-btn.btn-like:hover { color: #e0245e; }
-.react-comment .btn-reply:hover { color: #97dde8; }
-.react-comment .btn-delete:hover, .action-btn.btn-delete:hover { color: #ff4d4d; }
-.btn-like.active, .action-btn.active { color: #e0245e !important; }
-
-/* --- 4. PHẦN TRẢ LỜI (REPLY - FIX LỖI) --- */
-.list-replies {
-    margin-top: 15px;
-    margin-left: -5px;
-    padding-left: 0;
-    border-left: 2px solid #444;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.react-comment p:nth-child(2):hover{
+  color: rgb(230, 2, 2);
+  transform: scale(1.1);
 }
 
-.reply-item {
-    display: flex;
-    gap: 15px; /* Tăng khoảng cách để thoáng */
-    padding-left: 20px;
-    position: relative;
-    align-items: flex-start; /* Căn lề trên */
+.react-comment p:nth-child(3):hover,
+.react-comment p:last-child:hover{
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transform: scale(1.1);
 }
 
-/* Đường kẻ nhánh cây */
-.reply-item::before {
-    content: '';
-    position: absolute;
-    top: 15px;
-    left: 0;
-    width: 15px;
-    height: 2px;
-    background: #444;
+.react-comment span{
+  font-size: 11px;
+  margin-left: 6px;
 }
-
-/* Avatar Tròn Tuyệt Đối */
-.reply-avatar {
-    width: 30px;
-    height: 30px;
-    aspect-ratio: 1 / 1; /* Bắt buộc vuông */
-    flex-shrink: 0; /* Không cho co lại */
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #333;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.reply-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* Khối nội dung Reply (Fix dính chữ) */
-.reply-content-block {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex-grow: 1;
-    position: relative;
-}
-
-.reply-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0;
-    line-height: 1.2;
-}
-
-.reply-author {
-    font-size: 14px;
-    font-weight: 700;
-    color: #ffffff;
-}
-
-.reply-time {
-    font-size: 12px;
-    color: #888;
-}
-
-.reply-text {
-    font-size: 14px;
-    color: #ccc;
-    line-height: 1.5; /* Dãn dòng dễ đọc */
-    word-break: break-word;
-    margin: 0;
-}
-
-/* --- KHUNG NHẬP REPLY --- */
-.reply-box {
-    margin-top: 10px;
-    width: 100%;
-}
-
-.reply-input-container {
-    display: flex;
-    gap: 10px;
-    background: #1f2025;
-    padding: 10px;
-    border-radius: 12px;
-    border: 1px solid #444;
-}
-
-.reply-input-container input {
-    background: transparent;
-    border: none;
-    color: white;
-    width: 100%;
-    outline: none;
-}
-
-.btn-confirm-reply {
-    background: linear-gradient(90deg, #97dde8, #ffccf2);
-    border: none;
-    padding: 5px 15px;
-    border-radius: 8px;
-    color: #333;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.hidden { display: none !important; }

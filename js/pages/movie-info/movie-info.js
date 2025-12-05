@@ -52,7 +52,7 @@ function renderMovieInfo(movie) {
     const buttonPlay = document.querySelector('.button-play a');
     if (buttonPlay && movie.episodes && movie.episodes.length > 0) {
         const firstEpisode = movie.episodes[0].server_data[0];
-        buttonPlay.href = `/watch.html?slug=${movie.slug}`;
+        buttonPlay.href = `page/watch.html?slug=${movie.slug}`;
     }
 
     // Cập nhật title right box

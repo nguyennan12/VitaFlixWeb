@@ -39,6 +39,13 @@ export class CommentManager {
                 this.charCounter.textContent = this.maxLength;
             }
         });
+        
+    }
+
+    formatCommentContent(text) {
+        const escapedText = this.escapeHtml(text);
+        // Thay thế ký tự xuống dòng (\n) thành thẻ <br> HTML
+        return escapedText;
     }
 
     // Xử lý gửi comment
@@ -64,6 +71,8 @@ export class CommentManager {
             });
         }
     }
+
+    
 
     updateCommentStatus() {
         const privacyText = document.getElementById('privacy-text');
@@ -107,28 +116,40 @@ export class CommentManager {
 
     addCommentToUI(comment, prepend = true) {
         const timeAgo = this.getTimeAgo(comment.timestamp);
+        const formattedContent = this.formatCommentContent(comment.content);
         
         const html = `
+            
+
             <div class="viewer-comment" data-comment-id="${comment.id}">
-                <div class="avatar-show-comment">
-                    <div class="avatar"><img src="${comment.avatar}" alt="${comment.author}"></div>
-                </div>
-                <div class="place-viewer-comment">
-                    <div class="name-comment">
-                        <span>${comment.author}</span>
-                        <p>${timeAgo}</p>
-                    </div>
-                    <div class="content-comment">${this.escapeHtml(comment.content)}</div>
-                    <div class="comment-actions">
-                        <button class="btn-like-comment" onclick="commentManager.likeComment(${comment.id})">
-                            <i class="fa-regular fa-heart"></i> Thích
-                        </button>
-                        <button class="btn-reply-comment" onclick="commentManager.replyComment(${comment.id})">
-                            <i class="fa-solid fa-reply"></i> Trả lời
-                        </button>
-                    </div>
-                </div>
-            </div>
+        <div class="avatar-show-comment">
+          <div class="avatar">
+            <img src="${comment.avatar}" onerror="this.src='/assets/images/avatar-default-3.jpg'">
+          </div>
+        </div>
+        <div class="place-viewer-comment">
+          <div class="name-comment">
+            <p id="name-comment"><span>${comment.author} </span> &#183; ${timeAgo}</p>
+          </div>
+          <div class="content-comment">
+            <div class="comment-content-text">${formattedContent}</div>
+          </div>
+          <div class="react-comment">
+            <p class="like-btn" onclick="toggleLike(this)">
+              <i class="fa-regular fa-thumbs-up"></i><span>0</span>
+            </p>
+            <p class="dislike-btn" onclick="toggleDislike(this)">
+              <i class="fa-regular fa-thumbs-down"></i><span>0</span>
+            </p>
+            <p class="reply-btn">
+              <i class="fa-solid fa-reply"></i><span>Trả lời</span>
+            </p>
+            <p class="more-btn">
+              <i class="fa-solid fa-ellipsis"></i><span>Thêm</span>
+            </p>
+          </div> 
+        </div>
+      </div>
         `;
 
         if (prepend) {
@@ -234,4 +255,6 @@ export function initCommentManager() {
     commentManager = new CommentManager();
     window.commentManager = commentManager; // Expose globally cho onclick events
     return commentManager;
+
+    
 }
