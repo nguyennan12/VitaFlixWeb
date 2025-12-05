@@ -33,7 +33,7 @@ function renderListMovie(movies, titleList) {
             <dov class="util-preview-6"><i class="fa-solid fa-heart" aria-hidden="true"></i></dov>
 
             <div class="util-preview-7">
-              <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i>Xem ngay</a>
+              <a href="page/watch.html?slug=${movie.slug}"><i class="fa-solid fa-play play" aria-hidden="true"></i>Xem ngay</a>
             </div>
 
             <div class="util-preview-8">
