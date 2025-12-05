@@ -298,6 +298,7 @@
 .movie-list.more {
   overflow: hidden;
   flex-wrap: wrap;
+  margin-bottom: 150px;
 }
 
 .title-list {

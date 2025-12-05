@@ -36,9 +36,7 @@ function renderListMovie(movies, titleList) {
             </div>
 
             <div class="util-preview-8">
-              <a href="movie-info.html?slug=${
-                movie.slug
-              }">Thông tin phim<i class="fa-solid fa-angle-right"></i></a>
+              <a href="movie-info.html?slug=${movie.slug}">Thông tin phim<i class="fa-solid fa-angle-right"></i></a>
             </div>
           </div>
         </div>

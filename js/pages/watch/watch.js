@@ -297,7 +297,7 @@ async function initWatchPage() {
     if (recommendContainer) {
         try {
             const newMovies = await fetchNewMovies(1);
-            const recommendations = newMovies.filter(m => m.slug !== movie.slug).slice(0, 5);
+            const recommendations = newMovies.filter(m => m.slug !== movie.slug).slice(0, 10);
 
             if (recommendations.length > 0) {
                 recommendContainer.innerHTML = recommendations.map(m => {
