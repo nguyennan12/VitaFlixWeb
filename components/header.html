@@ -24,43 +24,84 @@
     <nav
       class="d-none d-md-block position-absolute start-50 translate-middle-x"
     >
-      <ul class="list-unstyled d-flex align-items-center gap-4 m-0">
+      <ul class="list-unstyled d-flex align-items-center gap-1 m-0">
         <li>
-          <a href="#" class="nav-link-custom" data-page="home">Trang chủ</a>
+          <a href="/index.html" class="nav-link-custom">Trang chủ</a>
         </li>
+<!--         
         <li>
           <a href="#" class="nav-link-custom" data-page="category">Chủ đề</a>
+        </li> -->
+
+        <!-- DROPDOWN THỂ LOẠI -->
+        <li class="nav-item has-dropdown">
+          <div class="dropdown-trigger">
+            <a href="#" class="nav-link-custom">
+              Thể loại <i class="fa-solid fa-caret-down"></i>
+            </a>
+          </div>
+          
+          <div class="dropdown-content">
+            <p class="dropdown-title">Chọn Thể Loại</p>
+            <div class="dropdown-list">
+              <a href="/categorize-movie.html?type=genre&genre=hanh-dong" class="dropdown-item">Hành Động</a>
+              <a href="/categorize-movie.html?type=genre&genre=kinh-di" class="dropdown-item">Kinh Dị</a>
+              <a href="/categorize-movie.html?type=genre&genre=hai-huoc" class="dropdown-item">Hài Hước</a>
+              <a href="/categorize-movie.html?type=genre&genre=tinh-cam" class="dropdown-item">Tình Cảm</a>
+              <a href="/categorize-movie.html?type=genre&genre=khoa-hoc-vien-tuong" class="dropdown-item">Khoa Học Viễn Tưởng</a>
+              <a href="/categorize-movie.html?type=genre&genre=phieu-luu" class="dropdown-item">Phiêu Lưu</a>
+              <a href="/categorize-movie.html?type=genre&genre=than-thoai" class="dropdown-item">Thần Thoại</a>
+              <a href="/categorize-movie.html?type=genre&genre=tai-lieu" class="dropdown-item">Tài Liệu</a>
+            </div>
+          </div>
         </li>
-        <li>
-          <a href="#" class="nav-link-custom" data-page="genre">Thể loại</a>
-        </li>
-        <li class="has-dropdown" data-list-type="series">
-          <a href="#" class="nav-link-custom" data-filter="series"
+
+        <!-- DROPDOWN PHIM BỘ -->
+        <li class="nav-item has-dropdown" data-list-type="series">
+          <a href="#" class="filter-btn" data-filter="series"
             >Phim Bộ <i class="fa-solid fa-caret-down"></i
           ></a>
           <div class="dropdown-content js-series-dropdown">
             <p class="dropdown-title">Phim Bộ Nổi Bật</p>
             <div class="dropdown-list"></div>
-            <a href="#" class="dropdown-more filter-btn" data-filter="series"
+            <a href="/categorize-movie.html?type=series" class="dropdown-more"
               >Xem Thêm Phim Bộ...</a
             >
           </div>
         </li>
 
-        <li class="has-dropdown" data-list-type="single">
-          <a href="#" class="nav-link-custom" data-filter="single"
+        <!-- DROPDOWN PHIM LẺ -->
+        <li class="nav-item has-dropdown" data-list-type="single">
+          <a href="#" class="filter-btn" data-filter="single"
             >Phim Lẻ <i class="fa-solid fa-caret-down"></i
           ></a>
           <div class="dropdown-content js-single-dropdown">
             <p class="dropdown-title">Phim Lẻ Nổi Bật</p>
             <div class="dropdown-list"></div>
-            <a href="#" class="dropdown-more filter-btn" data-filter="single"
+            <a href="/categorize-movie.html?type=single" class="dropdown-more"
               >Xem Thêm Phim Lẻ...</a
             >
           </div>
         </li>
-        <li>
-          <a href="#" class="nav-link-custom" data-page="country">Quốc gia</a>
+
+        <!-- DROPDOWN QUỐC GIA -->
+        <li class="nav-item has-dropdown">
+          <a href="#" class="nav-link-custom">
+            Quốc gia <i class="fa-solid fa-caret-down"></i>
+          </a>
+          <div class="dropdown-content">
+            <p class="dropdown-title">Chọn Quốc Gia</p>
+            <div class="dropdown-list">
+              <a href="/categorize-movie.html?type=country&country=han-quoc" class="dropdown-item">Hàn Quốc</a>
+              <a href="/categorize-movie.html?type=country&country=trung-quoc" class="dropdown-item">Trung Quốc</a>
+              <a href="/categorize-movie.html?type=country&country=thai-lan" class="dropdown-item">Thái Lan</a>
+              <a href="/categorize-movie.html?type=country&country=my" class="dropdown-item">Mỹ</a>
+              <a href="/categorize-movie.html?type=country&country=nhat-ban" class="dropdown-item">Nhật Bản</a>
+              <a href="/categorize-movie.html?type=country&country=viet-nam" class="dropdown-item">Việt Nam</a>
+              <a href="/categorize-movie.html?type=country&country=an-do" class="dropdown-item">Ấn Độ</a>
+              <a href="/categorize-movie.html?type=country&country=khac" class="dropdown-item">Khác</a>
+            </div>
+          </div>
         </li>
       </ul>
     </nav>
@@ -97,62 +138,103 @@
   </div>
   <ul class="list-unstyled d-flex flex-column gap-3">
     <li>
-      <a
-        href="#"
-        class="text-white text-decoration-none fs-5 mobile-nav-link"
-        data-page="home"
-      >
+      <a href="/index.html" class="text-white text-decoration-none fs-5 mobile-nav-link">
         <i class="fa-solid fa-house me-2"></i> Trang chủ
       </a>
     </li>
-    <li>
-      <a
-        href="#"
-        class="text-white-50 text-decoration-none fs-5 mobile-nav-link"
-        data-page="category"
-      >
+    <!-- <li>
+      <a href="#" class="text-white-50 text-decoration-none fs-5 mobile-nav-link" data-page="category">
         Chủ đề
       </a>
-    </li>
+    </li> -->
+    
+    <!-- Mobile Thể Loại -->
     <li>
-      <a
-        href="#"
-        class="text-white-50 text-decoration-none fs-5 mobile-nav-link"
-        data-page="genre"
-      >
-        Thể loại
-      </a>
+      <div class="mobile-dropdown-trigger text-white-50 fs-5">
+        Thể loại <i class="fa-solid fa-caret-down"></i>
+      </div>
+      <div class="mobile-dropdown-content">
+        <a href="/categorize-movie.html?type=genre&genre=hanh-dong">Hành Động</a>
+        <a href="/categorize-movie.html?type=genre&genre=kinh-di">Kinh Dị</a>
+        <a href="/categorize-movie.html?type=genre&genre=hai-huoc">Hài Hước</a>
+        <a href="/categorize-movie.html?type=genre&genre=tinh-cam">Tình Cảm</a>
+        <a href="/categorize-movie.html?type=genre&genre=khoa-hoc-vien-tuong">Khoa Học Viễn Tưởng</a>
+      </div>
     </li>
+
     <li>
-      <a
-        href="#"
-        class="text-white-50 text-decoration-none fs-5 mobile-nav-link"
-        data-page="single"
-      >
+      <a href="/categorize-movie.html?type=single" class="text-white-50 text-decoration-none fs-5">
         Phim lẻ
       </a>
     </li>
     <li>
-      <a
-        href="#"
-        class="text-white-50 text-decoration-none fs-5 mobile-nav-link"
-        data-page="series"
-      >
+      <a href="/categorize-movie.html?type=series" class="text-white-50 text-decoration-none fs-5">
         Phim bộ
       </a>
     </li>
+    
+    <!-- Mobile Quốc Gia -->
     <li>
-      <a
-        href="#"
-        class="text-white-50 text-decoration-none fs-5 mobile-nav-link"
-        data-page="country"
-      >
-        Quốc gia
-      </a>
+      <div class="mobile-dropdown-trigger text-white-50 fs-5">
+        Quốc gia <i class="fa-solid fa-caret-down"></i>
+      </div>
+      <div class="mobile-dropdown-content">
+        <a href="/categorize-movie.html?type=country&country=han-quoc">Hàn Quốc</a>
+        <a href="/categorize-movie.html?type=country&country=trung-quoc">Trung Quốc</a>
+        <a href="/categorize-movie.html?type=country&country=thai-lan">Thái Lan</a>
+        <a href="/categorize-movie.html?type=country&country=my">Mỹ</a>
+        <a href="/categorize-movie.html?type=country&country=nhat-ban">Nhật Bản</a>
+      </div>
     </li>
   </ul>
 </div>
 <div class="overlay"></div>
+
+<style>
+  /* Dropdown styles */
+  .dropdown-item {
+    display: block;
+    padding: 8px 12px;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+
+  .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #8fd3dd;
+  }
+
+  /* Mobile dropdown styles */
+  .mobile-dropdown-trigger {
+    cursor: pointer;
+    padding: 8px 0;
+    user-select: none;
+  }
+
+  .mobile-dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding-left: 20px;
+  }
+
+  .mobile-dropdown-content.active {
+    max-height: 500px;
+  }
+
+  .mobile-dropdown-content a {
+    display: block;
+    padding: 8px 0;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .mobile-dropdown-content a:hover {
+    color: #8fd3dd;
+  }
+</style>
 
 <script>
   // Mobile Menu Toggle
@@ -187,7 +269,25 @@
     document.body.style.overflow = "";
   }
 
-  // Xử lý navigation cho desktop và DROPDOWN LINKS
+  // Mobile dropdown toggle
+  document.querySelectorAll(".mobile-dropdown-trigger").forEach((trigger) => {
+    trigger.addEventListener("click", function() {
+      const content = this.nextElementSibling;
+      const isActive = content.classList.contains("active");
+      
+      // Đóng tất cả dropdown khác
+      document.querySelectorAll(".mobile-dropdown-content").forEach((item) => {
+        item.classList.remove("active");
+      });
+      
+      // Toggle dropdown hiện tại
+      if (!isActive) {
+        content.classList.add("active");
+      }
+    });
+  });
+
+  // Xử lý navigation cho desktop
   document.querySelectorAll(".nav-link-custom").forEach((link) => {
     link.addEventListener("click", handleNavClick);
   });
@@ -200,36 +300,63 @@
     });
   });
 
+  // Xử lý filter buttons (Phim Bộ, Phim Lẻ trong dropdown)
+  document.querySelectorAll(".filter-btn").forEach((btn) => {
+    btn.addEventListener("click", handleFilterClick);
+  });
+
   // Hàm xử lý click navigation
   function handleNavClick(e) {
-    e.preventDefault();
     const page = e.currentTarget.dataset.page;
-
-    // Remove active từ tất cả links
-    document
-      .querySelectorAll(".nav-link-custom, .mobile-nav-link")
-      .forEach((l) => {
-        l.classList.remove("active");
-      });
-
-    // Add active cho link được click
-    // Kiểm tra xem link có phải là link trong dropdown không
-    if (!e.currentTarget.classList.contains("dropdown-more")) {
-      e.currentTarget.classList.add("active");
+    
+    // Nếu không có data-page (các link có dropdown), không làm gì
+    if (!page) {
+      e.preventDefault();
+      return;
     }
 
-    // Dispatch custom event để filter.js xử lý
-    const event = new CustomEvent("navigationClick", {
-      detail: { page: page },
+    e.preventDefault();
+
+    // Remove active từ tất cả links
+    document.querySelectorAll(".nav-link-custom, .mobile-nav-link").forEach((l) => {
+      l.classList.remove("active");
     });
-    window.dispatchEvent(event);
+
+    // Add active cho link được click
+    e.currentTarget.classList.add("active");
+
+    // Chuyển hướng dựa trên page
+    if (page === "category") {
+      window.location.href = `/categorize-movie.html?type=${page}`;
+    } else {
+      // Dispatch custom event để filter.js xử lý (cho index.html)
+      const event = new CustomEvent("navigationClick", {
+        detail: { page: page },
+      });
+      window.dispatchEvent(event);
+    }
+  }
+
+  // Hàm xử lý click filter (Phim Bộ, Phim Lẻ)
+  function handleFilterClick(e) {
+    e.preventDefault();
+    const filter = e.currentTarget.dataset.filter;
+    
+    // Nếu đang ở index.html, dispatch event
+    const currentPath = window.location.pathname;
+    if (currentPath === "/index.html" || currentPath === "/") {
+      const event = new CustomEvent("navigationClick", {
+        detail: { page: filter },
+      });
+      window.dispatchEvent(event);
+    }
   }
 
   // Highlight active page khi load
   document.addEventListener("DOMContentLoaded", () => {
     const currentPath = window.location.pathname;
     if (currentPath === "/index.html" || currentPath === "/") {
-      document.querySelectorAll('[data-page="home"]').forEach((link) => {
+      document.querySelectorAll('[href="/index.html"]').forEach((link) => {
         link.classList.add("active");
       });
     }

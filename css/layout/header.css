@@ -21,6 +21,10 @@
   width: auto;
 }
 
+.list-unstyled{
+  padding-right: 70px;
+}
+
 .logo-text {
   font-size: 28px;
   font-weight: 700;
@@ -295,7 +299,14 @@
 .nav-item {
   position: relative;
   padding: 10px 15px;
+ 
 }
+
+.nav-item a{
+  text-decoration: none;
+  color: white;
+}
+
 
 /* Kích hoạt Dropdown khi hover */
 .has-dropdown {

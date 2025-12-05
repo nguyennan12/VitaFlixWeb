@@ -22,6 +22,8 @@ class movieFilter {
     });
   }
 
+ 
+
   //Lọc phim yêu thích
   static async filterFavMovie() {
     try {
@@ -199,6 +201,7 @@ export async function updateMovieCategories() {
       single: movieFilter.filterByCountry(fullMovieList, "nhat-ban", "single"),
       anime: movieFilter.filterByCountry(fullMovieList, "nhat-ban", "hoathinh"),
     };
+
     catagorMovie.vietNam = {
       series: movieFilter.filterByCountry(fullMovieList, "viet-nam", "series"),
       single: movieFilter.filterByCountry(fullMovieList, "viet-nam", "single"),
