@@ -50,6 +50,15 @@
   border-radius: 30px 30px 0 0;
 }
 
+.box-utils{
+  height: auto;
+  max-height: 1600px;
+  width: 100vw;
+  display: flex;
+  background: rgba(27, 27, 27, 0.4);
+}
+
+
 /*left*/
 .left-box{
   position: relative;
@@ -239,18 +248,16 @@
   display: flex;
   flex-wrap: wrap;
   align-items: end;
-  gap: 14px;
+  gap: 10px;
 }
 
 .title-right-box p{
-  font-family: Oswald;
   letter-spacing: 1.5px;
   font-size: 40px;
   color: white;
 }
 
 .title-right-box span{
-  font-family: Poppins;
   font-size: 30px;
   background: linear-gradient(90deg, #97dde8, #ffccf2);
   -webkit-background-clip: text;
@@ -265,7 +272,13 @@
 }
 
 .genre p{
-  color: rgb(125, 125, 125);
+  color: rgb(103, 103, 103);
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.genre-content p{
+  color: rgb(103, 103, 103);
   font-size: 16px;
   margin-bottom: 10px;
 }
@@ -277,6 +290,10 @@
   -webkit-box-orient: vertical;
 }
 
+.genre-content span{
+  color: rgb(229, 229, 229);
+  font-weight: 500;
+}
 
 .genre span{
   color: rgb(229, 229, 229);
@@ -305,6 +322,15 @@
   background: linear-gradient(90deg, #97dde8, #ffccf2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.status p {
+    color:rgb(19, 215, 19)
+    margin: 0 !important; 
+    padding: 0;
+    line-height: 1; 
+    display: flex;
+    align-items: center;
 }
 
 .complete{
