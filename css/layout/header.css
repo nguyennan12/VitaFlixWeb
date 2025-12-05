@@ -1,6 +1,6 @@
 /* Header Styles */
 .home-header {
-  background: rgba(23, 25, 29, 0.95);
+  background: transparent;
   backdrop-filter: blur(10px);
   padding: 15px 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -87,9 +87,9 @@
 }
 
 .search-box input {
-  background: transparent;
+  background: transparent !important;
   border: none;
-  color: #fff;
+  color: #fff !important;
   padding: 8px 15px;
   width: 250px;
   font-size: 14px;
