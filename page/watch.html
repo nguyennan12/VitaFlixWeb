@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/css/pages/watch.css">
     <link rel="stylesheet" href="/css/components/comment.css">
     <link rel="stylesheet" href="/css/components/recommend.css">
+    <link rel="stylesheet" href="/css/components/right.css">
   </head>
   <body class="bg-dark text-white" style="padding-top: 70px;"> 
     
@@ -91,18 +92,7 @@
                                 <p><span><i class="fa-regular fa-closed-captioning"></i></span>Phụ đề</p>
                             </div>
                             <div class="episode-list">
-                                <div><a href="#"><i class="fa-solid fa-play play"></i>Tập 1</a></div>
-                                <div><a href="#"><i class="fa-solid fa-play play"></i>Tập 2</a></div>
-                                <div><a href="#"><i class="fa-solid fa-play play"></i>Tập 3</a></div>
-                                <div><a href="#"><i class="fa-solid fa-play play"></i>Tập 4</a></div>
-                                <div><a href="#"><i class="fa-solid fa-play play"></i>Tập 5</a></div>
-                                <div><a href="#"><i class="fa-solid fa-play play"></i>Tập 6</a></div>
-                                <div><a href="#"><i class="fa-solid fa-play play"></i>Tập 7</a></div>
-                                <div><a href="#"><i class="fa-solid fa-play play"></i>Tập 8</a></div>
-                                <div><a href="#"><i class="fa-solid fa-play play"></i>Tập 9</a></div>
-                                <div><a href="#"><i class="fa-solid fa-play play"></i>Tập 10</a></div>
-                                <div><a href="#"><i class="fa-solid fa-play play"></i>Tập 11</a></div>
-                                <div><a href="#"><i class="fa-solid fa-play play"></i>Tập 12</a></div>
+                                <div class="text-white-50 p-2">Đang tải danh sách tập...</div>
                             </div>
                         </div>
                     </div>
@@ -133,36 +123,7 @@
                         </div>
                     </div>
                     <div class="show-comment-box">
-                        <div class="comment js-comment">
-                            <div class="comment js-comment">
-                                <div class="comment-item">
-                                    <div class="info-viewer-comment-box">
-                                        <div class="avatar">
-                                            <img src="/assets/images/VitaFlix.png" alt="Avatar">
-                                        </div>
-                                        <div class="content-body">
-                                            <p class="name-user">Người dùng mẫu</p>
-                                            <p class="text-content">Phim này hay quá, cảm ơn admin đã upload!</p>
-                                            
-                                            <div class="actions">
-                                                <button class="btn-action btn-like">
-                                                    <i class="fa-solid fa-heart"></i> Thích <span class="count">0</span>
-                                                </button>
-                                                <button class="btn-action btn-reply">Trả lời</button>
-                                                <button class="btn-action btn-delete">Xóa</button>
-                                            </div>
-
-                                            <div class="reply-box hidden">
-                                                <textarea class="reply-input" placeholder="Viết câu trả lời..."></textarea>
-                                                <div class="reply-footer">
-                                                    <button class="btn-send-reply">Gửi trả lời <i class="fa-solid fa-paper-plane"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                        </div>
+                        <div class="comment js-comment"></div>
                     </div>
                 </div>
             </div>
@@ -192,6 +153,5 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/main.js"></script>
     <script type="module" src="/js/pages/watch/watch.js"></script>
-    <script>const player = new Plyr('#video');</script>
   </body>
 </html>

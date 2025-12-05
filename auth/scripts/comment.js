@@ -66,6 +66,11 @@ export class CommentManager {
                     commentItem.style.opacity = '0';
                     setTimeout(() => {
                         commentItem.remove();
+                        
+                        if (this.boxComment.children.length === 0) {
+                            this.boxComment.innerHTML = '<div class="text-white-50 text-center py-3">Chưa có bình luận nào. Hãy là người đầu tiên!</div>';
+                        }
+
                         if (isReply) {
                             const parentId = commentItem.closest('.viewer-comment').getAttribute('data-comment-id');
                             this.deleteReplyFromStorage(parentId, id);
@@ -170,6 +175,11 @@ export class CommentManager {
     }
 
     addCommentToUI(comment, prepend = true) {
+        const emptyMsg = this.boxComment.querySelector('.text-white-50.text-center');
+        if (emptyMsg) {
+            emptyMsg.remove();
+        }
+
         const timeAgo = this.getTimeAgo(comment.timestamp);
         
         const html = `
@@ -319,7 +329,7 @@ export class CommentManager {
             const comments = JSON.parse(localStorage.getItem(storageKey) || '[]');
             
             if (comments.length === 0) {
-                this.boxComment.innerHTML = '<div class="text-white-50 text-center py-3">Chưa có bình luận nào.</div>';
+                this.boxComment.innerHTML = '<div class="text-white-50 text-center py-3">Chưa có bình luận nào. Hãy là người đầu tiên!</div>';
                 return;
             }
 
