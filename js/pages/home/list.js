@@ -15,7 +15,6 @@ function renderListMovie(movies, titleList) {
   movieLimited.forEach((movie) => {
     listHTML += `
       <div class="movie-box test">
-
         <div class="preview-box">
           <div class="thumb-preview-box">
             <img src="https://phimimg.com/${movie.thumb_url}">
