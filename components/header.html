@@ -138,7 +138,7 @@
   </div>
   <ul class="list-unstyled d-flex flex-column gap-3">
     <li>
-      <a href="/index.html" class="text-white text-decoration-none fs-5 mobile-nav-link">
+      <a href="/index.html" class="text-white text-decoration-none fs-5 mobile-nav-link" >
         <i class="fa-solid fa-house me-2"></i> Trang chủ
       </a>
     </li>
@@ -308,6 +308,10 @@
   // Hàm xử lý click navigation
   function handleNavClick(e) {
     const page = e.currentTarget.dataset.page;
+
+    if (!page && e.currentTarget.getAttribute('href') === '/index.html') {
+      return; // Cho phép chuyển hướng mặc định của thẻ <a>
+    }
     
     // Nếu không có data-page (các link có dropdown), không làm gì
     if (!page) {
