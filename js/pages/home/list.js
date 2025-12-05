@@ -140,7 +140,7 @@ function renderAllLists() {
     console.warn("No continute movies found");
     const element = document.querySelector(".js-movie-list-continute");
     if (element) {
-      element.innerHTML = "<p>Chưa có phim đang xem</p>";
+      element.innerHTML = "<p>Không có phim yêu thích</p>";
     }
   }
 }

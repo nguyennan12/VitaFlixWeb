@@ -104,8 +104,8 @@
   z-index: 2;
 }
 
-/* ==================== MOVIE CONTINUE STYLES ==================== */
-.movie-continute-container {
+/* ==================== MOVIE FAVORITES STYLES ==================== */
+.movie-favorites-container {
   height: 420px;
   width: 100%;
   max-width: 100vw;
@@ -134,7 +134,7 @@
   margin-bottom: 6px;
 }
 
-.titlle-movie-continute {
+.titlle-movie-favorites {
   background: linear-gradient(90deg, #97dde8, #ffccf2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -144,7 +144,7 @@
   font-size: 36px;
 }
 
-.list-movie-continute {
+.list-movie-favorites {
   height: 300px;
   width: 100%;
   display: flex;
@@ -152,7 +152,7 @@
   align-items: center;
 }
 
-.movie-continute-box {
+.movie-favorites-box {
   height: 320px;
   width: 190px;
   border-radius: 10px;
@@ -165,12 +165,12 @@
   filter: brightness(90%);
 }
 
-.movie-continute-box:hover {
+.movie-favorites-box:hover {
   transform: scale(1.1);
   filter: brightness(90%);
 }
 
-.movie-continute-box img {
+.movie-favorites-box img {
   height: 290px;
   width: 100%;
   object-fit: cover;
@@ -178,13 +178,13 @@
   border-radius: 11px;
 }
 
-.movie-continute-box p {
+.movie-favorites-box p {
   font-size: 13px;
   color: rgb(182, 182, 182);
   padding-top: 8px;
 }
 
-.movie-continute-box p span {
+.movie-favorites-box p span {
   color: rgb(86, 86, 86);
 }
 
