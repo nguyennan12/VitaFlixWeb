@@ -324,15 +324,6 @@
   -webkit-text-fill-color: transparent;
 }
 
-.status p {
-    color:rgb(19, 215, 19)
-    margin: 0 !important; 
-    padding: 0;
-    line-height: 1; 
-    display: flex;
-    align-items: center;
-}
-
 .complete{
   font-size: 14px;
   color: rgb(19, 215, 19);
