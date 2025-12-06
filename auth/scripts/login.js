@@ -217,3 +217,12 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = '/index.html';
     });
 });
+
+const userData = {
+  username: usernameInput.value.trim(),
+  email: "user@example.com",
+  avatar: "https://via.placeholder.com/120"
+};
+
+localStorage.setItem("vitaflix_current_user", JSON.stringify(userData));
+

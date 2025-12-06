@@ -99,10 +99,15 @@
       <i class="fa-solid fa-magnifying-glass d-sm-none fs-5 cursor-pointer text-white"></i>
 
       <div class="user-profile-wrapper">
-        <div class="user-profile" id="userProfileIcon"> <i class="fa-solid fa-user fs-5 text-white"></i> </div>
+        <div class="user-profile" id="userProfileIcon">
+          <i class="fa-solid fa-user fs-5 text-white" id="defaultUserIcon"></i>
+          <img id="headerAvatar" class="header-avatar d-none" />
+        </div>
+
         <div class="user-info-dropdown" id="userInfoDropdown">
           <p class="dropdown-username">Xin chào, <span id="displayUsername">Tên Người Dùng</span>!</p>
-          <hr> <a href="./profile.html" class="dropdown-link"> <i class="fa-solid fa-gear"></i> Quản lý Tài khoản </a>
+          <hr> <a href="/components/profile.html" class="dropdown-link"> <i class="fa-solid fa-gear"></i> Quản lý Tài
+            khoản </a>
           <button id="logoutBtn" class="dropdown-link logout-button"> <i class="fa-solid fa-right-from-bracket"></i>
             Đăng xuất </button>
         </div>
@@ -350,80 +355,101 @@
   });
 
 
-  //Xử lí phần user 
-  window.addEventListener("load", function () {
-    const CURRENT_USER_KEY = "vitaflix_current_user";
+  // ================= USER / AVATAR / DROPDOWN / LOGOUT (CHUẨN) =================
+  (function () {
+    const USER_KEY = "vitaflix_current_user";
 
-    const user = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
-
+    
     const displayUsernameSpan = document.querySelector("#displayUsername");
     const userWrapper = document.querySelector(".user-profile-wrapper");
     const authButtons = document.querySelector(".auth-buttons");
-
-    if (user && user.username) {
-      // Hiện lời chào
-      if (displayUsernameSpan) {
-        displayUsernameSpan.textContent = user.username;
-      }
-
-      // Hiện icon user
-      if (userWrapper) {
-        userWrapper.style.display = "block";
-      }
-
-      // Ẩn nút login / register
-      if (authButtons) {
-        authButtons.style.display = "none";
-      }
-    } else {
-      // Nếu chưa đăng nhập
-      if (displayUsernameSpan) {
-        displayUsernameSpan.textContent = "Khách";
-      }
-
-      // Ẩn icon user nếu chưa login
-      if (userWrapper) {
-        userWrapper.style.display = "none";
-      }
-    }
-  });
-
-  // ================= DROPDOWN TOGGLE =================
-  document.addEventListener("click", function (e) {
-    const icon = e.target.closest("#userProfileIcon");
+    const headerAvatar = document.querySelector("#headerAvatar");
+    const defaultIcon = document.querySelector("#defaultUserIcon");
     const dropdown = document.querySelector("#userInfoDropdown");
 
-    if (!dropdown) return;
+    function updateUserUI() {
+      let user = null;
+      try {
+        user = JSON.parse(localStorage.getItem(USER_KEY));
+      } catch (e) {
+        user = null;
+      }
 
-    if (icon) {
-      e.stopPropagation();
-      dropdown.classList.toggle("active");
+      if (user && user.username) {
+        if (displayUsernameSpan) displayUsernameSpan.textContent = user.username;
 
-      // Hiện dropdown khi có class active
-      if (dropdown.classList.contains("active")) {
-        dropdown.style.display = "block";
+        if (userWrapper) userWrapper.style.display = "";
+
+        if (authButtons) authButtons.style.display = "none";
+
+        const hasAvatar = user.avatar && user.avatar.trim() !== "";
+        if (hasAvatar) {
+          if (headerAvatar) {
+            headerAvatar.src = user.avatar;
+            headerAvatar.classList.remove("d-none");
+          }
+          if (defaultIcon) defaultIcon.classList.add("d-none");
+        } else {
+          if (defaultIcon) defaultIcon.classList.remove("d-none");
+          if (headerAvatar) headerAvatar.classList.add("d-none");
+        }
       } else {
+        if (displayUsernameSpan) displayUsernameSpan.textContent = "Khách";
+        if (userWrapper) userWrapper.style.display = "none";
+        if (defaultIcon) defaultIcon.classList.remove("d-none");
+        if (headerAvatar) headerAvatar.classList.add("d-none");
+        if (authButtons) authButtons.style.display = ""; // hiện lại
+      }
+    }
+
+    window.addEventListener("load", updateUserUI);
+
+    window.addEventListener("storage", function (e) {
+      if (e.key === USER_KEY) updateUserUI();
+    });
+
+    // ================= DROPDOWN TOGGLE  =================
+    document.addEventListener("click", function (e) {
+      // nếu không có dropdown trong DOM thì bỏ qua
+      if (!dropdown) return;
+
+      const clickedIcon = e.target.closest("#userProfileIcon");
+
+      if (clickedIcon) {
+        e.stopPropagation();
+        const currentUser = localStorage.getItem(USER_KEY);
+        if (!currentUser) return;
+
+        dropdown.classList.toggle("active");
+
+        if (dropdown.classList.contains("active")) {
+          dropdown.style.display = "block";
+        } else {
+          dropdown.style.display = "none";
+        }
+        return;
+      }
+
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove("active");
         dropdown.style.display = "none";
       }
-      return;
-    }
+    });
 
-    // Click ngoài thì đóng dropdown
-    if (!dropdown.contains(e.target)) {
-      dropdown.classList.remove("active");
-      dropdown.style.display = "none";
-    }
-  });
+    // ================= LOGOUT =================
+    document.addEventListener("click", function (e) {
+      const logoutBtn = e.target.closest("#logoutBtn");
+      if (!logoutBtn) return;
 
-  // ================= LOGOUT =================
-  document.addEventListener("click", function (e) {
-    const logoutBtn = e.target.closest("#logoutBtn");
-    if (!logoutBtn) return;
+      localStorage.removeItem(USER_KEY);
 
-    // Xóa đúng key đang dùng
-    localStorage.removeItem("vitaflix_current_user");
+      window.location.href = "/auth/login.html";
+    });
 
-    // Chuyển về trang login
-    window.location.href = "/auth/login.html";
-  }); 
+    window.vitaUI = {
+      refresh: updateUserUI
+    };
+  })();
+
+
 </script>

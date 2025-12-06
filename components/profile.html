@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý tài khoản</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f0f0f;
+            color: white;
+            padding: 30px;
+        }
+
+        .profile-box {
+            max-width: 450px;
+            margin: auto;
+            background: #1c1c1c;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .back-btn {
+            color: #00b4ff;
+            margin-bottom: 15px;
+            display: inline-block;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .avatar-wrapper {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar-wrapper img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #00b4ff;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            background: #2b2b2b;
+            color: white;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-size: 14px;
+            opacity: .9;
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        .eye-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 16px;
+            color: #aaa;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 25px;
+            border-radius: 12px;
+            border: none;
+            background: #00b4ff;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="profile-box">
+
+        <div class="back-btn" onclick="history.back()">← Quay lại</div>
+
+        <div class="avatar-wrapper">
+            <img id="avatarPreview" src="">
+            <input type="text" id="avatarInput" placeholder="Dán link ảnh avatar mới..." />
+        </div>
+
+        <label>Họ và tên</label>
+        <input type="text" id="fullnameInput" />
+
+        <label>Email</label>
+        <input type="email" id="emailInput" />
+
+        <label>Mật khẩu</label>
+        <div class="password-box">
+            <input type="password" id="passwordInput" />
+            <span class="eye-btn" id="togglePassword">👁</span>
+        </div>
+
+        <label>Ngày sinh</label>
+        <input type="date" id="dobInput" />
+
+        <button id="saveBtn">Lưu thay đổi</button>
+
+    </div>
+
+    <script>
+        const USER_KEY = "vitaflix_current_user";
+        let user = JSON.parse(localStorage.getItem(USER_KEY));
+
+        // Nếu chưa login
+        if (!user) {
+            window.location.href = "/auth/login.html";
+        }
+
+        // Khởi tạo mặc định nếu thiếu field
+        user.fullname = user.fullname || user.firstName + " " + user.lastName || "";
+        user.avatar = user.avatar || "https://via.placeholder.com/150";
+        user.dob = user.dob || "";
+
+        // Render dữ liệu
+        document.getElementById("avatarPreview").src = user.avatar;
+        document.getElementById("fullnameInput").value = user.fullname;
+        document.getElementById("emailInput").value = user.email;
+        document.getElementById("passwordInput").value = user.password;
+        document.getElementById("dobInput").value = user.dob;
+
+        // Toggle mật khẩu
+        document.getElementById("togglePassword").addEventListener("click", () => {
+            const passInput = document.getElementById("passwordInput");
+            passInput.type = passInput.type === "password" ? "text" : "password";
+        });
+
+        // Cập nhật avatar realtime khi nhập link
+        document.getElementById("avatarInput").addEventListener("input", (e) => {
+            const url = e.target.value.trim();
+            if (url) {
+                document.getElementById("avatarPreview").src = url;
+            }
+        });
+
+        // Lưu dữ liệu
+        document.getElementById("saveBtn").addEventListener("click", () => {
+            user.fullname = document.getElementById("fullnameInput").value.trim();
+            user.email = document.getElementById("emailInput").value.trim();
+            user.password = document.getElementById("passwordInput").value;
+            user.dob = document.getElementById("dobInput").value;
+
+            const newAvatar = document.getElementById("avatarInput").value.trim();
+            if (newAvatar) {
+                user.avatar = newAvatar;
+            }
+
+            localStorage.setItem(USER_KEY, JSON.stringify(user));
+            alert("✅ Cập nhật thành công!");
+        });
+    </script>
+
+</body>
+
+</html>

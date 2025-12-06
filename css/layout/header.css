@@ -477,3 +477,15 @@
 .logout-button:hover {
   background-color: rgba(255, 92, 92, 0.15);
 }
+
+/* ----AVATAR----- */
+.header-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #00b4ff;
+  cursor: pointer;
+}
+
+
