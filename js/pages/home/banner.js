@@ -162,11 +162,11 @@ function renderContent(movies) {
         <p>${movies.content || "Đang cập nhật nội dung..."}</p>
         <div class="button-display">
           <button class="button-play">
-              <a href="#"><i class="fa-solid fa-play play" aria-hidden="true"></i></a>
+              <a href="page/watch.html?slug=${movies.slug}"><i class="fa-solid fa-play play" aria-hidden="true"></i></a>
           </button>
           <div class="button-like">
             <a href="#"><i class="fa-solid fa-heart" aria-hidden="true"></i></a>
-            <a href="#"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+            <a href="movie-info.html?slug=${movies.slug}"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
           </div>
         </div>
       </div>
@@ -188,7 +188,7 @@ function renderGenre(movies) {
     const listGenre = movies.category.slice(0, 4);
     listGenre.forEach((genre) => {
       if (genre && genre.name) {
-        html += `<div>${genre.name}</div>`;
+        html += `<div><a class="genre-link" href="/categorize-movie.html?type=genre&genre=${genre.slug}">${genre.name}<a></div>`;
       }
     });
   } else {

@@ -127,6 +127,14 @@
   -webkit-text-fill-color: transparent;
 }
 
+.cat-link{
+  text-decoration: none;
+   background: linear-gradient(90deg, #97dde8, #ffccf2);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .total-container{
   display: flex;
   flex-wrap: wrap;

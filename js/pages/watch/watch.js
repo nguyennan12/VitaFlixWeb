@@ -48,7 +48,7 @@ async function initWatchPage() {
     const genreBox = document.querySelector('.genre-list');
     if (genreBox && movie.category) {
         genreBox.innerHTML = movie.category.map(cat => `
-            <div class="badge bg-dark border border-secondary fw-normal me-2">${cat.name}</div>
+            <div class="badge bg-dark border border-secondary fw-normal me-2"><a class="cat-link" href="/categorize-movie.html?type=genre&genre=${cat.slug}">${cat.name}</div>
         `).join('');
     }
 

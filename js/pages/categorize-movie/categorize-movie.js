@@ -75,7 +75,7 @@ function renderListMovie(movies, categoryTitle) {
   }
 
   let listHTML = "";
-  const movieLimited = movies.slice(0, 40); 
+  const movieLimited = movies.slice(0, 42); 
   movieLimited.forEach((movie) => {
     const posterUrl = movie.poster_url.startsWith('http') ? movie.poster_url : `https://phimimg.com/${movie.poster_url}`;
     const thumbUrl = movie.thumb_url.startsWith('http') ? movie.thumb_url : `https://phimimg.com/${movie.thumb_url}`;
