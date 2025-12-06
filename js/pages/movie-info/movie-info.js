@@ -54,11 +54,10 @@ function renderMovieInfo(movie) {
     const buttonPlay = document.querySelector('.button-play a');
     if (buttonPlay && movie.episodes && movie.episodes.length > 0) {
         const firstEpisode = movie.episodes[0].server_data[0];
-<<<<<<< HEAD
+
         buttonPlay.href = `/watch.html?slug=${movie.slug}&ep=1`;
-=======
+
         buttonPlay.href = `page/watch.html?slug=${movie.slug}`;
->>>>>>> c2fbd7c5ec998dd133d905bb1857d822c097d84f
     }
 
     // Cập nhật title right box
@@ -136,13 +135,13 @@ function renderEpisodeList(movie) {
             col.className = 'col-3 col-md-2 col-lg-3';
             
             const wrapper = document.createElement('div');
-            wrapper.style.padding = "8px";
-            wrapper.style.background = "rgba(107,103,125,0.4)";
+            wrapper.style.padding = "0px";
+            wrapper.style.background = "rgba(27, 26, 30, 0)";
             wrapper.style.borderRadius = "5px";
             wrapper.style.marginBottom = "8px";
 
             const link = document.createElement('a');
-            link.href = `/watch.html?slug=${movie.slug}&ep=${index+1}`;
+            link.href = `/page/watch.html?${movie.slug}`;
             link.textContent = ep.name;
             link.style.color = "#fff";
             link.style.textDecoration = "none";
@@ -157,10 +156,6 @@ function renderEpisodeList(movie) {
 }
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> c2fbd7c5ec998dd133d905bb1857d822c097d84f
 // Khởi tạo khi trang load
 async function initMovieInfo() {
     const slug = getSlugFromURL();
