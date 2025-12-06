@@ -13,6 +13,7 @@
   gap: 8px;
   cursor: pointer;
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .see-more-button i {
@@ -56,6 +57,7 @@
 
 .scroll-button {
   position: absolute;
+  visibility: hidden ;
   top: 46%;
   transform: translateY(-50%);
   background-color: rgba(0, 0, 0, 0.4);
@@ -69,7 +71,8 @@
 
 .scroll-button:hover {
   background: linear-gradient(90deg, #97dde8, #ffccf2);
-  opacity: 1;
+  opacity: 2;
+  visibility: visible;
 }
 
 .scroll-button i {

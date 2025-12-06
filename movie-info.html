@@ -4,10 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="icon" href="assets/images/VitaFlix.png" type="images/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/layout/header.css" />
     <link rel="stylesheet" href="/css/layout/footer.css" />
+    <link rel="stylesheet" href="/css/components/comment.css">
+    <link rel="stylesheet" href="/css/components/recommend.css">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -108,9 +111,13 @@
                 </div>
               </div>
             </div>
+
+            
+
           </div>
         </div>
         <div class="box-utils">
+          
           <div class="recommend-container">
             <div class="title-recommend">
               <p>Bạn cũng có thể thích</p>
@@ -121,12 +128,45 @@
               </div>
             </div>
           </div>
+
+          <div class="comment-container">
+                    <div class="title-comment-box">
+                        <div class="title-comment">
+                            <p><span><i class="fa-solid fa-comment-dots"></i></span>Bình luận</p>
+                        </div>
+                        <div class="info-viewer-comment">
+                            <div class="info-viewer-comment-box">
+                                <div class="avatar">
+                                    <img id="avatar-viewer-comment" src="/assets/images/VitaFlix.png">
+                                </div>
+                                <p id="name-viewer-comment">Vô Danh</p>
+                            </div>
+                            <div class="status-comment js-status-comment">
+                                <p id="privacy-text">Ẩn danh<span><i class="fa-solid fa-rotate"></i></span></p>
+                            </div>
+                            <div class="text-comment-box">
+                                <div>
+                                    <textarea class="js-textarea" placeholder="Viết bình luận"></textarea>
+                                    <p><span class="js-quanity-charater-comment">0</span> / 1000</p>
+                                </div>
+                                <p class="js-send-button">Gửi<span><i class="fa-solid fa-paper-plane"></i></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="show-comment-box">
+                        <div class="comment js-comment"></div>
+                    </div>
+                </div>
+
         </div>
+
+        
       </section>
       <div id="footer"></div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="js/modules/api.js" type="module"></script>
+    <script src="/auth/scripts/comment.js"></script>
     <script src="/js/pages/movie-info/movie-info.js" type="module"></script>
     
   </body>

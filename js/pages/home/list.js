@@ -1,7 +1,4 @@
-import {
-  catagorMovie,
-  updateMovieCategories,
-} from "../../modules/categorize.js";
+import { catagorMovie} from "../../modules/categorize.js";
 import { randomFilm } from "./button.js";
 import { randomContinute, randomIDMb } from "./utils-content.js";
 

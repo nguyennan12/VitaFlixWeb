@@ -167,7 +167,7 @@
 
 .util-preview-7 {
   position: absolute;
-  height: auto;
+  height: 30px;
   width: auto;
   padding: 4px 8px;
   bottom: 16px;
@@ -179,17 +179,22 @@
 }
 
 .util-preview-7 a {
-  color: rgb(46, 45, 52);
+  color: rgb(120, 4, 133);
   font-weight: 550;
   font-size: 14px;
-  padding: 2px 8px;
+  padding: 4px 8px;
+  text-decoration: none;
+}
+
+.util-preview-7 a i{
+  margin-right: 6px;
 }
 
 .util-preview-8 {
   position: absolute;
   height: auto;
   width: auto;
-  bottom: 24px;
+  bottom: -255px;
   left: 200px;
   background: linear-gradient(90deg, #97dde8 20%, #ffccf2 70%);
   -webkit-background-clip: text;
