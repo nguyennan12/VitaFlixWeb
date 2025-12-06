@@ -1,30 +1,27 @@
 <header class="home-header fixed-top d-flex align-items-center">
-  <div
-    class="container-fluid px-4 d-flex justify-content-between align-items-center position-relative"
-  >
+  <div class="container-fluid px-4 d-flex justify-content-between align-items-center position-relative">
     <!-- Logo và Menu Button -->
     <div class="d-flex align-items-center">
-      <button
-        class="btn border-0 text-white d-md-none me-3 p-0"
-        id="menuToggle"
-      >
+      <button class="btn border-0 text-white d-md-none me-3 p-0" id="menuToggle">
         <i class="fa-solid fa-bars fs-4"></i>
       </button>
 
-      <a
-        href="/index.html"
-        class="logo-link text-decoration-none d-flex align-items-center gap-2"
-      >
+      <a href="/index.html" class="logo-link text-decoration-none d-flex align-items-center gap-2">
         <img src="/assets/images/VitaFlix.png" alt="Logo" class="logo-img" />
         <h1 class="logo-text m-0">VitaFlix</h1>
       </a>
     </div>
 
     <!-- Desktop Navigation -->
+<<<<<<< HEAD
     <nav
       class="d-none d-md-block position-absolute start-50 translate-middle-x"
     >
       <ul class="list-unstyled d-flex align-items-center gap-1 m-0">
+=======
+    <nav class="d-none d-md-block position-absolute start-50 translate-middle-x">
+      <ul class="list-unstyled d-flex align-items-center gap-4 m-0">
+>>>>>>> 550b7af (create profile user)
         <li>
           <a href="/index.html" class="nav-link-custom">Trang chủ</a>
         </li>
@@ -55,6 +52,7 @@
             </div>
           </div>
         </li>
+<<<<<<< HEAD
 
         <!-- DROPDOWN PHIM BỘ -->
         <li class="nav-item has-dropdown" data-list-type="series">
@@ -81,6 +79,26 @@
             <a href="/categorize-movie.html?type=single" class="dropdown-more"
               >Xem Thêm Phim Lẻ...</a
             >
+=======
+        <li>
+          <a href="#" class="nav-link-custom" data-page="genre">Thể loại</a>
+        </li>
+        <li class="has-dropdown" data-list-type="series">
+          <a href="#" class="nav-link-custom" data-filter="series">Phim Bộ <i class="fa-solid fa-caret-down"></i></a>
+          <div class="dropdown-content js-series-dropdown">
+            <p class="dropdown-title">Phim Bộ Nổi Bật</p>
+            <div class="dropdown-list"></div>
+            <a href="#" class="dropdown-more filter-btn" data-filter="series">Xem Thêm Phim Bộ...</a>
+          </div>
+        </li>
+
+        <li class="has-dropdown" data-list-type="single">
+          <a href="#" class="nav-link-custom" data-filter="single">Phim Lẻ <i class="fa-solid fa-caret-down"></i></a>
+          <div class="dropdown-content js-single-dropdown">
+            <p class="dropdown-title">Phim Lẻ Nổi Bật</p>
+            <div class="dropdown-list"></div>
+            <a href="#" class="dropdown-more filter-btn" data-filter="single">Xem Thêm Phim Lẻ...</a>
+>>>>>>> 550b7af (create profile user)
           </div>
         </li>
 
@@ -109,20 +127,28 @@
     <!-- Search và User Profile -->
     <div class="d-flex align-items-center gap-3">
       <div class="search-box d-none d-sm-flex align-items-center">
-        <input
-          type="text"
-          class="form-control shadow-none"
-          placeholder="Tìm kiếm..."
-        />
+        <input type="text" class="form-control shadow-none" placeholder="Tìm kiếm..." />
         <i class="fa-solid fa-magnifying-glass text-white pe-3"></i>
       </div>
 
-      <i
-        class="fa-solid fa-magnifying-glass d-sm-none fs-5 cursor-pointer text-white"
-      ></i>
+      <i class="fa-solid fa-magnifying-glass d-sm-none fs-5 cursor-pointer text-white"></i>
 
-      <div class="user-profile">
-        <i class="fa-solid fa-user fs-5 text-white"></i>
+      <div class="user-profile-wrapper">
+        <div class="user-profile" id="userProfileIcon">
+          <i class="fa-solid fa-user fs-5 text-white"></i>
+        </div>
+
+        <div class="user-info-dropdown" id="userInfoDropdown">
+          <p class="dropdown-username">Xin chào, <span id="displayUsername">Tên Người Dùng</span>!</p>
+          <hr>
+          <a href="./profile.html" class="dropdown-link">
+            <i class="fa-solid fa-gear"></i> Quản lý Tài khoản
+          </a>
+
+          <button id="logoutBtn" class="dropdown-link logout-button">
+            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -138,11 +164,19 @@
   </div>
   <ul class="list-unstyled d-flex flex-column gap-3">
     <li>
+<<<<<<< HEAD
       <a href="/index.html" class="text-white text-decoration-none fs-5 mobile-nav-link" >
         <i class="fa-solid fa-house me-2"></i> Trang chủ
       </a>
     </li>
     <!-- <li>
+=======
+      <a href="#" class="text-white text-decoration-none fs-5 mobile-nav-link" data-page="home">
+        <i class="fa-solid fa-house me-2"></i> Trang chủ
+      </a>
+    </li>
+    <li>
+>>>>>>> 550b7af (create profile user)
       <a href="#" class="text-white-50 text-decoration-none fs-5 mobile-nav-link" data-page="category">
         Chủ đề
       </a>
@@ -150,6 +184,7 @@
     
     <!-- Mobile Thể Loại -->
     <li>
+<<<<<<< HEAD
       <div class="mobile-dropdown-trigger text-white-50 fs-5">
         Thể loại <i class="fa-solid fa-caret-down"></i>
       </div>
@@ -160,21 +195,35 @@
         <a href="/categorize-movie.html?type=genre&genre=tinh-cam">Tình Cảm</a>
         <a href="/categorize-movie.html?type=genre&genre=khoa-hoc-vien-tuong">Khoa Học Viễn Tưởng</a>
       </div>
+=======
+      <a href="#" class="text-white-50 text-decoration-none fs-5 mobile-nav-link" data-page="genre">
+        Thể loại
+      </a>
+>>>>>>> 550b7af (create profile user)
     </li>
 
     <li>
+<<<<<<< HEAD
       <a href="/categorize-movie.html?type=single" class="text-white-50 text-decoration-none fs-5">
+=======
+      <a href="#" class="text-white-50 text-decoration-none fs-5 mobile-nav-link" data-page="single">
+>>>>>>> 550b7af (create profile user)
         Phim lẻ
       </a>
     </li>
     <li>
+<<<<<<< HEAD
       <a href="/categorize-movie.html?type=series" class="text-white-50 text-decoration-none fs-5">
+=======
+      <a href="#" class="text-white-50 text-decoration-none fs-5 mobile-nav-link" data-page="series">
+>>>>>>> 550b7af (create profile user)
         Phim bộ
       </a>
     </li>
     
     <!-- Mobile Quốc Gia -->
     <li>
+<<<<<<< HEAD
       <div class="mobile-dropdown-trigger text-white-50 fs-5">
         Quốc gia <i class="fa-solid fa-caret-down"></i>
       </div>
@@ -185,10 +234,16 @@
         <a href="/categorize-movie.html?type=country&country=my">Mỹ</a>
         <a href="/categorize-movie.html?type=country&country=nhat-ban">Nhật Bản</a>
       </div>
+=======
+      <a href="#" class="text-white-50 text-decoration-none fs-5 mobile-nav-link" data-page="country">
+        Quốc gia
+      </a>
+>>>>>>> 550b7af (create profile user)
     </li>
   </ul>
 </div>
 <div class="overlay"></div>
+<<<<<<< HEAD
 
 <style>
   /* Dropdown styles */
@@ -236,6 +291,9 @@
   }
 </style>
 
+=======
+<script src="/auth/scripts/login.js"></script>
+>>>>>>> 550b7af (create profile user)
 <script>
   // Mobile Menu Toggle
   const menuBtn = document.querySelector("#menuToggle");
@@ -365,4 +423,85 @@
       });
     }
   });
+<<<<<<< HEAD
+=======
+
+
+  // Xử lí user
+ window.addEventListener("load", function () {
+  const CURRENT_USER_KEY = "vitaflix_current_user";
+
+  const user = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
+
+  const displayUsernameSpan = document.querySelector("#displayUsername");
+  const userWrapper = document.querySelector(".user-profile-wrapper");
+  const authButtons = document.querySelector(".auth-buttons");
+
+  if (user && user.username) {
+    // Hiện lời chào
+    if (displayUsernameSpan) {
+      displayUsernameSpan.textContent = user.username;
+    }
+
+    // Hiện icon user
+    if (userWrapper) {
+      userWrapper.style.display = "block";
+    }
+
+    // Ẩn nút login / register
+    if (authButtons) {
+      authButtons.style.display = "none";
+    }
+  } else {
+    // Nếu chưa đăng nhập
+    if (displayUsernameSpan) {
+      displayUsernameSpan.textContent = "Khách";
+    }
+
+    // Ẩn icon user nếu chưa login
+    if (userWrapper) {
+      userWrapper.style.display = "none";
+    }
+  }
+});
+
+// ================= DROPDOWN TOGGLE =================
+document.addEventListener("click", function (e) {
+  const icon = e.target.closest("#userProfileIcon");
+  const dropdown = document.querySelector("#userInfoDropdown");
+
+  if (!dropdown) return;
+
+  if (icon) {
+    e.stopPropagation();
+    dropdown.classList.toggle("active");
+
+    // Hiện dropdown khi có class active
+    if (dropdown.classList.contains("active")) {
+      dropdown.style.display = "block";
+    } else {
+      dropdown.style.display = "none";
+    }
+    return;
+  }
+
+  // Click ngoài thì đóng dropdown
+  if (!dropdown.contains(e.target)) {
+    dropdown.classList.remove("active");
+    dropdown.style.display = "none";
+  }
+});
+
+// ================= LOGOUT =================
+document.addEventListener("click", function (e) {
+  const logoutBtn = e.target.closest("#logoutBtn");
+  if (!logoutBtn) return;
+
+  // Xóa đúng key đang dùng
+  localStorage.removeItem("vitaflix_current_user");
+
+  // Chuyển về trang login
+  window.location.href = "/auth/login.html";
+});
+>>>>>>> 550b7af (create profile user)
 </script>

@@ -214,6 +214,6 @@ document.addEventListener('DOMContentLoaded', function () {
         alert('Đăng nhập thành công!');
         localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
 
-        window.location.href = '../index.html';
+        window.location.href = '/index.html';
     });
 });
