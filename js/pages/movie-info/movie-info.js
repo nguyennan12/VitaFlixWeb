@@ -52,7 +52,7 @@ function renderMovieInfo(movie) {
     const buttonPlay = document.querySelector('.button-play a');
     if (buttonPlay && movie.episodes && movie.episodes.length > 0) {
         const firstEpisode = movie.episodes[0].server_data[0];
-        buttonPlay.href = `/watch.html?slug=${movie.slug}`;
+        buttonPlay.href = `/watch.html?slug=${movie.slug}&ep=1`;
     }
 
     // Cập nhật title right box
@@ -65,7 +65,7 @@ function renderMovieInfo(movie) {
     const genreBoxes = document.querySelectorAll('.genre p span');
     if (genreBoxes.length >= 2) {
         genreBoxes[0].textContent = movie.category?.map(c => c.name).join(', ') || '';
-        genreBoxes[1].textContent = `Đạo diễn: ${movie.actor?.join(', ') || 'Đang cập nhật'}`;
+        genreBoxes[1].textContent = `Đạo diễn: ${movie.director?.join(', ') || 'Đang cập nhật'}`;
     }
 
     const genreContentBoxes = document.querySelectorAll('.info-right-box .genre-content p span');
@@ -77,7 +77,7 @@ function renderMovieInfo(movie) {
     // Cập nhật status
     const statusBox = document.querySelector('.status p');
     if (statusBox) {
-        statusBox.textContent = `${movie.episode_current} - ${movie.quality}`;
+        statusBox.textContent = `${movie.episode_current || 'Đang cập nhật'} - ${movie.quality}`;
     }
 
     // Render episode list
@@ -86,37 +86,38 @@ function renderMovieInfo(movie) {
 
 // Hàm render danh sách tập phim
 function renderEpisodeList(movie) {
-    const episodeListContainer = document.querySelector('.episoed-list');
-    
-    if (!episodeListContainer) return;
+    const episodesList = movie.episodes?.[0]?.server_data || [];
+    const episodeContainer = document.querySelector('.episode-list');
 
-    if (!movie.episodes || movie.episodes.length === 0) {
-        episodeListContainer.innerHTML = '<p>Chưa có tập phim</p>';
-        return;
+    if (!episodeContainer) return;
+
+    episodeContainer.innerHTML = '';
+    if (episodesList.length > 0) {
+        episodesList.forEach((ep, index) => {
+            const col = document.createElement('div');
+            col.className = 'col-3 col-md-2 col-lg-3';
+            
+            const wrapper = document.createElement('div');
+            wrapper.style.padding = "8px";
+            wrapper.style.background = "rgba(107,103,125,0.4)";
+            wrapper.style.borderRadius = "5px";
+            wrapper.style.marginBottom = "8px";
+
+            const link = document.createElement('a');
+            link.href = `/watch.html?slug=${movie.slug}&ep=${index+1}`;
+            link.textContent = ep.name;
+            link.style.color = "#fff";
+            link.style.textDecoration = "none";
+
+            wrapper.appendChild(link);
+            col.appendChild(wrapper);
+            episodeContainer.appendChild(col);
+        });
+    } else {
+        episodeContainer.innerHTML = '<p>Đang cập nhật...</p>';
     }
-
-    
-
-    let episodesHTML = '';
-    
-    movie.episodes.forEach(server => {
-        if (server.server_data && server.server_data.length > 0) {
-            server.server_data.forEach(episode => {
-                episodesHTML += `
-                    <div class="episode-item" style="display: inline-block; margin: 5px;">
-                        <a href="/watch.html?slug=${movie.slug}" 
-                           style="display: block; padding: 10px 15px; background: rgba(107, 103, 125, 0.4); color: #fff; text-decoration: none; border-radius: 5px;">
-                            <i class="fa-solid fa-play" style="margin-right: 5px;"></i>
-                            <span>${episode.name}</span>
-                        </a>
-                    </div>
-                `;
-            });
-        }
-    });
-
-    episodeListContainer.innerHTML = episodesHTML || '<p>Chưa có tập phim</p>';
 }
+
 
 // Khởi tạo khi trang load
 async function initMovieInfo() {
