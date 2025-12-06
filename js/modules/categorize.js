@@ -1,6 +1,10 @@
 import { MovieDetail } from "./model.js";
-import { fetchMovieDetail, fullMovieList, moviePromise } from "./api.js";
+import { fetchMovieDetail, fullMovieList, moviePromise, searchMovies } from "./api.js"; 
 import { updateNewMovies, startNewMoviesPolling } from "./api.js";
+
+// Khai báo Hằng số cho Cache Random List
+const RANDOM_LIST_CACHE_KEY = 'cachedRandomMovieList';
+const RANDOM_MOVIE_COUNT = 10; 
 
 //class lọc phim
 class movieFilter {
@@ -22,7 +26,7 @@ class movieFilter {
     });
   }
 
- 
+  
 
   //Lọc phim yêu thích
   static async filterFavMovie() {
@@ -137,8 +141,13 @@ class movieFilter {
   }
 }
 
-export const catagorMovie = {};
+// Khai báo lại object catagorMovie và thêm trường searchResults
+export const catagorMovie = {
+    searchResults: [], // <== TRƯỜNG MỚI cho tìm kiếm
+};
 window.catagorMovie = catagorMovie;
+
+
 function renderHeaderDropdown(movies, containerSelector) {
   const container = document.querySelector(containerSelector);
   if (!container) return;
@@ -214,11 +223,7 @@ export async function updateMovieCategories() {
     // Phân loại khác
     catagorMovie.full = fullMovieList;
     catagorMovie.single = movieFilter.filterByType(fullMovieList, "single");
-    catagorMovie.randomMovies = movieFilter.filterRandomMovies(
-      fullMovieList,
-      10
-    );
-
+    
     // Phân loại Async (cac phim can thao tac)
     catagorMovie.favMovie = await movieFilter.filterFavMovie();
     catagorMovie.continute = await movieFilter.filterContinuteMovie();
@@ -241,6 +246,37 @@ export async function updateMovieCategories() {
 
     console.log(catagorMovie.favMovie);
 
+    // Bắt đầu LOGIC CACHE DANH SÁCH RANDOM
+    let randomMovies = [];
+    const cachedRandom = localStorage.getItem(RANDOM_LIST_CACHE_KEY);
+    
+    if (cachedRandom) {
+      // 1. Tải từ cache nếu có
+      try {
+        const parsedCache = JSON.parse(cachedRandom);
+        if (Array.isArray(parsedCache) && parsedCache.length > 0) {
+          randomMovies = parsedCache; 
+          console.log("Đã tải list Random từ Cache.");
+        }
+      } catch (e) {
+        localStorage.removeItem(RANDOM_LIST_CACHE_KEY);
+      }
+    }
+
+    if (randomMovies.length === 0) {
+      // 2. Nếu không có cache, tạo list mới và lưu cache
+      const allMoviesForRandom = fullMovieList; 
+
+      randomMovies = movieFilter.filterRandomMovies(allMoviesForRandom, RANDOM_MOVIE_COUNT); 
+      
+      // Lưu danh sách ngẫu nhiên vừa tạo vào cache
+      localStorage.setItem(RANDOM_LIST_CACHE_KEY, JSON.stringify(randomMovies));
+      console.log("Đã tạo và lưu list Random mới vào Cache.");
+    }
+    
+    // Cập nhật vào catagorMovie để render
+    catagorMovie.randomMovies = randomMovies // <== ĐỒNG BỘ: Sử dụng randomMovies
+    
     const event = new CustomEvent("moviesUpdated", { detail: catagorMovie });
     window.dispatchEvent(event);
   } catch (error) {
@@ -249,20 +285,55 @@ export async function updateMovieCategories() {
   }
 }
 
+// Hàm này được gọi khi nhấn nút Random
+export function generateAndCacheRandomList() {
+    // Xóa cache cũ
+    localStorage.removeItem(RANDOM_LIST_CACHE_KEY);
+
+    // Tạo list mới từ toàn bộ danh sách phim hiện có
+    const allMoviesForRandom = fullMovieList;
+    const newRandomMovies = movieFilter.filterRandomMovies(allMoviesForRandom, RANDOM_MOVIE_COUNT);
+    
+    // Lưu list mới vào cache
+    localStorage.setItem(RANDOM_LIST_CACHE_KEY, JSON.stringify(newRandomMovies));
+    
+    // Cập nhật và thông báo để render lại
+    catagorMovie.randomMovies = newRandomMovies; // <== ĐỒNG BỘ: Sử dụng randomMovies
+    const event = new CustomEvent("moviesUpdated", { detail: catagorMovie });
+    window.dispatchEvent(event);
+    
+    console.log("Đã tạo lại list Random mới và lưu cache.");
+    return newRandomMovies;
+}
+
+// =======================================================
+// === ĐIỂM SỬA CHỮA QUAN TRỌNG: TÁCH LUỒNG TẢI DỮ LIỆU ===
+// =======================================================
 export const movieListPromise = moviePromise
   .then(async () => {
-    //update phim moi
-    //await updateNewMovies();
-
-    // phan loai lai phim
+    // 1. PHÂN LOẠI và RENDER DỮ LIỆU CACHE/LOCAL (LƯU LẠI TỪ moviePromise)
     await updateMovieCategories();
-
-    // cap nhat phim
-    startNewMoviesPolling();
+    console.log("Đã Render dữ liệu Cache/Local ban đầu.");
+    
     // RENDER DROPDOWN SAU KHI PHÂN LOẠI
     renderHeaderDropdown(catagorMovie.headerSeries, ".js-series-dropdown");
     renderHeaderDropdown(catagorMovie.headerSingle, ".js-single-dropdown");
-    //phan loai lai khi co phim moi
+    
+    // 2. GỌI API CẬP NHẬT PHIM MỚI Ở CHẾ ĐỘ NỀN (KHÔNG DÙNG AWAIT)
+    // Dữ liệu UI đã hiện, giờ mới bắt đầu tải 25 APIs
+    updateNewMovies()
+        .then(() => {
+             // 3. SAU KHI TẢI XONG 25 APIs, CẬP NHẬT LẠI VÀ RENDER LẠI
+             // Lúc này fullMovieList đã có thêm phim mới
+             updateMovieCategories(); 
+             console.log("Đã Cập nhật và Render lại phim mới từ API.");
+        })
+        .catch(error => {
+            console.error("Lỗi khi cập nhật phim mới từ API:", error);
+        });
+        
+    // 4. BẬT POLLING VÀ LẶP LẠI PHÂN LOẠI ĐỊNH KỲ
+    startNewMoviesPolling();
     const POLLING_INTERVAL = 30 * 60 * 1000;
     setInterval(updateMovieCategories, POLLING_INTERVAL);
   })

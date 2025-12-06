@@ -240,7 +240,9 @@ body {
   color: #00b4ff !important;
 }
 
-
+.card::-webkit-scrollbar {
+  display: none; 
+}
 /* ----------Form Đăng Ký------------------- */
 
 

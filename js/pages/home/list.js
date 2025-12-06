@@ -1,4 +1,4 @@
-import { catagorMovie} from "../../modules/categorize.js";
+import { catagorMovie, generateAndCacheRandomList} from "../../modules/categorize.js";
 import { randomFilm } from "./button.js";
 import { randomContinute, randomIDMb } from "./utils-content.js";
 
@@ -146,4 +146,6 @@ window.addEventListener("moviesUpdated", (event) => {
   const categories = event.detail;
   console.log("Movies updated event received", categories);
   renderAllLists();
+
 });
+

@@ -91,10 +91,21 @@
 
     <!-- Search và User Profile -->
     <div class="d-flex align-items-center gap-3">
-      <div class="search-box d-none d-sm-flex align-items-center">
-        <input type="text" class="form-control shadow-none" placeholder="Tìm kiếm..." />
-        <i class="fa-solid fa-magnifying-glass text-white pe-3"></i>
-      </div>
+      <div class="search-box d-none d-sm-flex align-items-center position-relative">
+        <input 
+            type="text" 
+            id="searchInput"
+            class="form-control shadow-none" 
+            placeholder="Tìm kiếm phim..." 
+            autocomplete="off"
+        />
+        <i class="fa-solid fa-magnifying-glass text-white pe-3 search-icon"></i>
+        
+        <!-- Dropdown kết quả tìm kiếm -->
+        <div class="search-results-dropdown" id="searchResults" style="display: none;">
+            <div class="search-results-content"></div>
+        </div>
+    </div>
 
       <i class="fa-solid fa-magnifying-glass d-sm-none fs-5 cursor-pointer text-white"></i>
 
@@ -452,4 +463,96 @@
   })();
 
 
+</script>
+
+<!-- Thêm vào cuối file header.html, trước thẻ đóng cuối cùng -->
+
+<script type="module">
+import { searchMovies } from './js/modules/api.js';
+
+let searchTimeout;
+
+// Chờ một chút để đảm bảo DOM đã sẵn sàng
+setTimeout(() => {
+    const searchInput = document.querySelector('#searchInput');
+    const searchResults = document.querySelector('#searchResults');
+    const searchResultsContent = document.querySelector('.search-results-content');
+
+    console.log('Search initialized:', { searchInput, searchResults, searchResultsContent });
+
+    if (searchInput && searchResults && searchResultsContent) {
+        // Xử lý tìm kiếm
+        searchInput.addEventListener('input', (e) => {
+            const keyword = e.target.value.trim();
+            
+            clearTimeout(searchTimeout);
+            
+            if (keyword.length < 2) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            
+            searchTimeout = setTimeout(async () => {
+                try {
+                    searchResultsContent.innerHTML = '<div class="text-center p-3 text-white"><i class="fa-solid fa-spinner fa-spin"></i> Đang tìm...</div>';
+                    searchResults.style.display = 'block';
+                    
+                    const results = await searchMovies(keyword, 10);
+                    
+                    if (results.length === 0) {
+                        searchResultsContent.innerHTML = '<div class="search-no-results">Không tìm thấy phim nào</div>';
+                    } else {
+                        renderSearchResults(results);
+                    }
+                } catch (error) {
+                    console.error('Search error:', error);
+                    searchResultsContent.innerHTML = '<div class="search-no-results">Đã xảy ra lỗi: ' + error.message + '</div>';
+                }
+            }, 500);
+        });
+        
+        // Đóng dropdown khi click bên ngoài
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-box')) {
+                searchResults.style.display = 'none';
+            }
+        });
+        
+        // Giữ dropdown mở khi click vào nó
+        searchResults.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    } else {
+        console.error('Không tìm thấy search elements!');
+    }
+
+    function renderSearchResults(movies) {
+        let html = '';
+        
+        movies.forEach(movie => {
+            const imageUrl = movie.thumb_url 
+                ? `https://phimimg.com/${movie.thumb_url}`
+                : '/assets/images/default-poster.jpg';
+            
+            const movieType = movie.type === 'series' ? 'Phim bộ' : 
+                             movie.type === 'single' ? 'Phim lẻ' : 
+                             movie.type === 'hoathinh' ? 'Hoạt hình' : 'Phim';
+            
+            html += `
+                <a href="/movie-info.html?slug=${movie.slug}" class="search-result-item">
+                    <img src="${imageUrl}" alt="${movie.name}" class="search-result-thumb" 
+                         onerror="this.src='/assets/images/default-poster.jpg'">
+                    <div class="search-result-info">
+                        <div class="search-result-title">${movie.name}</div>
+                        <div class="search-result-meta">
+                            ${movie.year || 'N/A'} • ${movieType}
+                        </div>
+                    </div>
+                </a>
+            `;
+        });
+        
+        searchResultsContent.innerHTML = html;
+    }
+}, 500); // Chờ 500ms để header load xong
 </script>
