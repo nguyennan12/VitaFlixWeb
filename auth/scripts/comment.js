@@ -79,7 +79,7 @@ export class CommentManager {
         
         if (this.isAnonymous) {
             privacyText.innerHTML = 'Ẩn danh<span><i class="fa-solid fa-rotate"></i></span>';
-            this.avatarViewer.src = '/assets/images/VitaFlix.png';
+            this.avatarViewer.src = '/assets/images/avatar-default-3.jpg';
             this.nameViewer.textContent = 'Vô Danh';
         } else {
             privacyText.innerHTML = 'Công khai<span><i class="fa-solid fa-rotate"></i></span>';
@@ -101,7 +101,7 @@ export class CommentManager {
             id: Date.now(),
             content: content,
             author: this.isAnonymous ? 'Vô Danh' : 'Người dùng',
-            avatar: this.isAnonymous ? '/assets/images/VitaFlix.png' : '/assets/images/user-avatar.png',
+            avatar: this.isAnonymous ? '/assets/images/avatar-default-3.jpg' : '/assets/images/user-avatar.png',
             timestamp: new Date().toISOString(),
             movieSlug: new URLSearchParams(window.location.search).get('slug')
         };
@@ -187,9 +187,14 @@ export class CommentManager {
             
             const storageKey = `comments_${movieSlug}`;
             const comments = JSON.parse(localStorage.getItem(storageKey) || '[]');
-            
+
             if (comments.length === 0) {
-                this.boxComment.innerHTML = '<div class="no-comments">Chưa có bình luận nào. Hãy là người đầu tiên!</div>';
+                this.boxComment.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #666; font-style: italic;">
+                    <i class="fa-regular fa-comment" style="font-size: 48px; margin-bottom: 16px; opacity: 0.3;"></i>
+                    <p>Chưa có bình luận nào. Hãy là người đầu tiên bình luận về bộ phim này!</p>
+                </div>
+                `;
                 return;
             }
 

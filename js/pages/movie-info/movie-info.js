@@ -1,6 +1,8 @@
 // File: js/pages/movie-info/movie-info.js
 import { getMovieBySlug } from '../../modules/utils.js';
 import { randomIDMb } from '../home/utils-content.js';
+import { initCommentManager } from '../../../auth/scripts/comment.js';
+import { catagorMovie} from "../../modules/categorize.js";
 // Hàm lấy slug từ URL
 function getSlugFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -80,6 +82,38 @@ function renderMovieInfo(movie) {
         statusBox.textContent = `${movie.episode_current} - ${movie.quality}`;
     }
 
+    const recommendContainer = document.querySelector('.js-movie-list-recommend');
+        if (recommendContainer) {
+            try {
+                const newMovies = catagorMovie.full;
+                const recommendations = newMovies.filter(m => m.slug !== movie.slug).slice(0, 10);
+    
+                if (recommendations.length > 0) {
+                    recommendContainer.innerHTML = recommendations.map(m => {
+                        const posterUrl = m.poster_url.startsWith('http') ? m.poster_url : `https://phimimg.com/${m.poster_url}`;
+                        return `
+                        <div class="movie-recommend-box" onclick="window.location.href='watch.html?slug=${m.slug}'">
+                            <div class="poster-movie-recommend">
+                                <img src="${posterUrl}" alt="${m.name}">
+                            </div>
+                            <div class="info-movie-recommend">
+                                <div class="name-movie-recommend">
+                                    <p>${m.name}</p>
+                                    <p>${m.origin_name}</p>
+                                </div>
+                                <div><i class="fa-solid fa-star text-warning"></i> ${m.year}</div>
+                            </div>
+                        </div>
+                    `}).join('');
+                } else {
+                    recommendContainer.innerHTML = '<div class="text-center text-secondary py-3">Không có đề xuất</div>';
+                }
+            } catch (e) {
+                console.error(e);
+                recommendContainer.innerHTML = '<div class="text-center text-secondary py-3">Lỗi tải đề xuất</div>';
+            }
+        }
+
     // Render episode list
     renderEpisodeList(movie);
 }
@@ -118,6 +152,8 @@ function renderEpisodeList(movie) {
     episodeListContainer.innerHTML = episodesHTML || '<p>Chưa có tập phim</p>';
 }
 
+
+
 // Khởi tạo khi trang load
 async function initMovieInfo() {
     const slug = getSlugFromURL();
@@ -145,6 +181,10 @@ async function initMovieInfo() {
         console.error('Lỗi khi tải thông tin phim:', error);
         alert('Đã xảy ra lỗi khi tải thông tin phim!');
     }
+
+    
+
+    if (typeof initCommentManager === 'function') initCommentManager();
 }
 console.log(getSlugFromURL());
 
