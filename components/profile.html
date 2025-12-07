@@ -21,6 +21,19 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
         }
 
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            background: #2b2b2b;
+            color: white;
+            font-size: 14px;
+            resize: none;
+        }
+
         .back-btn {
             color: #00b4ff;
             margin-bottom: 15px;
@@ -103,7 +116,11 @@
             <img id="avatarPreview" src="">
             <input type="text" id="avatarInput" placeholder="Dán link ảnh avatar mới..." />
         </div>
-
+        <div class="form-group mb-4">
+            <label for="bioInput" class="form-label">Tiểu sử</label>
+            <textarea class="form-control" id="bioInput" rows="3"
+                placeholder="Chia sẻ một chút về bản thân bạn..."></textarea>
+        </div>
         <label>Họ và tên</label>
         <input type="text" id="fullnameInput" />
 
@@ -143,6 +160,7 @@
         document.getElementById("emailInput").value = user.email;
         document.getElementById("passwordInput").value = user.password;
         document.getElementById("dobInput").value = user.dob;
+        document.getElementById("bioInput").value = user.bio || '';
 
         // Toggle mật khẩu
         document.getElementById("togglePassword").addEventListener("click", () => {
@@ -164,7 +182,7 @@
             user.email = document.getElementById("emailInput").value.trim();
             user.password = document.getElementById("passwordInput").value;
             user.dob = document.getElementById("dobInput").value;
-
+            user.bio = document.getElementById("bioInput").value.trim();
             const newAvatar = document.getElementById("avatarInput").value.trim();
             if (newAvatar) {
                 user.avatar = newAvatar;
@@ -172,7 +190,11 @@
 
             localStorage.setItem(USER_KEY, JSON.stringify(user));
             alert("✅ Cập nhật thành công!");
+
+            window.dispatchEvent(new Event('storage'));
         });
+
+
     </script>
 
 </body>

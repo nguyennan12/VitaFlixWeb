@@ -555,3 +555,15 @@
     text-align: center;
     color: rgba(255, 255, 255, 0.6);
 }
+
+.dropdown-avatar {
+    width: 32px; 
+    height: 32px;
+    border-radius: 50%; 
+    object-fit: cover;
+    border: 2px solid #8fd3dd;
+}
+/* Optional: Làm icon mặc định mờ hơn */
+#dropdownDefaultIconInDropdown {
+    color: rgba(255, 255, 255, 0.4); 
+}

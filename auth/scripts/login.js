@@ -23,22 +23,22 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const loginFormContainer = document.querySelector('.login-form-container');
     const registerFormContainer = document.querySelector('.register-form-container');
-    
-    const mainBtnLogin = document.querySelector('.btn-login'); 
+
+    const mainBtnLogin = document.querySelector('.btn-login');
     const mainBtnRegister = document.querySelector('.btn-register');
 
     const closeLoginFormBtn = document.getElementById('close-login-form');
     const closeRegisterFormBtn = document.getElementById('close-register-form');
 
-    const showRegisterLink = document.getElementById('show-register'); 
+    const showRegisterLink = document.getElementById('show-register');
     const showLoginLink = document.getElementById('show-login');
 
     loginFormContainer.classList.add('d-none');
     registerFormContainer.classList.add('d-none');
-    
+
     function showForm(formToShow, formToHide) {
         if (formToHide) {
             formToHide.classList.add('d-none');
@@ -47,40 +47,40 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (mainBtnLogin) {
-        mainBtnLogin.addEventListener('click', function() {
+        mainBtnLogin.addEventListener('click', function () {
             showForm(loginFormContainer, registerFormContainer);
         });
     }
 
     if (mainBtnRegister) {
-        mainBtnRegister.addEventListener('click', function() {
+        mainBtnRegister.addEventListener('click', function () {
             showForm(registerFormContainer, loginFormContainer);
         });
     }
 
     if (showRegisterLink) {
-        showRegisterLink.addEventListener('click', function(e) {
+        showRegisterLink.addEventListener('click', function (e) {
             e.preventDefault();
             showForm(registerFormContainer, loginFormContainer);
         });
     }
 
     if (showLoginLink) {
-        showLoginLink.addEventListener('click', function(e) {
+        showLoginLink.addEventListener('click', function (e) {
             e.preventDefault();
             showForm(loginFormContainer, registerFormContainer);
         });
     }
-    
+
 
     if (closeLoginFormBtn) {
-        closeLoginFormBtn.addEventListener('click', function() {
+        closeLoginFormBtn.addEventListener('click', function () {
             loginFormContainer.classList.add('d-none');
         });
     }
 
     if (closeRegisterFormBtn) {
-        closeRegisterFormBtn.addEventListener('click', function() {
+        closeRegisterFormBtn.addEventListener('click', function () {
             registerFormContainer.classList.add('d-none');
         });
     }
@@ -211,17 +211,25 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Đăng nhập thành công
-        alert('Đăng nhập thành công!');
         localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
 
-        window.location.href = '/index.html';
+        // >> BẮN SỰ KIỆN ĐỂ HEADER TỰ CẬP NHẬT UI <<
+        window.dispatchEvent(new Event('storage'));
+
+        // >> ĐÓNG FORM ĐĂNG NHẬP SAU KHI THÀNH CÔNG <<
+        loginFormContainer.classList.add('d-none');
+
+        // Nếu bạn muốn chuyển hướng sang trang chủ sau 1 giây:
+        setTimeout(() => {
+             window.location.href = '/index.html';
+         }, 1000);
     });
 });
 
 const userData = {
-  username: usernameInput.value.trim(),
-  email: "user@example.com",
-  avatar: "https://via.placeholder.com/120"
+    username: usernameInput.value.trim(),
+    email: "user@example.com",
+    avatar: "https://via.placeholder.com/120"
 };
 
 localStorage.setItem("vitaflix_current_user", JSON.stringify(userData));

@@ -92,20 +92,15 @@
     <!-- Search và User Profile -->
     <div class="d-flex align-items-center gap-3">
       <div class="search-box d-none d-sm-flex align-items-center position-relative">
-        <input 
-            type="text" 
-            id="searchInput"
-            class="form-control shadow-none" 
-            placeholder="Tìm kiếm phim..." 
-            autocomplete="off"
-        />
+        <input type="text" id="searchInput" class="form-control shadow-none" placeholder="Tìm kiếm phim..."
+          autocomplete="off" />
         <i class="fa-solid fa-magnifying-glass text-white pe-3 search-icon"></i>
-        
+
         <!-- Dropdown kết quả tìm kiếm -->
         <div class="search-results-dropdown" id="searchResults" style="display: none;">
-            <div class="search-results-content"></div>
+          <div class="search-results-content"></div>
         </div>
-    </div>
+      </div>
 
       <i class="fa-solid fa-magnifying-glass d-sm-none fs-5 cursor-pointer text-white"></i>
 
@@ -116,8 +111,15 @@
         </div>
 
         <div class="user-info-dropdown" id="userInfoDropdown">
-          <p class="dropdown-username">Xin chào, <span id="displayUsername">Tên Người Dùng</span>!</p>
-          <hr> <a href="/components/profile.html" class="dropdown-link"> <i class="fa-solid fa-gear"></i> Quản lý Tài
+          <div class="dropdown-header d-flex align-items-center mb-2">
+            <img id="dropdownAvatar" class="dropdown-avatar me-2 d-none" alt="Avatar" />
+            <i class="fa-solid fa-user fs-4 me-2" id="dropdownDefaultIconInDropdown"></i>
+            <p class="dropdown-username m-0">
+              Xin chào, <span id="displayUsername">Tên Người Dùng</span>!
+            </p>
+          </div>
+          <hr>
+          <a href="/components/profile.html" class="dropdown-link"> <i class="fa-solid fa-gear"></i> Quản lý Tài
             khoản </a>
           <button id="logoutBtn" class="dropdown-link logout-button"> <i class="fa-solid fa-right-from-bracket"></i>
             Đăng xuất </button>
@@ -370,13 +372,15 @@
   (function () {
     const USER_KEY = "vitaflix_current_user";
 
-    
+
     const displayUsernameSpan = document.querySelector("#displayUsername");
     const userWrapper = document.querySelector(".user-profile-wrapper");
     const authButtons = document.querySelector(".auth-buttons");
     const headerAvatar = document.querySelector("#headerAvatar");
     const defaultIcon = document.querySelector("#defaultUserIcon");
     const dropdown = document.querySelector("#userInfoDropdown");
+    const dropdownAvatar = document.querySelector("#dropdownAvatar");
+    const dropdownDefaultIconInDropdown = document.querySelector("#dropdownDefaultIconInDropdown");
 
     function updateUserUI() {
       let user = null;
@@ -395,14 +399,28 @@
 
         const hasAvatar = user.avatar && user.avatar.trim() !== "";
         if (hasAvatar) {
+          // Cập nhật ICON NGOÀI HEADER (Đã đúng)
           if (headerAvatar) {
             headerAvatar.src = user.avatar;
             headerAvatar.classList.remove("d-none");
           }
           if (defaultIcon) defaultIcon.classList.add("d-none");
+
+          // Cập nhật ICON TRONG DROPDOWN (LOGIC MỚI)
+          if (dropdownAvatar) {
+            dropdownAvatar.src = user.avatar;
+            dropdownAvatar.classList.remove("d-none"); // HIỆN AVATAR
+          }
+          if (dropdownDefaultIconInDropdown) dropdownDefaultIconInDropdown.classList.add("d-none"); // ẨN ICON MẶC ĐỊNH
+
         } else {
+          // Cập nhật ICON NGOÀI HEADER (Đã đúng)
           if (defaultIcon) defaultIcon.classList.remove("d-none");
           if (headerAvatar) headerAvatar.classList.add("d-none");
+
+          // Cập nhật ICON TRONG DROPDOWN (LOGIC MỚI)
+          if (dropdownAvatar) dropdownAvatar.classList.add("d-none"); // ẨN AVATAR
+          if (dropdownDefaultIconInDropdown) dropdownDefaultIconInDropdown.classList.remove("d-none"); // HIỆN ICON MẶC ĐỊNH
         }
       } else {
         if (displayUsernameSpan) displayUsernameSpan.textContent = "Khách";
@@ -410,14 +428,19 @@
         if (defaultIcon) defaultIcon.classList.remove("d-none");
         if (headerAvatar) headerAvatar.classList.add("d-none");
         if (authButtons) authButtons.style.display = ""; // hiện lại
+
+        // Cập nhật ICON TRONG DROPDOWN (LOGIC MỚI KHI CHƯA ĐĂNG NHẬP)
+        if (dropdownAvatar) dropdownAvatar.classList.add("d-none");
+        if (dropdownDefaultIconInDropdown) dropdownDefaultIconInDropdown.classList.remove("d-none"); // Hiện Icon mặc định
       }
     }
 
-    window.addEventListener("load", updateUserUI);
+    window.addEventListener("load", updateUserUI); 
 
     window.addEventListener("storage", function (e) {
-      if (e.key === USER_KEY) updateUserUI();
-    });
+    const USER_KEY = 'vitaflix_current_user'; 
+    if (e.key === USER_KEY) updateUserUI();
+});
 
     // ================= DROPDOWN TOGGLE  =================
     document.addEventListener("click", function (e) {
@@ -468,12 +491,12 @@
 <!-- Thêm vào cuối file header.html, trước thẻ đóng cuối cùng -->
 
 <script type="module">
-import { searchMovies } from './js/modules/api.js';
+  import { searchMovies } from './js/modules/api.js';
 
-let searchTimeout;
+  let searchTimeout;
 
-// Chờ một chút để đảm bảo DOM đã sẵn sàng
-setTimeout(() => {
+  // Chờ một chút để đảm bảo DOM đã sẵn sàng
+  setTimeout(() => {
     const searchInput = document.querySelector('#searchInput');
     const searchResults = document.querySelector('#searchResults');
     const searchResultsContent = document.querySelector('.search-results-content');
@@ -481,64 +504,64 @@ setTimeout(() => {
     console.log('Search initialized:', { searchInput, searchResults, searchResultsContent });
 
     if (searchInput && searchResults && searchResultsContent) {
-        // Xử lý tìm kiếm
-        searchInput.addEventListener('input', (e) => {
-            const keyword = e.target.value.trim();
-            
-            clearTimeout(searchTimeout);
-            
-            if (keyword.length < 2) {
-                searchResults.style.display = 'none';
-                return;
+      // Xử lý tìm kiếm
+      searchInput.addEventListener('input', (e) => {
+        const keyword = e.target.value.trim();
+
+        clearTimeout(searchTimeout);
+
+        if (keyword.length < 2) {
+          searchResults.style.display = 'none';
+          return;
+        }
+
+        searchTimeout = setTimeout(async () => {
+          try {
+            searchResultsContent.innerHTML = '<div class="text-center p-3 text-white"><i class="fa-solid fa-spinner fa-spin"></i> Đang tìm...</div>';
+            searchResults.style.display = 'block';
+
+            const results = await searchMovies(keyword, 10);
+
+            if (results.length === 0) {
+              searchResultsContent.innerHTML = '<div class="search-no-results">Không tìm thấy phim nào</div>';
+            } else {
+              renderSearchResults(results);
             }
-            
-            searchTimeout = setTimeout(async () => {
-                try {
-                    searchResultsContent.innerHTML = '<div class="text-center p-3 text-white"><i class="fa-solid fa-spinner fa-spin"></i> Đang tìm...</div>';
-                    searchResults.style.display = 'block';
-                    
-                    const results = await searchMovies(keyword, 10);
-                    
-                    if (results.length === 0) {
-                        searchResultsContent.innerHTML = '<div class="search-no-results">Không tìm thấy phim nào</div>';
-                    } else {
-                        renderSearchResults(results);
-                    }
-                } catch (error) {
-                    console.error('Search error:', error);
-                    searchResultsContent.innerHTML = '<div class="search-no-results">Đã xảy ra lỗi: ' + error.message + '</div>';
-                }
-            }, 500);
-        });
-        
-        // Đóng dropdown khi click bên ngoài
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.search-box')) {
-                searchResults.style.display = 'none';
-            }
-        });
-        
-        // Giữ dropdown mở khi click vào nó
-        searchResults.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
+          } catch (error) {
+            console.error('Search error:', error);
+            searchResultsContent.innerHTML = '<div class="search-no-results">Đã xảy ra lỗi: ' + error.message + '</div>';
+          }
+        }, 500);
+      });
+
+      // Đóng dropdown khi click bên ngoài
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-box')) {
+          searchResults.style.display = 'none';
+        }
+      });
+
+      // Giữ dropdown mở khi click vào nó
+      searchResults.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
     } else {
-        console.error('Không tìm thấy search elements!');
+      console.error('Không tìm thấy search elements!');
     }
 
     function renderSearchResults(movies) {
-        let html = '';
-        
-        movies.forEach(movie => {
-            const imageUrl = movie.thumb_url 
-                ? `https://phimimg.com/${movie.thumb_url}`
-                : '/assets/images/default-poster.jpg';
-            
-            const movieType = movie.type === 'series' ? 'Phim bộ' : 
-                             movie.type === 'single' ? 'Phim lẻ' : 
-                             movie.type === 'hoathinh' ? 'Hoạt hình' : 'Phim';
-            
-            html += `
+      let html = '';
+
+      movies.forEach(movie => {
+        const imageUrl = movie.thumb_url
+          ? `https://phimimg.com/${movie.thumb_url}`
+          : '/assets/images/default-poster.jpg';
+
+        const movieType = movie.type === 'series' ? 'Phim bộ' :
+          movie.type === 'single' ? 'Phim lẻ' :
+            movie.type === 'hoathinh' ? 'Hoạt hình' : 'Phim';
+
+        html += `
                 <a href="/movie-info.html?slug=${movie.slug}" class="search-result-item">
                     <img src="${imageUrl}" alt="${movie.name}" class="search-result-thumb" 
                          onerror="this.src='/assets/images/default-poster.jpg'">
@@ -550,9 +573,9 @@ setTimeout(() => {
                     </div>
                 </a>
             `;
-        });
-        
-        searchResultsContent.innerHTML = html;
+      });
+
+      searchResultsContent.innerHTML = html;
     }
-}, 500); // Chờ 500ms để header load xong
+  }, 500); // Chờ 500ms để header load xong
 </script>
