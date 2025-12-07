@@ -266,22 +266,11 @@
 
 .info-right-box{
   padding: 20px 0px;
-  max-height: 280px;
   width: 100%;
   border-bottom: 1px solid rgb(75, 75, 75);
 }
 
-.genre p{
-  color: rgb(103, 103, 103);
-  font-size: 16px;
-  margin-bottom: 10px;
-}
 
-.genre-content p{
-  color: rgb(103, 103, 103);
-  font-size: 16px;
-  margin-bottom: 10px;
-}
 
 .genre-content{
   overflow: hidden;
@@ -290,15 +279,25 @@
   -webkit-box-orient: vertical;
 }
 
-.genre-content span{
-  color: rgb(229, 229, 229);
+.genre .label {
+  color: rgb(229, 229, 229); 
   font-weight: 500;
+  margin-bottom: 4px;
 }
 
-.genre span{
-  color: rgb(229, 229, 229);
-  font-weight: 500;
+.genre .value {
+  color: rgb(125, 125, 125); 
+  margin-bottom: 12px;
+  line-height: 1.4;
 }
+
+.genre:nth-child(4) .value {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
 
 .episode-right-box{
   height: 240px;
