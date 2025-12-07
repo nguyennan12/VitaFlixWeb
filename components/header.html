@@ -368,7 +368,7 @@
   });
 
 
-  // ================= USER / AVATAR / DROPDOWN / LOGOUT (CHUẨN) =================
+  // ================= USER / AVATAR / DROPDOWN / LOGOUT  =================
   (function () {
     const USER_KEY = "vitaflix_current_user";
 
@@ -399,39 +399,39 @@
 
         const hasAvatar = user.avatar && user.avatar.trim() !== "";
         if (hasAvatar) {
-          // Cập nhật ICON NGOÀI HEADER (Đã đúng)
+          // Cập nhật ICON NGOÀI HEADER 
           if (headerAvatar) {
             headerAvatar.src = user.avatar;
             headerAvatar.classList.remove("d-none");
           }
           if (defaultIcon) defaultIcon.classList.add("d-none");
 
-          // Cập nhật ICON TRONG DROPDOWN (LOGIC MỚI)
+          // Cập nhật ICON TRONG DROPDOWN 
           if (dropdownAvatar) {
             dropdownAvatar.src = user.avatar;
-            dropdownAvatar.classList.remove("d-none"); // HIỆN AVATAR
+            dropdownAvatar.classList.remove("d-none"); 
           }
-          if (dropdownDefaultIconInDropdown) dropdownDefaultIconInDropdown.classList.add("d-none"); // ẨN ICON MẶC ĐỊNH
+          if (dropdownDefaultIconInDropdown) dropdownDefaultIconInDropdown.classList.add("d-none");
 
         } else {
-          // Cập nhật ICON NGOÀI HEADER (Đã đúng)
+          // Cập nhật ICON NGOÀI HEADER 
           if (defaultIcon) defaultIcon.classList.remove("d-none");
           if (headerAvatar) headerAvatar.classList.add("d-none");
 
-          // Cập nhật ICON TRONG DROPDOWN (LOGIC MỚI)
-          if (dropdownAvatar) dropdownAvatar.classList.add("d-none"); // ẨN AVATAR
-          if (dropdownDefaultIconInDropdown) dropdownDefaultIconInDropdown.classList.remove("d-none"); // HIỆN ICON MẶC ĐỊNH
+          // Cập nhật ICON TRONG DROPDOWN 
+          if (dropdownAvatar) dropdownAvatar.classList.add("d-none");
+          if (dropdownDefaultIconInDropdown) dropdownDefaultIconInDropdown.classList.remove("d-none");
         }
       } else {
         if (displayUsernameSpan) displayUsernameSpan.textContent = "Khách";
         if (userWrapper) userWrapper.style.display = "none";
         if (defaultIcon) defaultIcon.classList.remove("d-none");
         if (headerAvatar) headerAvatar.classList.add("d-none");
-        if (authButtons) authButtons.style.display = ""; // hiện lại
+        if (authButtons) authButtons.style.display = ""; 
 
-        // Cập nhật ICON TRONG DROPDOWN (LOGIC MỚI KHI CHƯA ĐĂNG NHẬP)
+        // Cập nhật ICON TRONG DROPDOWN 
         if (dropdownAvatar) dropdownAvatar.classList.add("d-none");
-        if (dropdownDefaultIconInDropdown) dropdownDefaultIconInDropdown.classList.remove("d-none"); // Hiện Icon mặc định
+        if (dropdownDefaultIconInDropdown) dropdownDefaultIconInDropdown.classList.remove("d-none");
       }
     }
 
@@ -488,7 +488,6 @@
 
 </script>
 
-<!-- Thêm vào cuối file header.html, trước thẻ đóng cuối cùng -->
 
 <script type="module">
   import { searchMovies } from './js/modules/api.js';
@@ -577,5 +576,5 @@
 
       searchResultsContent.innerHTML = html;
     }
-  }, 500); // Chờ 500ms để header load xong
+  }, 500); 
 </script>

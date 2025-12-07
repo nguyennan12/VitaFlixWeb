@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const USERS_KEY = 'vitaflix_users';
     const CURRENT_USER_KEY = 'vitaflix_current_user';
 
-    // Ẩn cả 2 form ban đầu
+
     loginFormContainer.classList.add('d-none');
     registerFormContainer.classList.add('d-none');
 
@@ -213,13 +213,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // Đăng nhập thành công
         localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
 
-        // >> BẮN SỰ KIỆN ĐỂ HEADER TỰ CẬP NHẬT UI <<
         window.dispatchEvent(new Event('storage'));
 
-        // >> ĐÓNG FORM ĐĂNG NHẬP SAU KHI THÀNH CÔNG <<
+ 
         loginFormContainer.classList.add('d-none');
 
-        // Nếu bạn muốn chuyển hướng sang trang chủ sau 1 giây:
         setTimeout(() => {
              window.location.href = '/index.html';
          }, 1000);
