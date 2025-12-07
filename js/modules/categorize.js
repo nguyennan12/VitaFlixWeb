@@ -44,15 +44,9 @@ class movieFilter {
         }
       }
 
-      //này đang nhập thủ công
-      const favMovieSlug = [
-        "nguu-lang-chuc-nu",
-        "nguoi-hung-yeu-duoi-2",
-        "khi-cuoc-doi-cho-ban-qua-quyt",
-        "rung-khong-tieng",
-        "the-gioi-ma-quai-phan-3",
-        "kho-do-danh",
-      ];
+      // Lấy slug từ localStorage (nếu có)
+      const favMovieSlug = JSON.parse(localStorage.getItem("movieFavSlug")) || [];
+
 
       //lấy chi tiết phim từ api
       const favPromises = favMovieSlug.map((slug) => fetchMovieDetail(slug));

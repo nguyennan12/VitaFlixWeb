@@ -26,7 +26,10 @@ function renderListMovie(movies, titleList) {
             <div class="util-preview-3">${movie.quality}</div>
             <div class="util-preview-4">${movie.year}</div>
             <div class="util-preview-5">IMDb ${randomIDMb()}</div>
-            <dov class="util-preview-6"><i class="fa-solid fa-heart" aria-hidden="true"></i></dov>
+            <div class="util-preview-6">
+              <i class="fa-solid fa-heart js-fav-btn" data-slug="${movie.slug}" aria-hidden="true"></i>
+            </div>
+
 
             <div class="util-preview-7">
               <a href="page/watch.html?slug=${movie.slug}"><i class="fa-solid fa-play play" aria-hidden="true"></i>Xem ngay</a>
@@ -142,10 +145,70 @@ function renderAllLists() {
   }
 }
 
+
+// Lưu phim yêu thích
+function toggleFavoriteMovie(slug) {
+  let favList = JSON.parse(localStorage.getItem("movieFavSlug")) || [];
+
+  // Nếu đang có → xóa
+  if (favList.includes(slug)) {
+    favList = favList.filter(item => item !== slug);
+  } 
+  // Nếu chưa có → thêm vào đầu (FILO: Last added shows first)
+  else {
+    favList.unshift(slug);
+  }
+
+  localStorage.setItem("movieFavSlug", JSON.stringify(favList));
+  window.dispatchEvent(new CustomEvent("favoritesUpdated"));
+}
+
+
+// Lắng nghe sự kiện click vào icon ❤️
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("js-fav-btn")) {
+    const slug = e.target.dataset.slug;
+    toggleFavoriteMovie(slug);
+  }
+});
+
+// Render danh sách yêu thích
+function renderFavoriteMovies(movies) {
+  const container = document.querySelector(".js-movie-list-favorites");
+
+  if (!movies || movies.length === 0) {
+    container.innerHTML = `<p class="no-favorite-text">Chưa có phim yêu thích 😊</p>`;
+    return;
+  }
+
+  // FILO: dữ liệu từ categorize đã là theo thứ tự slug -> giữ nguyên
+  let html = "";
+  movies.forEach(movie => {
+    html += `
+      <div class="movie-favorites-box">
+        <a href="movie-info.html?slug=${movie.slug}">
+          <img src="https://phimimg.com/${movie.poster_url}">
+        </a>
+        <p>${movie.name}</p>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+
+
 window.addEventListener("moviesUpdated", (event) => {
   const categories = event.detail;
   console.log("Movies updated event received", categories);
   renderAllLists();
 
+  renderFavoriteMovies(catagorMovie.favMovie);
 });
 
+// Khi bấm thêm yêu thích thì render lại 
+window.addEventListener("favoritesUpdated", async () => {
+  await updateMovieCategories();
+  renderFavoriteMovies(catagorMovie.favMovie);
+});

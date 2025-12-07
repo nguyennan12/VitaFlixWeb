@@ -151,9 +151,17 @@
   height: 300px;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
   align-items: center;
 }
+
+.list-movie-favorites::-webkit-scrollbar {
+  display: none;
+}
+
 
 .movie-favorites-box {
   height: 320px;
@@ -408,4 +416,11 @@
 .content-name-movie p:last-child {
   color: rgb(155, 155, 155);
   padding-top: 4px;
+}
+
+.no-favorite-text {
+  color: rgb(125, 125, 125);
+  font-size: 20px;
+  text-align: center;
+  width: 100%;
 }
