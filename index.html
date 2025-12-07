@@ -1,184 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="theme-color" content="#17191d">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>VitaFlix</title>
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" /> 
-        <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="icon" href="assets/images/VitaFlix.png" type="images/png">
- 
-        <link rel="stylesheet" href="/css/main.css">
-        <link rel="stylesheet" href="css/pages/home/main.css">
-        <link rel="stylesheet" href="css/layout/header.css">
-        <link rel="stylesheet" href="/css/layout/footer.css">
-        <link rel="stylesheet" href="/css/components/movie-card.css">
-       
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <script src="/js/main.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    </head>
-    <body>
-      <div id="header"></div>
 
-      <div class="banner js-banner">
-    <div class="content-box js-content-box"></div> 
-    <div class="carousel-box">  
+<head>
+  <meta charset="UTF-8">
+  <meta name="theme-color" content="#17191d">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VitaFlix</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="icon" href="assets/images/VitaFlix.png" type="images/png">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="css/pages/home/main.css">
+  <link rel="stylesheet" href="css/layout/header.css">
+  <link rel="stylesheet" href="/css/layout/footer.css">
+  <link rel="stylesheet" href="/css/components/movie-card.css">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <div id="header"></div>
+
+  <div class="banner js-banner">
+    <div class="content-box js-content-box"></div>
+    <div class="carousel-box">
       <div class="carousel  js-carousel"></div>
     </div>
     <ul class="sci">
       <li>
-        <a href="https://www.facebook.com/share/1C3dBYkqY7/" target="_blank"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+        <a href="https://www.facebook.com/share/1C3dBYkqY7/" target="_blank"><i class="fa-brands fa-facebook-f"
+            aria-hidden="true"></i></a>
       </li>
       <li>
-        <a href="https://www.instagram.com/nannn1204?igsh=MTdpb3IxMDBuencw" target="_blank"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+        <a href="https://www.instagram.com/nannn1204?igsh=MTdpb3IxMDBuencw" target="_blank"><i
+            class="fa-brands fa-instagram" aria-hidden="true"></i></a>
       </li>
       <li>
-        <a href="https://github.com/nguyennan12" target="_blank"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+        <a href="https://github.com/nguyennan12" target="_blank"><i class="fa-brands fa-github"
+            aria-hidden="true"></i></a>
       </li>
     </ul>
   </div>
 
 
-      <main>
-        <section class="profile-container">
-          <div class="profile-box">
-            <div class="cricle">
-              <img src="assets/images/avatar-nan.jpg">
-            </div>
-            <div class="content-profile">
-              <p> Nguoi dung &#183;</p>
-              <div>Love faded, peace stayed</div>
-            </div>
-          </div>  
-          <div class="movie-favorites-container">
-            <div class="title-list-box">
-              <div class="titlle-movie-favorites">
-                Danh sách phim yêu thích
-              </div>
-            </div>
-              <div class="list-movie-favorites js-movie-list-favorites"></div>
+  <main>
+    <section class="profile-container">
+      <div class="profile-box">
+        <div class="cricle">
+          <img id="userBioAvatar" src="/assets/images/default-avatar.jpg">
+        </div>
+        <div class="content-profile">
+          <p><span id="userBioUsername">Người dùng</span> &#183;</p>
+          <div id="userBioText">Love faded, peace stayed</div>
+        </div>
+      </div>
+      <div class="movie-favorites-container">
+        <div class="title-list-box">
+          <div class="titlle-movie-favorites">
+            Danh sách phim yêu thích
           </div>
-        </section>
-        
-        <section class="container-movie">
-          <!--List 1-->
-          <div class="title-list">
-            <h2>Hàn Xẻng Nay Có Gì Hot ?</h2>
-            <a href="categorize-movie.html?type=country&country=han-quoc" class="see-more-button">
-              <i class="fa-solid fa-angle-right"></i>
-              <span class="see-more-text">Xem thêm </span>
-            </a>
-          </div>
+        </div>
+        <div class="list-movie-favorites js-movie-list-favorites"></div>
+      </div>
+    </section>
+
+    <section class="container-movie">
+      <!--List 1-->
+      <div class="title-list">
+        <h2>Hàn Xẻng Nay Có Gì Hot ?</h2>
+        <a href="categorize-movie.html?type=country&country=han-quoc" class="see-more-button">
+          <i class="fa-solid fa-angle-right"></i>
+          <span class="see-more-text">Xem thêm </span>
+        </a>
+      </div>
+      <div class="movie-wrapper">
+        <div class="scroll-button js-scroll-button prev" data-slug="korea">
+          <i class="fa-solid fa-caret-left"></i>
+        </div>
+        <div class="movie-list js-movie-list-korea"></div>
+        <div class="scroll-button js-scroll-button next" data-slug="korea">
+          <i class="fa-solid fa-caret-right"></i>
+        </div>
+      </div>
+
+      <!--List 2-->
+      <div class="title-list">
+        <h2>Cập Nhật Hoa Ngữ Hôm Nay</h2>
+        <a href="categorize-movie.html?type=country&country=trung-quoc" class="see-more-button">
+          <i class="fa-solid fa-angle-right"></i>
+          <span class="see-more-text">Xem thêm</span>
+        </a>
+      </div>
+      <div class="movie-wrapper">
+        <div class="scroll-button js-scroll-button prev" data-slug="china">
+          <i class="fa-solid fa-caret-left"></i>
+        </div>
+        <div class="movie-list js-movie-list-china"></div>
+        <div class="scroll-button js-scroll-button next" data-slug="china">
+          <i class="fa-solid fa-caret-right"></i>
+        </div>
+      </div>
+
+      <!--List 3-->
+      <div class="container-movie-single">
+        <div class="content-movie-single">
+          Bom Tấn Cập Cảng!
+        </div>
+        <div>
           <div class="movie-wrapper">
-            <div class="scroll-button js-scroll-button prev" data-slug="korea">
+            <div class="scroll-button js-scroll-button prev1" data-slug="single-korea">
               <i class="fa-solid fa-caret-left"></i>
             </div>
-            <div class="movie-list js-movie-list-korea"></div>
-            <div class="scroll-button js-scroll-button next" data-slug="korea">
+            <div class="list-movie-single js-movie-list-single-korea"></div>
+            <div class="scroll-button js-scroll-button next1" data-slug="single-korea">
               <i class="fa-solid fa-caret-right"></i>
             </div>
           </div>
-          
-          <!--List 2-->
-          <div class="title-list">
-            <h2>Cập Nhật Hoa Ngữ Hôm Nay</h2>
-            <a href="categorize-movie.html?type=country&country=trung-quoc" class="see-more-button">
-              <i class="fa-solid fa-angle-right"></i>
-              <span class="see-more-text">Xem thêm</span>
-            </a>
-          </div>
+
           <div class="movie-wrapper">
-            <div class="scroll-button js-scroll-button prev" data-slug="china">
+            <div class="scroll-button js-scroll-button prev1" data-slug="single-auMy">
               <i class="fa-solid fa-caret-left"></i>
             </div>
-            <div class="movie-list js-movie-list-china"></div>
-            <div class="scroll-button js-scroll-button next" data-slug="china">
+            <div class="list-movie-single js-movie-list-single-auMy"></div>
+            <div class="scroll-button js-scroll-button next1" data-slug="single-auMy">
               <i class="fa-solid fa-caret-right"></i>
             </div>
           </div>
-          
-          <!--List 3-->
-          <div class="container-movie-single">
-            <div class="content-movie-single">
-              Bom Tấn Cập Cảng!
-            </div>
-            <div>
-              <div class="movie-wrapper">
-                <div class="scroll-button js-scroll-button prev1" data-slug="single-korea">
-                  <i class="fa-solid fa-caret-left"></i>
-                </div>
-                <div class="list-movie-single js-movie-list-single-korea"></div>
-                <div class="scroll-button js-scroll-button next1" data-slug="single-korea">
-                  <i class="fa-solid fa-caret-right"></i>
-                </div>
-              </div>
+        </div>
+      </div>
 
-              <div class="movie-wrapper">
-                <div class="scroll-button js-scroll-button prev1" data-slug="single-auMy">
-                  <i class="fa-solid fa-caret-left"></i>
-                </div>
-                <div class="list-movie-single js-movie-list-single-auMy"></div> 
-                <div class="scroll-button js-scroll-button next1" data-slug="single-auMy">
-                  <i class="fa-solid fa-caret-right"></i>
-                </div>
-              </div> 
-            </div> 
-          </div>
-          
-          <!--List 4-->
-          <div class="title-list">
-            <h2>Mới Ra Lò &#45 Anime Nóng Hổi</h2>
-            <a href = "categorize-movie.html?type=country&country=nhat-ban" class="see-more-button">
-              <i class="fa-solid fa-angle-right"></i>
-              <span class="see-more-text">Xem thêm</span>
-            </a>
-          </div>
-          <div class="movie-wrapper">
-            <div class="scroll-button js-scroll-button prev" data-slug="japan">
-              <i class="fa-solid fa-caret-left"></i>
-            </div>
-            <div class="movie-list js-movie-list-japan"></div>
-            <div class="scroll-button js-scroll-button next" data-slug="japan">
-              <i class="fa-solid fa-caret-right"></i>
-            </div>
-          </div>
-          
-          <!--List 5-->
-          <div class="title-list">
-            <h2>Không Biết Xem Gì ?</h2>
-            <div class="see-more-button js-reload-button">
-              <i class="fa-solid fa-rotate"></i>
-              <span class="see-more-text">Random </span>
-            </div>
-          </div>
-          <div class="movie-wrapper">
-            <div class="movie-list random js-movie-list-random"></div>
-          </div>
-        </section>
+      <!--List 4-->
+      <div class="title-list">
+        <h2>Mới Ra Lò &#45 Anime Nóng Hổi</h2>
+        <a href="categorize-movie.html?type=country&country=nhat-ban" class="see-more-button">
+          <i class="fa-solid fa-angle-right"></i>
+          <span class="see-more-text">Xem thêm</span>
+        </a>
+      </div>
+      <div class="movie-wrapper">
+        <div class="scroll-button js-scroll-button prev" data-slug="japan">
+          <i class="fa-solid fa-caret-left"></i>
+        </div>
+        <div class="movie-list js-movie-list-japan"></div>
+        <div class="scroll-button js-scroll-button next" data-slug="japan">
+          <i class="fa-solid fa-caret-right"></i>
+        </div>
+      </div>
 
-      </main>
-      <div id="footer"></div>
-  
-     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <!-- Load Materialize sau jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-     <script src="js/modules/search.js" type="module" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="js/modules/api.js" type="module" defer></script>
-    <script src="js/modules/categorize.js" type="module" defer></script>
-    <script src="js/modules/utils.js" type="module" defer></script>
-   
+      <!--List 5-->
+      <div class="title-list">
+        <h2>Không Biết Xem Gì ?</h2>
+        <div class="see-more-button js-reload-button">
+          <i class="fa-solid fa-rotate"></i>
+          <span class="see-more-text">Random </span>
+        </div>
+      </div>
+      <div class="movie-wrapper">
+        <div class="movie-list random js-movie-list-random"></div>
+      </div>
+    </section>
+
+  </main>
+  <div id="footer"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+  <!-- Load Materialize sau jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="js/modules/search.js" type="module" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="js/modules/api.js" type="module" defer></script>
+  <script src="js/modules/categorize.js" type="module" defer></script>
+  <script src="js/modules/utils.js" type="module" defer></script>
 
 
 
-    <script src="js/modules/movieCardHandler.js" type="module" defer></script>
-       <!-- Load các script cuối cùng với defer -->
-    <script src="js/pages/home/banner.js" type="module" defer></script>
-    <script src="js/pages/home/list.js" type="module" defer></script>
-    <script src="js/pages/home/button.js" type="module" defer></script>
- 
-    </body>
+
+  <script src="js/modules/movieCardHandler.js" type="module" defer></script>
+  <!-- Load các script cuối cùng với defer -->
+  <script src="js/pages/home/banner.js" type="module" defer></script>
+  <script src="js/pages/home/list.js" type="module" defer></script>
+  <script src="js/pages/home/button.js" type="module" defer></script>
+  <script src="/js/pages/home/bio-profile-render.js"></script>
+</body>
+
 </html>
-    
