@@ -142,6 +142,7 @@
 
     <script>
         const USER_KEY = "vitaflix_current_user";
+        const MASTER_USERS_KEY = "vitaflix_users";
         let user = JSON.parse(localStorage.getItem(USER_KEY));
 
         // Nếu chưa login
@@ -182,13 +183,39 @@
             user.email = document.getElementById("emailInput").value.trim();
             user.password = document.getElementById("passwordInput").value;
             user.dob = document.getElementById("dobInput").value;
-            user.bio = document.getElementById("bioInput").value.trim();
+            user.bio = document.getElementById("bioInput").value.trim(); // <-- LƯU BIO
+
             const newAvatar = document.getElementById("avatarInput").value.trim();
             if (newAvatar) {
                 user.avatar = newAvatar;
             }
 
+            
             localStorage.setItem(USER_KEY, JSON.stringify(user));
+
+           
+            let users = JSON.parse(localStorage.getItem(MASTER_USERS_KEY) || '[]');
+
+           
+            const userIndex = users.findIndex(u => u.email === user.email);
+
+            if (userIndex !== -1) {
+             
+                users[userIndex].fullname = user.fullname;
+                users[userIndex].email = user.email;
+                users[userIndex].password = user.password;
+                users[userIndex].dob = user.dob;
+                users[userIndex].avatar = user.avatar;
+                users[userIndex].bio = user.bio; 
+
+                localStorage.setItem(MASTER_USERS_KEY, JSON.stringify(users));
+
+            } else {
+               
+                console.warn("Không tìm thấy người dùng trong danh sách Master List!");
+            }
+           
+
             alert("✅ Cập nhật thành công!");
 
             window.dispatchEvent(new Event('storage'));
