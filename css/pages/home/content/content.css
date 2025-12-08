@@ -88,6 +88,7 @@
   max-height: 38px;
   display: flex;
   max-width: 240px;
+  overflow: hidden;
   top: 32px;
   left: 160px;
   z-index: 3;
@@ -96,6 +97,21 @@
   -webkit-text-fill-color: transparent;
 }
 
+.util-preview-2 p {
+  font-family: Oswald;
+  padding: 0;
+  margin: 0;
+  color: rgb(224, 224, 224);
+  letter-spacing: 1px;
+  font-size: 15px;
+  font-weight: 400;
+  display: inline-block;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .util-preview-3 {
   position: absolute;
   height: auto;
@@ -186,7 +202,7 @@
   text-decoration: none;
 }
 
-.util-preview-7 a i{
+.util-preview-7 a i {
   margin-right: 6px;
 }
 
