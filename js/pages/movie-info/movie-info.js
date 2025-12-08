@@ -145,7 +145,7 @@ function renderEpisodeList(movie) {
       wrapper.style.marginBottom = "8px"; 
       wrapper.style.cursor = "pointer";
       const link = document.createElement('a'); 
-      link.href = `/page/watch.html?slug=${movie.slug}`; 
+      link.href = `/page/watch.html?slug=${movie.slug}&ep=${index}`; 
       link.textContent = ep.name; 
       link.style.color = "#fff"; 
       link.style.textDecoration = "none"; 

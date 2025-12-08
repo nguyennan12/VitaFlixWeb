@@ -16,6 +16,8 @@ async function initWatchPage() {
 
     const urlParams = new URLSearchParams(window.location.search);
     let movieSlug = urlParams.get('slug');
+    let episodeIndex = parseInt(urlParams.get('ep')) || 0; 
+
     if (!movieSlug) movieSlug = 'nguu-lang-chuc-nu';
 
     const movie = await getMovieBySlug(movieSlug);
@@ -79,6 +81,7 @@ async function initWatchPage() {
                     playEpisode(0);
                 }
             });
+            playEpisode(episodeIndex);
         } else {
             episodeContainer.innerHTML = '<div class="text-white-50 p-2">Đang cập nhật...</div>';
         }
