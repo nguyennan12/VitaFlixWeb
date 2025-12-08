@@ -93,7 +93,7 @@ function renderCarousel(movies) {
     html += `
       <a class="carousel-item js-carousel-item" href="#!"
       data-movie="${encodeURIComponent(JSON.stringify(movie))}">
-        <img src="https://phimimg.com/${movie.poster_url}" alt="${movie.name}">
+        <img src="${movie.poster_url}" alt="${movie.name}">
       </a>  
     `;
   });
@@ -214,7 +214,7 @@ function changeBanner(movie) {
     const imageUrlSegment = movie.thumb_url || movie.poster_url;
 
     if (imageUrlSegment) {
-      const imageUrl = `https://phimimg.com/${imageUrlSegment}`;
+      const imageUrl = `${imageUrlSegment}`;
 
       const img = new Image();
       img.onload = () => {
