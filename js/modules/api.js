@@ -1,15 +1,18 @@
 import { Movie, MovieDetail } from "./model.js";
 
-// 1. BASE URL CHO JSON CỤC BỘ
+// BASE URL  JSON CỤC BỘ
 const LOCAL_DATA_URL = '../../data/movie.json';
 
-// 2. BASE URL CHO API QUỐC GIA
+// BASE URL API QUỐC GIA
 const COUNTRY_API_BASE = 'https://phimapi.com/v1/api/quoc-gia';
+
+// BASE URL API danh sách phim mới
+const NEW_MOVIES_BASE_URL = 'https://phimapi.com/danh-sach/phim-moi-cap-nhat';
 
 // Số trang tối đa cần quét để lấy phim mới
 const MAX_PAGES_TO_FETCH = 5; 
 
-// Danh sách các quốc gia muốn tự động cập nhật
+// Các quốc gia fetch api
 const COUNTRIES_TO_FETCH = [
     'han-quoc',
     'trung-quoc',
@@ -18,7 +21,7 @@ const COUNTRIES_TO_FETCH = [
     'nhat-ban'
 ];
 
-// --- HÀM 1: Load phim từ JSON cục bộ (giữ nguyên) ---
+//Fetch từ file json
 export const loadMoviesFetch = () => {
     return axios({
         url: LOCAL_DATA_URL,
@@ -37,7 +40,7 @@ export const loadMoviesFetch = () => {
     });
 };
 
-// --- HÀM 2: Lấy chi tiết phim (giữ nguyên) ---
+// fetch từ link chi tiếy
 const DETAIL_BASE_URL = 'https://phimapi.com/phim/';
 export const fetchMovieDetail = (slug) => {
     return axios.get(`${DETAIL_BASE_URL}${slug}`)
@@ -49,7 +52,7 @@ export const fetchMovieDetail = (slug) => {
             return null;
         });
 };
-const NEW_MOVIES_BASE_URL = 'https://phimapi.com/danh-sach/phim-moi-cap-nhat';
+
 
 export const fetchNewMovies = (page = 1) => {
     return axios.get(`${NEW_MOVIES_BASE_URL}?page=${page}`)
