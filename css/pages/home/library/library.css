@@ -57,7 +57,7 @@
 
 .scroll-button {
   position: absolute;
-  visibility: hidden ;
+  /* visibility: hidden; */
   top: 46%;
   transform: translateY(-50%);
   background-color: rgba(0, 0, 0, 0.4);
@@ -161,7 +161,6 @@
 .list-movie-favorites::-webkit-scrollbar {
   display: none;
 }
-
 
 .movie-favorites-box {
   height: 320px;
