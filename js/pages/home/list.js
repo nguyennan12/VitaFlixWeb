@@ -230,7 +230,7 @@ function renderFavoriteMovies(movies) {
       <div style="text-align: center; padding: 40px 20px; color: #999;">
         <i class="fa-regular fa-heart" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
         <p style="margin: 0; font-size: 16px;">Chưa có phim yêu thích</p>
-        <p style="margin: 8px 0 0 0; font-size: 14px; opacity: 0.7;">Nhấn vào icon ❤️ để thêm phim yêu thích</p>
+      
       </div>
     `;
     return;

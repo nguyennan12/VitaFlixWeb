@@ -221,21 +221,11 @@ function renderEpisodeList(movie) {
 
             const wrapper = document.createElement('div'); 
             wrapper.style.padding = "8px"; 
-            wrapper.style.background = "rgba(107,103,125,0.4)"; 
+            wrapper.style.background = "rgba(107,103,125,0)"; 
             wrapper.style.borderRadius = "5px"; 
             wrapper.style.marginBottom = "8px"; 
             wrapper.style.cursor = "pointer";
-            wrapper.style.transition = "all 0.3s ease";
-            
-            // Hover effect
-            wrapper.addEventListener('mouseenter', () => {
-                wrapper.style.background = "rgba(151, 221, 232, 0.2)";
-                wrapper.style.border = "1px solid rgba(151, 221, 232, 0.5)";
-            });
-            wrapper.addEventListener('mouseleave', () => {
-                wrapper.style.background = "rgba(107,103,125,0.4)";
-                wrapper.style.border = "1px solid transparent";
-            });
+           
             
             const link = document.createElement('a'); 
             // Truyền cả index của tập phim
