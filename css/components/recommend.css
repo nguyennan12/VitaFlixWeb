@@ -11,7 +11,7 @@
 }
 
 .title-recommend {
-    /* Sửa height thành auto để không bị cắt chữ khi xuống dòng */
+   
     height: auto;
     width: 100%;
     display: flex;

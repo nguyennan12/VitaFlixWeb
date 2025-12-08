@@ -103,6 +103,7 @@
 .info{
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .info div{
@@ -112,6 +113,9 @@
   font-size: 15px;
   border-radius: 8px;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
 .info div:first-child{
@@ -236,7 +240,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  align-items: center;
+  align-items: stretch;
   padding-bottom: 20px;
   padding-left: 20px;
 }
@@ -247,7 +251,7 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  align-items: end;
+  align-items: center;
   gap: 10px;
 }
 
@@ -255,6 +259,7 @@
   letter-spacing: 1.5px;
   font-size: 40px;
   color: white;
+  margin: 0px;
 }
 
 .title-right-box span{
@@ -393,11 +398,12 @@
 
 .episode-list{
    display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 6 tập mỗi hàng */
+  grid-template-columns: repeat(6, 1fr); 
   gap: 10px;
   padding: 20px;
   max-height: 140px;
   overflow-y: auto;
+
 }
 
 .episode-list::-webkit-scrollbar {

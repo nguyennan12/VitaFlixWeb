@@ -303,7 +303,7 @@ async function initWatchPage() {
                 recommendContainer.innerHTML = recommendations.map(m => {
                     const posterUrl = m.poster_url.startsWith('http') ? m.poster_url : `https://phimimg.com/${m.poster_url}`;
                     return `
-                    <div class="movie-recommend-box" onclick="window.location.href='watch.html?slug=${m.slug}'">
+                    <a class="movie-recommend-box" onclick="window.location.href='movie-info.html?slug=${movies.slug}'">
                         <div class="poster-movie-recommend">
                             <img src="${posterUrl}" alt="${m.name}">
                         </div>
@@ -314,7 +314,7 @@ async function initWatchPage() {
                             </div>
                             <div><i class="fa-solid fa-star text-warning"></i> ${m.year}</div>
                         </div>
-                    </div>
+                    </a>
                 `}).join('');
             } else {
                 recommendContainer.innerHTML = '<div class="text-center text-secondary py-3">Không có đề xuất</div>';
