@@ -26,8 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         if (validFavMovies.length > 0) {
-          renderCarousel(validFavMovies);
-          changeBanner(validFavMovies[0]);
+
+          const limitedMovies = validFavMovies.slice(0, 5);
+          renderCarousel(limitedMovies);
+          changeBanner(limitedMovies[0]);
           attachCarouselEvents();
         } else {
 
@@ -134,7 +136,6 @@ function renderCarousel(movies) {
 }
 
 function renderContent(movies) {
-  console.log("📝 Rendering content for:", movies.name);
   
   let html = "";
   html += `
