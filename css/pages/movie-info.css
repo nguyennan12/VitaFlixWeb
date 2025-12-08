@@ -323,11 +323,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-<<<<<<< HEAD
-=======
 
-
->>>>>>> c2fbd7c5ec998dd133d905bb1857d822c097d84f
 .complete{
   font-size: 14px;
   color: rgb(19, 215, 19);
@@ -396,13 +392,11 @@
 }
 
 .episode-list{
-  max-height: 132px;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10px;
-  flex-direction: row !important;
-  gap: 12px;
+   display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6 tập mỗi hàng */
+  gap: 10px;
+  padding: 20px;
+  max-height: 140px;
   overflow-y: auto;
 }
 
@@ -416,7 +410,7 @@
   align-items: center;
   justify-content: center;
   height: 50px;
-  width: 140px;
+  width: 140px; 
   border-radius: 10px;
   cursor: pointer;
   transition: 0.15s;

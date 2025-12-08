@@ -140,7 +140,7 @@ function renderEpisodeList(movie) {
 
       const wrapper = document.createElement('div'); 
       wrapper.style.padding = "8px"; 
-      wrapper.style.background = "rgba(107,103,125,0.4)"; 
+      wrapper.style.background = "rgba(107,103,125,0)"; 
       wrapper.style.borderRadius = "5px"; 
       wrapper.style.marginBottom = "8px"; 
       
