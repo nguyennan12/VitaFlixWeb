@@ -1,6 +1,7 @@
 import { getMovieBySlug } from '../../modules/utils.js';
 import { fullMovieList } from '../../modules/api.js';
 import { initCommentManager } from '../../../auth/scripts/comment.js';
+import { updateMovieCategories } from '../../modules/categorize.js';
 
 async function initWatchPage() {
     const videoElement = document.getElementById('video');
@@ -76,10 +77,6 @@ async function initWatchPage() {
                 wrapper.appendChild(link);
                 col.appendChild(wrapper);
                 episodeContainer.appendChild(col);
-
-                if (index === 0) {
-                    playEpisode(0);
-                }
             });
             playEpisode(episodeIndex);
         } else {
@@ -163,29 +160,57 @@ async function initWatchPage() {
     }
 
     function setupControlBar() {
+        // CẬP NHẬT: Sử dụng key 'movieFavSlug' để đồng bộ với hệ thống mới
         const btnLike = document.querySelector('.like');
-        const storageLikeKey = 'liked_movies';
+        const storageLikeKey = 'movieFavSlug';
         
         let likedMovies = JSON.parse(localStorage.getItem(storageLikeKey)) || [];
-        if (likedMovies.includes(movieSlug)) {
-            if(btnLike) btnLike.classList.add('active');
-        }
-
+        const isLiked = likedMovies.includes(movieSlug);
+        
         if (btnLike) {
-            btnLike.onclick = () => {
+            // Cập nhật trạng thái ban đầu
+            if (isLiked) {
+                btnLike.classList.add('active');
+                const icon = btnLike.querySelector('i');
+                if(icon) icon.style.color = '#e0245e';
+            }
+            
+            btnLike.onclick = async () => {
                 btnLike.classList.toggle('active');
                 let likes = JSON.parse(localStorage.getItem(storageLikeKey)) || [];
                 
                 if (btnLike.classList.contains('active')) {
-                    if (!likes.includes(movieSlug)) likes.push(movieSlug);
+                    // Thêm vào đầu danh sách (LIFO)
+                    if (!likes.includes(movieSlug)) {
+                        likes.unshift(movieSlug);
+                    }
                     const icon = btnLike.querySelector('i');
-                    if(icon) icon.style.color = '#e0245e';
+                    if(icon) {
+                        icon.style.color = '#e0245e';
+                        // Animation
+                        icon.style.transform = 'scale(1.3)';
+                        setTimeout(() => {
+                            icon.style.transform = 'scale(1)';
+                        }, 200);
+                    }
                 } else {
                     likes = likes.filter(slug => slug !== movieSlug);
                     const icon = btnLike.querySelector('i');
-                    if(icon) icon.style.color = '';
+                    if(icon) {
+                        icon.style.color = '';
+                        // Animation
+                        icon.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            icon.style.transform = 'scale(1)';
+                        }, 200);
+                    }
                 }
+                
                 localStorage.setItem(storageLikeKey, JSON.stringify(likes));
+                
+                // Xóa cache và cập nhật categories
+                localStorage.removeItem('movieFav');
+                await updateMovieCategories();
             };
         }
 

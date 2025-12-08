@@ -2,6 +2,23 @@ import { catagorMovie, generateAndCacheRandomList, updateMovieCategories } from 
 import { randomFilm } from "./button.js";
 import { randomContinute, randomIDMb } from "./utils-content.js";
 
+// Hàm kiểm tra phim có được yêu thích không
+function isMovieFavorited(slug) {
+  const favList = JSON.parse(localStorage.getItem("movieFavSlug")) || [];
+  return favList.includes(slug);
+}
+
+// Hàm cập nhật trạng thái icon yêu thích
+function updateFavIcon(icon, isFavorited) {
+  if (isFavorited) {
+    icon.style.color = '#e0245e';
+    icon.classList.add('active');
+  } else {
+    icon.style.color = '';
+    icon.classList.remove('active');
+  }
+}
+
 // 2 đối số là list movie muốn duyệt, và tên list đó
 function renderListMovie(movies, titleList) {
   let listHTML = "";
@@ -10,6 +27,10 @@ function renderListMovie(movies, titleList) {
       ? movies.slice(0, 12)
       : movies.slice(0, 30);
   movieLimited.forEach((movie) => {
+    const isFav = isMovieFavorited(movie.slug);
+    const favClass = isFav ? 'active' : '';
+    const favStyle = isFav ? 'color: #e0245e;' : '';
+    
     listHTML += `
       <div class="movie-box test">
         <div class="preview-box">
@@ -27,9 +48,8 @@ function renderListMovie(movies, titleList) {
             <div class="util-preview-4">${movie.year}</div>
             <div class="util-preview-5">IMDb ${randomIDMb()}</div>
             <div class="util-preview-6">
-              <i class="fa-solid fa-heart js-fav-btn" data-slug="${movie.slug}" aria-hidden="true"></i>
+              <i class="fa-solid fa-heart js-fav-btn ${favClass}" data-slug="${movie.slug}" style="${favStyle}" aria-hidden="true"></i>
             </div>
-
 
             <div class="util-preview-7">
               <a href="page/watch.html?slug=${movie.slug}"><i class="fa-solid fa-play play" aria-hidden="true"></i>Xem ngay</a>
@@ -140,23 +160,36 @@ function renderAllLists() {
     console.warn("No continute movies found");
     const element = document.querySelector(".js-movie-list-continute");
     if (element) {
-      element.innerHTML = "<p>Không có phim yêu thích</p>";
+      element.innerHTML = "<p>Không có phim đang xem</p>";
     }
   }
 }
 
-
 // Lưu phim yêu thích VÀ CẬP NHẬT NGAY
-async function toggleFavoriteMovie(slug) {
+async function toggleFavoriteMovie(slug, iconElement) {
   let favList = JSON.parse(localStorage.getItem("movieFavSlug")) || [];
 
   // Nếu đang có → xóa
   if (favList.includes(slug)) {
     favList = favList.filter(item => item !== slug);
+    updateFavIcon(iconElement, false);
+    
+    // Animation bỏ thích
+    iconElement.style.transform = 'scale(0.8)';
+    setTimeout(() => {
+      iconElement.style.transform = 'scale(1)';
+    }, 200);
   } 
-  // Nếu chưa có → thêm vào đầu (FILO: Last added shows first)
+  // Nếu chưa có → thêm vào đầu (LIFO: Last added shows first)
   else {
     favList.unshift(slug);
+    updateFavIcon(iconElement, true);
+    
+    // Animation thích
+    iconElement.style.transform = 'scale(1.3)';
+    setTimeout(() => {
+      iconElement.style.transform = 'scale(1)';
+    }, 200);
   }
 
   localStorage.setItem("movieFavSlug", JSON.stringify(favList));
@@ -171,51 +204,61 @@ async function toggleFavoriteMovie(slug) {
   renderFavoriteMovies(catagorMovie.favMovie);
 }
 
-
 // Lắng nghe sự kiện click vào icon 
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("js-fav-btn")) {
     e.preventDefault();
+    e.stopPropagation();
     const slug = e.target.dataset.slug;
     
-    // Toggle class để hiển thị trạng thái
-    e.target.classList.toggle("active");
-    
-    // Gọi hàm async
-    toggleFavoriteMovie(slug);
+    // Gọi hàm async và truyền cả icon element
+    toggleFavoriteMovie(slug, e.target);
   }
 });
 
 // Render danh sách yêu thích
 function renderFavoriteMovies(movies) {
   const container = document.querySelector(".js-movie-list-favorites");
-  const movieLimited = movies.slice(0, 5);
+  
   if (!container) {
     console.warn("Favorite movies container not found");
     return;
   }
 
-  if (!movieLimited || movieLimited.length === 0) {
-    container.innerHTML = `<p class="no-favorite-text">Chưa có phim yêu thích</p>`;
+  if (!movies || movies.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 40px 20px; color: #999;">
+        <i class="fa-regular fa-heart" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
+        <p style="margin: 0; font-size: 16px;">Chưa có phim yêu thích</p>
+        <p style="margin: 8px 0 0 0; font-size: 14px; opacity: 0.7;">Nhấn vào icon ❤️ để thêm phim yêu thích</p>
+      </div>
+    `;
     return;
   }
 
-  // FILO: dữ liệu từ categorize đã là theo thứ tự slug -> giữ nguyên
+  const movieLimited = movies.slice(0, 5);
   let html = "";
+  
   movieLimited.forEach(movie => {
+    const posterUrl = movie.poster_url.startsWith('http') 
+      ? movie.poster_url 
+      : `https://phimimg.com/${movie.poster_url}`;
+      
     html += `
-      <div class="movie-favorites-box">
+      <div class="movie-favorites-box" style="position: relative;">
         <a href="movie-info.html?slug=${movie.slug}">
-          <img src="${movie.poster_url}">
+          <img src="${posterUrl}" alt="${movie.name}">
         </a>
-        <p>${movie.name}</p>
+        <div class="content-name-movie">
+          <p>${movie.name}</p>
+          <p style="font-size: 12px; opacity: 0.7;">${movie.origin_name}</p>
+        </div>
       </div>
     `;
   });
 
   container.innerHTML = html;
 }
-
 
 // Khi dữ liệu movies được update từ categorize.js
 window.addEventListener("moviesUpdated", (event) => {
@@ -226,3 +269,6 @@ window.addEventListener("moviesUpdated", (event) => {
   // Render favorite movies khi load trang
   renderFavoriteMovies(catagorMovie.favMovie);
 });
+
+// Export hàm để có thể gọi từ nơi khác
+export { renderFavoriteMovies };
