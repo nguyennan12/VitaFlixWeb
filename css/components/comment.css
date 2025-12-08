@@ -452,3 +452,82 @@ textarea::placeholder {
 .hidden {
     display: none !important;
 }
+@media (max-width: 992px) {
+    /* Tablet & Màn hình nhỏ: Tăng chiều rộng container */
+    .comment-container {
+        width: 90vw;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile: Full màn hình, điều chỉnh vị trí absolute */
+    .comment-container {
+        width: 100%;
+        padding: 20px 10px;
+    }
+
+    .title-comment-box {
+        min-height: auto; /* Để chiều cao linh hoạt hơn */
+    }
+
+    .info-viewer-comment {
+        height: auto;
+        min-height: 200px;
+    }
+
+    /* Đưa tab 'Vô danh' về sát lề */
+    .info-viewer-comment-box {
+        position: relative;
+        left: 0;
+        width: 100%;
+        border-radius: 12px 12px 0 0;
+        margin-top: 10px;
+    }
+
+    /* Khung nhập liệu full width */
+    .text-comment-box {
+        position: relative;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        border-radius: 0 0 12px 12px;
+    }
+
+    /* Nút ẩn danh dời vị trí cho đỡ bị che */
+    .status-comment {
+        top: 10px;
+        right: 10px;
+    }
+
+    .viewer-comment {
+        gap: 10px;
+    }
+
+    .avatar-show-comment .avatar {
+        width: 40px;
+        height: 40px;
+    }
+    
+    /* Thụt dòng reply ít hơn trên mobile */
+    .list-replies {
+        margin-left: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Màn hình điện thoại nhỏ */
+    .title-comment p {
+        font-size: 20px;
+    }
+
+    /* Avatar reply nhỏ lại chút */
+    .reply-avatar {
+        width: 25px;
+        height: 25px;
+    }
+
+    .react-comment {
+        gap: 15px;
+    }
+}

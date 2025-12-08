@@ -71,7 +71,7 @@ export class CommentManager {
             if (!user) this.isAnonymous = true; 
             
             privacyText.innerHTML = 'Ẩn danh<span><i class="fa-solid fa-rotate"></i></span>';
-            this.avatarViewer.src = '/assets/images/VitaFlix.png';
+            this.avatarViewer.src = '/assets/images/avatar-default-3.jpg';
             this.nameViewer.textContent = 'Vô Danh';
         } else {
             // CÔNG KHAI VÀ ĐÃ ĐĂNG NHẬP
@@ -103,7 +103,7 @@ export class CommentManager {
         
         // Khởi tạo mặc định là ẩn danh
         let authorName = 'Vô Danh';
-        let authorAvatar = '/assets/images/VitaFlix.png';
+        let authorAvatar = '/assets/images/avatar-default-3.jpg';
 
         // Cập nhật nếu chế độ Công khai VÀ đã đăng nhập
         if (!this.isAnonymous && user) {
@@ -240,7 +240,7 @@ export class CommentManager {
                 if (content) {
                     const user = this.loggedInUser;
                     let authorName = 'Vô Danh';
-                    let authorAvatar = '/assets/images/VitaFlix.png';
+                    let authorAvatar = '/assets/images/avatar-default-3.jpg';
 
                     if (!this.isAnonymous && user) {
                         authorName = user.username || user.fullname || 'Người dùng';
@@ -282,7 +282,7 @@ export class CommentManager {
             <div class="viewer-comment" data-comment-id="${comment.id}" style="transition: opacity 0.3s;">
                 <div class="avatar-show-comment">
                     <div class="avatar">
-                        <img src="${comment.avatar}" onerror="this.src='/assets/images/VitaFlix.png'">
+                        <img src="${comment.avatar}" onerror="this.src='/assets/images/avatar-default-3.jpg'">
                     </div>
                 </div>
                 <div class="place-viewer-comment">
@@ -339,7 +339,7 @@ export class CommentManager {
         const replyHtml = `
             <div class="reply-item" data-reply-id="${reply.id}" style="transition: opacity 0.3s;">
                 <div class="reply-avatar">
-                    <img src="${reply.avatar}" onerror="this.src='/assets/images/VitaFlix.png'">
+                    <img src="${reply.avatar}" onerror="this.src='/assets/images/avatar-default-3.jpg'">
                 </div>
                 <div class="reply-content-block">
                     <div class="reply-header">
