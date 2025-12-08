@@ -55,7 +55,7 @@ function renderMovieInfo(movie) {
     if (buttonPlay && movie.episodes && movie.episodes.length > 0) {
         const firstEpisode = movie.episodes[0].server_data[0];
 
-        buttonPlay.href = `/watch.html?slug=${movie.slug}&ep=1`;
+        buttonPlay.href = `page/watch.html?slug=${movie.slug}&ep=1`;
 
         buttonPlay.href = `page/watch.html?slug=${movie.slug}`;
     }
@@ -143,9 +143,9 @@ function renderEpisodeList(movie) {
       wrapper.style.background = "rgba(107,103,125,0)"; 
       wrapper.style.borderRadius = "5px"; 
       wrapper.style.marginBottom = "8px"; 
-      
+      wrapper.style.cursor = "pointer";
       const link = document.createElement('a'); 
-      link.href = '/watch.html?slug=${movie.slug}&ep=${index+1}'; 
+      link.href = `/page/watch.html?slug=${movie.slug}`; 
       link.textContent = ep.name; 
       link.style.color = "#fff"; 
       link.style.textDecoration = "none"; 
