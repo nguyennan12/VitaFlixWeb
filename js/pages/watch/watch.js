@@ -305,7 +305,7 @@ async function initWatchPage() {
                 recommendContainer.innerHTML = recommendations.map(m => {
                     const posterUrl = m.poster_url.startsWith('http') ? m.poster_url : `https://phimimg.com/${m.poster_url}`;
                     return `
-                    <a class="movie-recommend-box" href="movie-info.html?slug=${m.slug}">
+                    <a class="movie-recommend-box" href="watch.html?slug=${m.slug}">
                         <div class="poster-movie-recommend">
                             <img src="${posterUrl}" alt="${m.name}">
                         </div>
