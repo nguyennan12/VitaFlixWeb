@@ -103,6 +103,7 @@
 .info{
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .info div{
@@ -112,6 +113,9 @@
   font-size: 15px;
   border-radius: 8px;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
 .info div:first-child{
@@ -236,7 +240,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  align-items: center;
+  align-items: stretch;
   padding-bottom: 20px;
   padding-left: 20px;
 }
@@ -247,7 +251,7 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  align-items: end;
+  align-items: center;
   gap: 10px;
 }
 
@@ -255,6 +259,7 @@
   letter-spacing: 1.5px;
   font-size: 40px;
   color: white;
+  margin: 0px;
 }
 
 .title-right-box span{
@@ -323,11 +328,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-<<<<<<< HEAD
-=======
 
-
->>>>>>> c2fbd7c5ec998dd133d905bb1857d822c097d84f
 .complete{
   font-size: 14px;
   color: rgb(19, 215, 19);
@@ -396,14 +397,13 @@
 }
 
 .episode-list{
-  max-height: 132px;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10px;
-  flex-direction: row !important;
-  gap: 12px;
+   display: grid;
+  grid-template-columns: repeat(6, 1fr); 
+  gap: 10px;
+  padding: 20px;
+  max-height: 140px;
   overflow-y: auto;
+
 }
 
 .episode-list::-webkit-scrollbar {
@@ -416,7 +416,7 @@
   align-items: center;
   justify-content: center;
   height: 50px;
-  width: 140px;
+  width: 140px; 
   border-radius: 10px;
   cursor: pointer;
   transition: 0.15s;

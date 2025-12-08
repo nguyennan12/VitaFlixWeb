@@ -99,7 +99,7 @@ values[3].textContent = movie.content || "";
                     recommendContainer.innerHTML = recommendations.map(m => {
                         const posterUrl = m.poster_url.startsWith('http') ? m.poster_url : `https://phimimg.com/${m.poster_url}`;
                         return `
-                        <div class="movie-recommend-box" onclick="window.location.href='watch.html?slug=${m.slug}'">
+                        <div class="movie-recommend-box" onclick="window.location.href='movie-info.html?slug=${m.slug}'">
                             <div class="poster-movie-recommend">
                                 <img src="${posterUrl}" alt="${m.name}">
                             </div>
@@ -140,7 +140,7 @@ function renderEpisodeList(movie) {
 
       const wrapper = document.createElement('div'); 
       wrapper.style.padding = "8px"; 
-      wrapper.style.background = "rgba(107,103,125,0.4)"; 
+      wrapper.style.background = "rgba(107,103,125,0)"; 
       wrapper.style.borderRadius = "5px"; 
       wrapper.style.marginBottom = "8px"; 
       
