@@ -8,10 +8,25 @@ export class CommentManager {
         this.avatarViewer = document.getElementById('avatar-viewer-comment');
         this.nameViewer = document.getElementById('name-viewer-comment');
         
+        this.USER_KEY = "vitaflix_current_user"; 
+        this.loggedInUser = this.getLoggedInUser();
+
         this.isAnonymous = true;
         this.maxLength = 1000;
         
         this.init();
+    }
+
+    getLoggedInUser() {
+        try {
+            const userString = localStorage.getItem(this.USER_KEY);
+            if (userString) {
+                return JSON.parse(userString);
+            }
+        } catch (e) {
+            console.error("Lỗi khi đọc user từ localStorage:", e);
+        }
+        return null; 
     }
 
     init() {
@@ -48,14 +63,28 @@ export class CommentManager {
 
     updateCommentStatus() {
         const privacyText = document.getElementById('privacy-text');
-        if (this.isAnonymous) {
+        const user = this.loggedInUser;
+
+        if (this.isAnonymous || !user) {
+            
+            // Nếu không đăng nhập, luôn đặt lại về ẩn danh (để tránh lỗi)
+            if (!user) this.isAnonymous = true; 
+            
             privacyText.innerHTML = 'Ẩn danh<span><i class="fa-solid fa-rotate"></i></span>';
             this.avatarViewer.src = '/assets/images/VitaFlix.png';
             this.nameViewer.textContent = 'Vô Danh';
         } else {
+            // CÔNG KHAI VÀ ĐÃ ĐĂNG NHẬP
+            const username = user.username || user.fullname || 'Người dùng'; 
+            
+            // Nếu avatar rỗng hoặc không có, dùng ảnh mặc định
+            const avatarUrl = (user.avatar && user.avatar.trim() !== '') 
+                              ? user.avatar 
+                              : '/assets/images/user-avatar.png';
+
             privacyText.innerHTML = 'Công khai<span><i class="fa-solid fa-rotate"></i></span>';
-            this.avatarViewer.src = '/assets/images/user-avatar.png';
-            this.nameViewer.textContent = 'Người dùng';
+            this.avatarViewer.src = avatarUrl;
+            this.nameViewer.textContent = username;
         }
     }
 
@@ -70,11 +99,25 @@ export class CommentManager {
         const content = this.txtComment.value.trim();
         if (!content) { alert('Vui lòng nhập nội dung!'); return; }
 
+        const user = this.loggedInUser;
+        
+        // Khởi tạo mặc định là ẩn danh
+        let authorName = 'Vô Danh';
+        let authorAvatar = '/assets/images/VitaFlix.png';
+
+        // Cập nhật nếu chế độ Công khai VÀ đã đăng nhập
+        if (!this.isAnonymous && user) {
+            authorName = user.username || user.fullname || 'Người dùng';
+            authorAvatar = (user.avatar && user.avatar.trim() !== '') 
+                           ? user.avatar 
+                           : '/assets/images/user-avatar.png';
+        }
+        
         const comment = {
             id: Date.now(),
             content: content,
-            author: this.isAnonymous ? 'Vô Danh' : 'Người dùng',
-            avatar: this.isAnonymous ? '/assets/images/VitaFlix.png' : '/assets/images/user-avatar.png',
+            author: authorName, 
+            avatar: authorAvatar, 
             timestamp: new Date().toISOString(),
             movieSlug: new URLSearchParams(window.location.search).get('slug'),
             likes: 0,
@@ -193,13 +236,24 @@ export class CommentManager {
             if (target.classList.contains('btn-submit-reply')) {
                 const input = target.previousElementSibling;
                 const content = input.value.trim();
-                
+
                 if (content) {
+                    const user = this.loggedInUser;
+                    let authorName = 'Vô Danh';
+                    let authorAvatar = '/assets/images/VitaFlix.png';
+
+                    if (!this.isAnonymous && user) {
+                        authorName = user.username || user.fullname || 'Người dùng';
+                        authorAvatar = (user.avatar && user.avatar.trim() !== '') 
+                                       ? user.avatar 
+                                       : '/assets/images/user-avatar.png';
+                    }
+                    
                     const reply = {
                         id: Date.now(),
                         content: content,
-                        author: this.isAnonymous ? 'Vô Danh' : 'Người dùng',
-                        avatar: this.isAnonymous ? '/assets/images/VitaFlix.png' : '/assets/images/user-avatar.png',
+                        author: authorName,
+                        avatar: authorAvatar,
                         timestamp: new Date().toISOString(),
                         likes: 0,
                         dislikes: 0
