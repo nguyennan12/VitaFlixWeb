@@ -472,3 +472,143 @@
   align-items: center;
   gap: 16px;
 }
+/* ============================
+   RESPONSIVE – MOBILE (<768px)
+   ============================ */
+@media (max-width: 768px) {
+
+  /* Thumb background */
+  .thumb-box {
+    height: 40vh; 
+  }
+
+  /* BOX CONTENT MOBILE */
+  .box-content {
+    flex-direction: column;
+    border-radius: 20px 20px 0 0;
+    margin-top: -10px;
+  }
+
+  /* LEFT BOX */
+  .left-box {
+    width: 100vw;
+    border-right: none;
+    border-bottom: 1px solid rgb(75,75,75);
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .poster-left-box {
+    top: -80px;
+    left: 0;
+    width: 200px;
+    height: 300px;
+  }
+
+  .info-left-box {
+    left: 0;
+    bottom: 40px;
+    width: 90%;
+    align-items: center;
+  }
+
+  .info {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .button-box {
+    justify-content: center;
+    gap: 20px;
+  }
+
+  /* RIGHT BOX */
+  .right-box {
+    width: 100vw;
+    padding-left: 0;
+    padding: 0 16px;
+  }
+
+  .title-right-box p {
+    font-size: 28px;
+    text-align: left;
+    width: 100%;
+  }
+  .title-right-box span {
+    font-size: 20px;
+  }
+
+  .info-right-box {
+    padding: 10px 0;
+  }
+
+  /* EPISODE */
+  .episode-right-box {
+    height: auto;
+    gap: 12px;
+  }
+
+  .list-episode-box {
+    height: auto;
+  }
+
+  .episode-list {
+    max-height: none;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .episode-list div {
+    width: 120px;
+    height: 45px;
+  }
+
+  /* UTILITIES (recommend + comment) */
+  .box-utils {
+    flex-direction: column;
+  }
+
+  .recommend-container {
+    width: 100vw;
+    border-right: none;
+    border-bottom: 1px solid rgb(75,75,75);
+  }
+
+  .title-recommend {
+    font-size: 22px;
+  }
+
+  .comment-container {
+    width: 100vw;
+    padding: 0 10px;
+  }
+}
+
+/* ============================
+   SMALL MOBILE (<480px)
+   ============================ */
+@media (max-width: 480px) {
+
+  .poster-left-box {
+    width: 160px;
+    height: 240px;
+    top: -60px;
+  }
+
+  .info-left-box {
+    bottom: 20px;
+  }
+
+  .title-right-box p {
+    font-size: 22px;
+  }
+
+  .episode-list div {
+    width: 100px;
+    height: 40px;
+  }
+}
