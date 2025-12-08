@@ -49,7 +49,21 @@ export const fetchMovieDetail = (slug) => {
             return null;
         });
 };
+const NEW_MOVIES_BASE_URL = 'https://phimapi.com/danh-sach/phim-moi-cap-nhat';
 
+export const fetchNewMovies = (page = 1) => {
+    return axios.get(`${NEW_MOVIES_BASE_URL}?page=${page}`)
+        .then(response => {
+            if (response.data && Array.isArray(response.data.items)) {
+                return response.data.items;
+            }
+            return [];
+        })
+        .catch(error => {
+            console.error(`Lỗi khi tải phim mới (Trang ${page}):`, error);
+            return [];
+        });
+};
 // --- HÀM 3: Fetch phim theo từng quốc gia (Cập nhật limit) ---
 const fetchMoviesByCountry = (countrySlug, page = 1) => {
     // Thêm limit=24 để lấy được 24 phim/trang

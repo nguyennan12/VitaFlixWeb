@@ -1,5 +1,5 @@
 import { getMovieBySlug } from '../../modules/utils.js';
-import { fetchNewMovies } from '../../modules/api.js';
+import { fullMovieList } from '../../modules/api.js';
 import { initCommentManager } from '../../../auth/scripts/comment.js';
 
 async function initWatchPage() {
@@ -296,14 +296,16 @@ async function initWatchPage() {
     const recommendContainer = document.querySelector('.js-movie-list-recommend');
     if (recommendContainer) {
         try {
-            const newMovies = await fetchNewMovies(1);
-            const recommendations = newMovies.filter(m => m.slug !== movie.slug).slice(0, 10);
+            const recommendations = fullMovieList
+                .filter(m => m.slug !== movie.slug)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 6);
 
             if (recommendations.length > 0) {
                 recommendContainer.innerHTML = recommendations.map(m => {
                     const posterUrl = m.poster_url.startsWith('http') ? m.poster_url : `https://phimimg.com/${m.poster_url}`;
                     return `
-                    <a class="movie-recommend-box" onclick="window.location.href='movie-info.html?slug=${movies.slug}'">
+                    <a class="movie-recommend-box" href="movie-info.html?slug=${m.slug}">
                         <div class="poster-movie-recommend">
                             <img src="${posterUrl}" alt="${m.name}">
                         </div>
