@@ -19,8 +19,12 @@ const LOCAL_DATA_URL = '/data/movie.json';
 // BASE URL API QUỐC GIA
 const COUNTRY_API_BASE = 'https://phimapi.com/v1/api/quoc-gia';
 
-// BASE URL API danh sách phim mới
+// BASE URL API DANH SÁHC PHIM MỚI
 const NEW_MOVIES_BASE_URL = 'https://phimapi.com/danh-sach/phim-moi-cap-nhat';
+
+//BASE URL API TÌM KIẾM PHIM
+const SEARCH_API_BASE = 'https://phimapi.com/v1/api/tim-kiem';
+
 
 // Số trang tối đa cần quét để lấy phim mới
 const MAX_PAGES_TO_FETCH = 5; 
@@ -111,32 +115,25 @@ const fetchMoviesByCountry = (countrySlug, page = 1) => {
 
 // Cập nhật phim mới 
 export const updateNewMovies = async () => {
-    console.log(`Đang quét ${MAX_PAGES_TO_FETCH} trang phim mới cho ${COUNTRIES_TO_FETCH.length} quốc gia...`);
 
-    // Tạo mảng lớn chứa tất cả promises (5 quốc gia * 5 trang = 25 promises)
     const allPromises = [];
 
     COUNTRIES_TO_FETCH.forEach(slug => {
         for (let page = 1; page <= MAX_PAGES_TO_FETCH; page++) {
-            // Thêm promise cho từng trang của từng quốc gia
             allPromises.push(fetchMoviesByCountry(slug, page));
         }
     });
     
-    // Chờ tất cả API trả về
     const results = await Promise.all(allPromises);
     
-    // Gộp tất cả phim từ các kết quả (flat: làm phẳng mảng lồng nhau)
     const allNewMovies = results.flat(); 
 
     if (allNewMovies.length > 0) {
-        // Lọc trùng lặp so với danh sách hiện có (fullMovieList)
         const existingSlugs = new Set(fullMovieList.map(m => m.slug));
         const uniqueNewMovies = [];
         const processedNewSlugs = new Set();
 
         allNewMovies.forEach(newMovie => {
-            // Chỉ lấy phim chưa có trong fullList VÀ chưa được xử lý trong mảng mới
             if (!existingSlugs.has(newMovie.slug) && !processedNewSlugs.has(newMovie.slug)) {
                 uniqueNewMovies.push(newMovie);
                 processedNewSlugs.add(newMovie.slug);
@@ -144,18 +141,17 @@ export const updateNewMovies = async () => {
         });
 
         if (uniqueNewMovies.length > 0) {
-            // Thêm phim mới vào ĐẦU danh sách
+    
             fullMovieList = [...uniqueNewMovies, ...fullMovieList];
-            console.log(`Đã cập nhật thêm ${uniqueNewMovies.length} phim mới từ ${MAX_PAGES_TO_FETCH} trang.`);
+            console.log(`Đã cập nhật thêm ${uniqueNewMovies.length} phim mới`);
             
-            // Lưu cache
             try {
                 localStorage.setItem('cachedFullMovieList', JSON.stringify(fullMovieList)); 
             } catch (e) {
                 console.error("Lỗi lưu cache:", e);
             }
         } else {
-            console.log("Không có phim mới nào khác so với dữ liệu hiện tại.");
+            console.log("Không có phim mới nào");
         }
     }
 };
@@ -166,7 +162,7 @@ export const startNewMoviesPolling = (intervalMs = 30 * 60 * 1000) => {
     return intervalId;
 };
 
-// BIẾN TOÀN CỤC: Danh sách phim đầy đủ
+// Danh sách phim đầy đủ
 export let fullMovieList = [];
 
 // Khởi tạo
@@ -174,7 +170,6 @@ export const moviePromise = loadMoviesFetch().then(async (movies) => {
     const cached = localStorage.getItem('cachedFullMovieList');
     let loadedFromCache = false;
 
-    // 1. Ưu tiên tải từ Cache
     if (cached) {
         try {
             const parsedCache = JSON.parse(cached);
@@ -188,16 +183,12 @@ export const moviePromise = loadMoviesFetch().then(async (movies) => {
         }
     }
     
-    // 2. Nếu Cache lỗi hoặc trống, dùng dữ liệu từ JSON file
     if (!loadedFromCache && Array.isArray(movies) && movies.length > 0) {
         fullMovieList = movies.map(movie => new Movie(movie));
     } 
     
     return fullMovieList;
 });
-
-// API TÌMKIẾM PHIM
-const SEARCH_API_BASE = 'https://phimapi.com/v1/api/tim-kiem';
 
 export const searchMovies = (keyword, limit = 20) => {
     const apiUrl = `${SEARCH_API_BASE}?keyword=${encodeURIComponent(keyword)}&limit=${limit}`;

@@ -1,10 +1,4 @@
-// movieCardHandler.js - Module xử lý sự kiện click cho movie card
 
-/**
- * Tạo HTML cho movie card với hover effect và click handler
- * @param {Object} movie - Object chứa thông tin phim
- * @returns {string} HTML string của movie card
- */
 export function createMovieCardHTML(movie) {
   return `
     <div class="movie-card" data-slug="${movie.slug}">
@@ -26,10 +20,6 @@ export function createMovieCardHTML(movie) {
   `;
 }
 
-/**
- * Attach click event listeners to all movie cards in a container
- * @param {string|HTMLElement} containerSelector - Container selector hoặc element
- */
 export function attachMovieCardClickHandlers(containerSelector) {
   const container =
     typeof containerSelector === "string"
@@ -41,28 +31,23 @@ export function attachMovieCardClickHandlers(containerSelector) {
     return;
   }
 
-  // Lấy tất cả movie cards trong container
   const movieCards = container.querySelectorAll(".movie-card");
 
   movieCards.forEach((card) => {
-    // Remove old listeners nếu có
     const newCard = card.cloneNode(true);
     card.parentNode.replaceChild(newCard, card);
 
-    // Add click event
     newCard.addEventListener("click", function (e) {
       e.preventDefault();
       const slug = this.dataset.slug;
 
       if (slug) {
-        // Chuyển hướng đến trang chi tiết phim
         window.location.href = `/movie-info.html?slug=${slug}`;
       } else {
         console.error("Không tìm thấy slug cho phim này");
       }
     });
 
-    // Add hover effect (optional - CSS đã xử lý chủ yếu)
     newCard.addEventListener("mouseenter", function () {
       this.style.zIndex = "10";
     });
@@ -73,11 +58,7 @@ export function attachMovieCardClickHandlers(containerSelector) {
   });
 }
 
-/**
- * Render danh sách phim vào container và attach click handlers
- * @param {Array} movies - Mảng chứa danh sách phim
- * @param {string} containerSelector - Selector của container
- */
+
 export function renderMovieList(movies, containerSelector) {
   const container = document.querySelector(containerSelector);
 
@@ -86,23 +67,19 @@ export function renderMovieList(movies, containerSelector) {
     return;
   }
 
-  // Clear container
+
   container.innerHTML = "";
 
-  // Render từng movie card
   movies.forEach((movie) => {
     container.innerHTML += createMovieCardHTML(movie);
   });
 
-  // Attach click handlers
   attachMovieCardClickHandlers(container);
 }
 
-/**
- * Initialize all movie cards on page load
- */
+
 export function initMovieCards() {
-  // Tìm tất cả containers có movie cards
+
   const movieContainers = [
     ".js-movie-list-korea",
     ".js-movie-list-china",
@@ -121,7 +98,6 @@ export function initMovieCards() {
   console.log("Movie card handlers đã được khởi tạo");
 }
 
-// Auto init when DOM is ready
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initMovieCards);
 } else {
