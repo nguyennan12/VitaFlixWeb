@@ -1,18 +1,14 @@
 import { Movie, MovieDetail } from "./model.js";
 
-// ===== CẤU HÌNH PROXY =====
-// Khi chạy local: dùng trực tiếp phimapi.com
-// Khi deploy Vercel: dùng proxy để bypass CORS
+
 const IS_PRODUCTION = window.location.hostname !== 'localhost' && 
                       window.location.hostname !== '127.0.0.1';
 
-// Hàm helper để tạo URL qua proxy
+
 function getProxyUrl(apiUrl) {
   if (IS_PRODUCTION) {
-    // Trên production: dùng Vercel serverless function
     return `/api/proxy?url=${encodeURIComponent(apiUrl)}`;
   } else {
-    // Local development: gọi trực tiếp
     return apiUrl;
   }
 }
@@ -90,7 +86,7 @@ export const fetchNewMovies = (page = 1) => {
         });
 };
 
-// Fetch phim theo từng quốc gia (Cập nhật limit)
+// Fetch phim theo từng quốc gia
 const fetchMoviesByCountry = (countrySlug, page = 1) => {
     const apiUrl = `${COUNTRY_API_BASE}/${countrySlug}?limit=24&page=${page}`;
     const url = getProxyUrl(apiUrl);
@@ -101,7 +97,6 @@ const fetchMoviesByCountry = (countrySlug, page = 1) => {
             if (responseData && responseData.data && Array.isArray(responseData.data.items)) {
                 return responseData.data.items.map(item => {
                     const movie = new Movie(item);
-                    // QUAN TRỌNG: Tự động gán country_slug
                     movie.country_slug = countrySlug; 
                     return movie;
                 });
@@ -114,7 +109,7 @@ const fetchMoviesByCountry = (countrySlug, page = 1) => {
         });
 };
 
-// Cập nhật phim mới (LOGIC QUÉT 5 TRANG MỚI)
+// Cập nhật phim mới 
 export const updateNewMovies = async () => {
     console.log(`Đang quét ${MAX_PAGES_TO_FETCH} trang phim mới cho ${COUNTRIES_TO_FETCH.length} quốc gia...`);
 

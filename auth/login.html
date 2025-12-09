@@ -1,158 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="assets/images/VitaFlix.png" type="images/png" />
 
-<head>
+    <!-- <link
+      rel="stylesheet"
+      href="/node_modules/bootstrap/dist/css/bootstrap-grid.min.css"
+    /> -->
+    <link rel="icon" href="/assets/images/VitaFlix.png" type="image/x-icon" />
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="assets/images/VitaFlix.png" type="images/png">
-    <link rel="stylesheet" href="./asset/css/style.css">
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap-grid.min.css">
-    <link rel="icon" href="/assets/images/VitaFlix.png" type="image/x-icon">
-
-    <link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
+    <!-- <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    /> -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./asset/css/style.css" />
     <title>Đăng Nhập</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="container-slider">
-        <div class="bg-slider">
-            <img src="https://phimimg.com/upload/vod/20250624-1/93e56e4419410c589a127345fb0c0379.jpg" alt="">
-            <img src="https://phimimg.com/upload/vod/20250425-1/ff300b38850fa8687195369269bc306a.jpg" alt="">
-            <img src="https://phimimg.com/upload/vod/20250308-1/4ee92d3cb1dbc3e7296a8b0a6edba310.jpg" alt="">
-            <img src="https://phimimg.com/upload/vod/20240823-1/b090e4602b837b972a0a538115a3519b.jpg" alt="">
-            <img src="https://phimimg.com/upload/vod/20250218-1/397055acaa0da79ba975b51df4dbf50f.jpg" alt="">
-            <img src="https://phimimg.com/upload/vod/20250717-1/e9fa539b4e906c4b9c8b59e6d8d48d5c.jpg" alt="">
-        </div>
+      <div class="bg-slider">
+        <img
+          src="https://phimimg.com/upload/vod/20250624-1/93e56e4419410c589a127345fb0c0379.jpg"
+          alt=""
+        />
+        <img
+          src="https://phimimg.com/upload/vod/20250425-1/ff300b38850fa8687195369269bc306a.jpg"
+          alt=""
+        />
+        <img
+          src="https://phimimg.com/upload/vod/20250308-1/4ee92d3cb1dbc3e7296a8b0a6edba310.jpg"
+          alt=""
+        />
+        <img
+          src="https://phimimg.com/upload/vod/20240823-1/b090e4602b837b972a0a538115a3519b.jpg"
+          alt=""
+        />
+        <img
+          src="https://phimimg.com/upload/vod/20250218-1/397055acaa0da79ba975b51df4dbf50f.jpg"
+          alt=""
+        />
+        <img
+          src="https://phimimg.com/upload/vod/20250717-1/e9fa539b4e906c4b9c8b59e6d8d48d5c.jpg"
+          alt=""
+        />
+      </div>
     </div>
 
     <div class="overlay"></div>
 
     <header class="logo position-absolute top-0 start-0 w-100 px-4 py-3">
-        <div
-            class="container-fluid d-flex align-items-center justify-content-between justify-content-md-center justify-content-lg-start">
-            <div class="d-flex align-items-center">
-                <img src="/assets/images/VitaFlix.png" alt="Logo" class="logo-img img-fluid me-2"
-                    style="max-height: 80px;">
-                <h1 class="logo-text h4 mb-0 fw-bold text-white">VitaFlix</h1>
-            </div>
+      <div
+        class="container-fluid d-flex align-items-center justify-content-between justify-content-md-center justify-content-lg-start"
+      >
+        <div class="d-flex align-items-center">
+          <img
+            src="/assets/images/VitaFlix.png"
+            alt="Logo"
+            class="logo-img img-fluid me-2"
+            style="max-height: 80px"
+          />
+          <h1 class="logo-text h4 mb-0 fw-bold text-white">VitaFlix</h1>
         </div>
+      </div>
     </header>
 
     <div class="auth-buttons">
-        <button class="btn-login">Đăng nhập</button>
-        <button class="btn-register">Đăng ký</button>
+      <button class="btn-login">Đăng nhập</button>
+      <button class="btn-register">Đăng ký</button>
     </div>
 
     <div class="slider-text">
-        Phim, series không giới hạn và nhiều nội dung khác
+      Phim, series không giới hạn và nhiều nội dung khác
     </div>
 
     <div
-        class="login-form-container d-flex align-items-center justify-content-center w-100 h-100 position-absolute top-0">
-        <div class="card p-4 p-md-5 mx-2" style="max-width: 520px; background-color: rgba(0, 0, 0, 0.85); ">
-            <h2 class="text-white text-center mb-4 mt-5" style="font-weight: bold;">Đăng Nhập</h2>
-            <form id="login-form">
-                <div class="form-group mb-4">
-                    <label for="emailInput" class="form-label text-white-50">Tên người dùng</label>
-                    <input type="text" class="form-control form-control-lg" id="emailInput"
-                        placeholder="Nhập email hoặc tên người dùng" required>
-                </div>
+      class="login-form-container d-flex align-items-center justify-content-center w-100 h-100 position-absolute top-0"
+    >
+      <div
+        class="card p-4 p-md-5 mx-2"
+        style="max-width: 520px; background-color: rgba(0, 0, 0, 0.85)"
+      >
+      <h2 class="text-white text-center mb-4 mt-5" style="font-weight: bold">
+          Đăng Nhập
+        </h2>
+        <form id="login-form">
+          <div class="form-group mb-4">
+            <label for="emailInput" class="form-label text-white-50"
+              >Tên người dùng</label
+            >
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              id="emailInput"
+              placeholder="Nhập email hoặc tên người dùng"
+              required
+            />
+          </div>
 
-                <div class="form-group mb-4">
-                    <label for="passwordInput" class="form-label text-white-50">Mật khẩu</label>
-                    <input type="password" class="form-control form-control-lg" id="passwordInput"
-                        placeholder="Nhập mật khẩu" required>
-                </div>
+          <div class="form-group mb-4">
+            <label for="passwordInput" class="form-label text-white-50"
+              >Mật khẩu</label
+            >
+            <input
+              type="password"
+              class="form-control form-control-lg"
+              id="passwordInput"
+              placeholder="Nhập mật khẩu"
+              required
+            />
+          </div>
 
-                <button type="button" class="close-btn text-white" aria-label="Close" id="close-login-form">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+          <button
+            type="button"
+            class="close-btn text-white"
+            aria-label="Close"
+            id="close-login-form"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
 
-                <button type="submit" class="btn btn-danger btn-lg w-100 mb-3 fw-bold mt-4">
-                    Đăng Nhập
-                </button>
+          <button
+            type="submit"
+            class="btn btn-danger btn-lg w-100 mb-3 fw-bold mt-4"
+          >
+            Đăng Nhập
+          </button>
 
-                <div class="d-flex justify-content-between align-items-center text-white-50 small">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="rememberCheck">
-                        <label class="form-check-label" for="rememberCheck">
-                            Ghi nhớ tôi
-                        </label>
-                    </div>
-                    <a href="#" class="text-white-50 text-decoration-none">Quên mật khẩu?</a>
-                </div>
+          <div
+            class="d-flex justify-content-between align-items-center text-white-50 small"
+          >
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="rememberCheck"
+              />
+              <label class="form-check-label" for="rememberCheck">
+                Ghi nhớ tôi
+              </label>
+            </div>
+            <a href="#" class="text-white-50 text-decoration-none"
+              >Quên mật khẩu?</a
+            >
+          </div>
 
-                <hr class="my-4 border-secondary">
+          <hr class="my-4 border-secondary" />
 
-                <p class="text-white mt-3 text-center">
-                    Bạn chưa có tài khoản? <a href="#" class="text-danger fw-bold text-decoration-none"
-                        id="show-register">Đăng ký ngay</a>
-                </p>
-            </form>
-        </div>
+          <p class="text-white mt-3 text-center">
+            Bạn chưa có tài khoản?
+            <a
+              href="#"
+              class="text-danger fw-bold text-decoration-none"
+              id="show-register"
+              >Đăng ký ngay</a
+            >
+          </p>
+        </form>
+      </div>
     </div>
-
 
     <div
-        class="register-form-container d-flex align-items-center justify-content-center w-100 h-100 position-absolute top-0 d-none">
-        <div class="card p-4 p-md-5 mx-2 login-card" style="background-color: rgba(0, 0, 0, 0.85);">
-            <h2 class="text-white text-center mb-4">Đăng Ký Tài Khoản</h2>
-            <form id="register-form">
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="lastName" class="form-label text-white-50">Họ</label>
-                        <input type="text" class="form-control form-control-lg" id="lastName" placeholder="Nhập Họ"
-                            required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="firstName" class="form-label text-white-50">Tên</label>
-                        <input type="text" class="form-control form-control-lg" id="firstName" placeholder="Nhập Tên"
-                            required>
-                    </div>
-                </div>
+      class="register-form-container d-flex align-items-center justify-content-center w-100 h-100 position-absolute top-0 d-none"
+    >
+      <div
+        class="card p-4 p-md-5 mx-2 login-card"
+        style="background-color: rgba(0, 0, 0, 0.85)"
+      >
+        <h2 class="text-white text-center mb-4">Đăng Ký Tài Khoản</h2>
+        <form id="register-form">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="lastName" class="form-label text-white-50">Họ</label>
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                id="lastName"
+                placeholder="Nhập Họ"
+                required
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="firstName" class="form-label text-white-50"
+                >Tên</label
+              >
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                id="firstName"
+                placeholder="Nhập Tên"
+                required
+              />
+            </div>
+          </div>
 
-                <div class="form-group mb-3">
-                    <label for="usernameInput" class="form-label text-white-50">Tên người dùng</label>
-                    <input type="text" class="form-control form-control-lg" id="usernameInput"
-                        placeholder="Chọn tên người dùng" required>
-                </div>
+          <div class="form-group mb-3">
+            <label for="usernameInput" class="form-label text-white-50"
+              >Tên người dùng</label
+            >
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              id="usernameInput"
+              placeholder="Chọn tên người dùng"
+              required
+            />
+          </div>
 
-                <div class="form-group mb-3">
-                    <label for="regEmailInput" class="form-label text-white-50">Địa chỉ Email</label>
-                    <input type="email" class="form-control form-control-lg" id="regEmailInput" placeholder="Nhập email"
-                        required>
-                </div>
+          <div class="form-group mb-3">
+            <label for="regEmailInput" class="form-label text-white-50"
+              >Địa chỉ Email</label
+            >
+            <input
+              type="email"
+              class="form-control form-control-lg"
+              id="regEmailInput"
+              placeholder="Nhập email"
+              required
+            />
+          </div>
 
-                <div class="form-group mb-3">
-                    <label for="regPasswordInput" class="form-label text-white-50">Mật khẩu</label>
-                    <input type="password" class="form-control form-control-lg" id="regPasswordInput"
-                        placeholder="Nhập mật khẩu" required>
-                </div>
+          <div class="form-group mb-3">
+            <label for="regPasswordInput" class="form-label text-white-50"
+              >Mật khẩu</label
+            >
+            <input
+              type="password"
+              class="form-control form-control-lg"
+              id="regPasswordInput"
+              placeholder="Nhập mật khẩu"
+              required
+            />
+          </div>
 
-                <div class="form-group mb-4">
-                    <label for="confirmPasswordInput" class="form-label text-white-50">Xác nhận mật khẩu</label>
-                    <input type="password" class="form-control form-control-lg" id="confirmPasswordInput"
-                        placeholder="Nhập lại mật khẩu" required>
-                </div>
+          <div class="form-group mb-4">
+            <label for="confirmPasswordInput" class="form-label text-white-50"
+              >Xác nhận mật khẩu</label
+            >
+            <input
+              type="password"
+              class="form-control form-control-lg"
+              id="confirmPasswordInput"
+              placeholder="Nhập lại mật khẩu"
+              required
+            />
+          </div>
 
-                <button type="button" class="close-btn text-white" aria-label="Close" id="close-register-form">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+          <button
+            type="button"
+            class="close-btn text-white"
+            aria-label="Close"
+            id="close-register-form"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
 
-                <button type="submit" class="btn btn-danger btn-lg w-100 mb-3 fw-bold">
-                    Tạo Tài Khoản
-                </button>
+          <button
+            type="submit"
+            class="btn btn-danger btn-lg w-100 mb-3 fw-bold"
+          >
+            Tạo Tài Khoản
+          </button>
 
-                <p class="text-white mt-3 text-center">
-                    Đã có tài khoản? <a href="#" class="text-danger fw-bold text-decoration-none" id="show-login">Đăng nhập</a>
-                </p>
-            </form>
-        </div>
+          <p class="text-white mt-3 text-center">
+            Đã có tài khoản?
+            <a
+              href="#"
+              class="text-danger fw-bold text-decoration-none"
+              id="show-login"
+              >Đăng nhập</a
+            >
+          </p>
+        </form>
+      </div>
     </div>
-</body>
-<script src="/auth/scripts/login.js"></script>
-
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/auth/scripts/login.js"></script>
+  </body>
 </html>
