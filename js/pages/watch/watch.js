@@ -327,7 +327,7 @@ async function initWatchPage() {
             const recommendations = fullMovieList
                 .filter(m => m.slug !== movie.slug)
                 .sort(() => Math.random() - 0.5)
-                .slice(0, 6);
+                .slice(0, 10);
 
             if (recommendations.length > 0) {
                 recommendContainer.innerHTML = recommendations.map(m => {

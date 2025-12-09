@@ -1,7 +1,7 @@
 import { Movie, MovieDetail } from "./model.js";
 
 // BASE URL  JSON CỤC BỘ
-const LOCAL_DATA_URL = '../../data/movie.json';
+const LOCAL_DATA_URL = '/data/movie.json';
 
 // BASE URL API QUỐC GIA
 const COUNTRY_API_BASE = 'https://phimapi.com/v1/api/quoc-gia';
