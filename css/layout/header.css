@@ -346,6 +346,10 @@
   flex-direction: column;
 }
 
+.dropdown-list a:hover{
+  color: #a2e3ff !important
+}
+
 .dropdown-movie {
   display: flex;
   align-items: center;
@@ -454,7 +458,7 @@
   background: none;
   border: none;
   text-align: left;
-  color: #00b4ff;
+  color: #00b4ff !important;
   text-decoration: none;
   padding: 8px 5px;
   cursor: pointer;

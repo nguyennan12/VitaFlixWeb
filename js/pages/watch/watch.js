@@ -51,7 +51,7 @@ async function initWatchPage() {
     const genreBox = document.querySelector('.genre-list');
     if (genreBox && movie.category) {
         genreBox.innerHTML = movie.category.map(cat => `
-            <div class="badge bg-dark border border-secondary fw-normal me-2"><a class="cat-link" href="/categorize-movie.html?type=genre&genre=${cat.slug}">${cat.name}</div>
+            <div class="badge bg-dark border border-secondary fw-normal me-2"><a class="cat-link" href="categorize-movie.html?type=genre&genre=${cat.slug}">${cat.name}</div>
         `).join('');
     }
 
@@ -160,7 +160,6 @@ async function initWatchPage() {
     }
 
     function setupControlBar() {
-        // CẬP NHẬT: Sử dụng key 'movieFavSlug' để đồng bộ với hệ thống mới
         const btnLike = document.querySelector('.like');
         const storageLikeKey = 'movieFavSlug';
         
@@ -168,7 +167,6 @@ async function initWatchPage() {
         const isLiked = likedMovies.includes(movieSlug);
         
         if (btnLike) {
-            // Cập nhật trạng thái ban đầu
             if (isLiked) {
                 btnLike.classList.add('active');
                 const icon = btnLike.querySelector('i');
@@ -180,14 +178,12 @@ async function initWatchPage() {
                 let likes = JSON.parse(localStorage.getItem(storageLikeKey)) || [];
                 
                 if (btnLike.classList.contains('active')) {
-                    // Thêm vào đầu danh sách (LIFO)
                     if (!likes.includes(movieSlug)) {
                         likes.unshift(movieSlug);
                     }
                     const icon = btnLike.querySelector('i');
                     if(icon) {
                         icon.style.color = '#e0245e';
-                        // Animation
                         icon.style.transform = 'scale(1.3)';
                         setTimeout(() => {
                             icon.style.transform = 'scale(1)';
@@ -198,7 +194,6 @@ async function initWatchPage() {
                     const icon = btnLike.querySelector('i');
                     if(icon) {
                         icon.style.color = '';
-                        // Animation
                         icon.style.transform = 'scale(0.8)';
                         setTimeout(() => {
                             icon.style.transform = 'scale(1)';
@@ -207,8 +202,6 @@ async function initWatchPage() {
                 }
                 
                 localStorage.setItem(storageLikeKey, JSON.stringify(likes));
-                
-                // Xóa cache và cập nhật categories
                 localStorage.removeItem('movieFav');
                 await updateMovieCategories();
             };

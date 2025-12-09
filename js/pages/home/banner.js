@@ -156,7 +156,7 @@ function renderContent(movies) {
       <p>${movies.content || "Đang cập nhật nội dung..."}</p>
       <div class="button-display">
         <button class="button-play">
-          <a href="page/watch.html?slug=${movies.slug}">
+          <a href="watch.html?slug=${movies.slug}">
             <i class="fa-solid fa-play play" aria-hidden="true"></i>
           </a>
         </button>

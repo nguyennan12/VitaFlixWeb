@@ -135,7 +135,7 @@ function renderMovieInfo(movie) {
     // Cập nhật button play
     const buttonPlay = document.querySelector('.button-play a');
     if (buttonPlay && movie.episodes && movie.episodes.length > 0) {
-        buttonPlay.href = `/page/watch.html?slug=${movie.slug}`;
+        buttonPlay.href = `watch.html?slug=${movie.slug}`;
     }
 
     // Cập nhật title right box
@@ -229,7 +229,7 @@ function renderEpisodeList(movie) {
             
             const link = document.createElement('a'); 
             // Truyền cả index của tập phim
-            link.href = `/page/watch.html?slug=${movie.slug}&ep=${index}`; 
+            link.href = `watch.html?slug=${movie.slug}&ep=${index}`; 
             link.textContent = ep.name; 
             link.style.color = "#fff"; 
             link.style.textDecoration = "none"; 
