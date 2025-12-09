@@ -260,7 +260,10 @@
         }
       } else {
         if (displayUsernameSpan) displayUsernameSpan.textContent = "Khách";
-        if (userWrapper) userWrapper.style.display = "none";
+        if (userWrapper) userWrapper.style.display = "";
+
+        if (defaultIcon) defaultIcon.classList.remove("d-none");
+        if (headerAvatar) headerAvatar.classList.add("d-none");
       }
     }
 
@@ -277,7 +280,10 @@
       if (clickedIcon) {
         e.stopPropagation();
         const currentUser = localStorage.getItem(USER_KEY);
-        if (!currentUser) return;
+        if (!currentUser) {
+            window.location.href = "login.html"; 
+            return;
+        }
 
         dropdown.classList.toggle("active");
         dropdown.style.display = dropdown.classList.contains("active") ? "block" : "none";
