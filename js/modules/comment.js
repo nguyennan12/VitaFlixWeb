@@ -14,6 +14,10 @@ export class CommentManager {
         this.isAnonymous = true;
         this.maxLength = 1000;
         
+        // Đường dẫn avatar mặc định (tương đối từ file HTML ở root)
+        this.DEFAULT_ANONYMOUS_AVATAR = 'assets/images/avatar-default-3.jpg';
+        this.DEFAULT_USER_AVATAR = 'assets/images/user-avatar.png';
+        
         this.init();
     }
 
@@ -66,12 +70,11 @@ export class CommentManager {
         const user = this.loggedInUser;
 
         if (this.isAnonymous || !user) {
-            
-            // Nếu không đăng nhập, luôn đặt lại về ẩn danh (để tránh lỗi)
+            // Nếu không đăng nhập, luôn đặt lại về ẩn danh
             if (!user) this.isAnonymous = true; 
             
             privacyText.innerHTML = 'Ẩn danh<span><i class="fa-solid fa-rotate"></i></span>';
-            this.avatarViewer.src = '/assets/images/avatar-default-3.jpg';
+            this.avatarViewer.src = this.DEFAULT_ANONYMOUS_AVATAR;
             this.nameViewer.textContent = 'Vô Danh';
         } else {
             // CÔNG KHAI VÀ ĐÃ ĐĂNG NHẬP
@@ -80,7 +83,7 @@ export class CommentManager {
             // Nếu avatar rỗng hoặc không có, dùng ảnh mặc định
             const avatarUrl = (user.avatar && user.avatar.trim() !== '') 
                               ? user.avatar 
-                              : '/assets/images/user-avatar.png';
+                              : this.DEFAULT_USER_AVATAR;
 
             privacyText.innerHTML = 'Công khai<span><i class="fa-solid fa-rotate"></i></span>';
             this.avatarViewer.src = avatarUrl;
@@ -103,14 +106,14 @@ export class CommentManager {
         
         // Khởi tạo mặc định là ẩn danh
         let authorName = 'Vô Danh';
-        let authorAvatar = '/assets/images/avatar-default-3.jpg';
+        let authorAvatar = this.DEFAULT_ANONYMOUS_AVATAR;
 
         // Cập nhật nếu chế độ Công khai VÀ đã đăng nhập
         if (!this.isAnonymous && user) {
             authorName = user.username || user.fullname || 'Người dùng';
             authorAvatar = (user.avatar && user.avatar.trim() !== '') 
                            ? user.avatar 
-                           : '/assets/images/user-avatar.png';
+                           : this.DEFAULT_USER_AVATAR;
         }
         
         const comment = {
@@ -240,13 +243,13 @@ export class CommentManager {
                 if (content) {
                     const user = this.loggedInUser;
                     let authorName = 'Vô Danh';
-                    let authorAvatar = '/assets/images/avatar-default-3.jpg';
+                    let authorAvatar = this.DEFAULT_ANONYMOUS_AVATAR;
 
                     if (!this.isAnonymous && user) {
                         authorName = user.username || user.fullname || 'Người dùng';
                         authorAvatar = (user.avatar && user.avatar.trim() !== '') 
                                        ? user.avatar 
-                                       : '/assets/images/user-avatar.png';
+                                       : this.DEFAULT_USER_AVATAR;
                     }
                     
                     const reply = {
@@ -282,7 +285,7 @@ export class CommentManager {
             <div class="viewer-comment" data-comment-id="${comment.id}" style="transition: opacity 0.3s;">
                 <div class="avatar-show-comment">
                     <div class="avatar">
-                        <img src="${comment.avatar}" onerror="this.src='/assets/images/avatar-default-3.jpg'">
+                        <img src="${comment.avatar}" onerror="this.src='${this.DEFAULT_ANONYMOUS_AVATAR}'">
                     </div>
                 </div>
                 <div class="place-viewer-comment">
@@ -339,7 +342,7 @@ export class CommentManager {
         const replyHtml = `
             <div class="reply-item" data-reply-id="${reply.id}" style="transition: opacity 0.3s;">
                 <div class="reply-avatar">
-                    <img src="${reply.avatar}" onerror="this.src='/assets/images/avatar-default-3.jpg'">
+                    <img src="${reply.avatar}" onerror="this.src='${this.DEFAULT_ANONYMOUS_AVATAR}'">
                 </div>
                 <div class="reply-content-block">
                     <div class="reply-header">

@@ -1,6 +1,6 @@
 import { getMovieBySlug } from '../../modules/utils.js';
 import { fullMovieList } from '../../modules/api.js';
-import { initCommentManager } from '../../../auth/scripts/comment.js';
+import { initCommentManager } from '../../modules/comment.js';
 import { updateMovieCategories } from '../../modules/categorize.js';
 
 async function initWatchPage() {

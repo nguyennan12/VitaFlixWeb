@@ -1,7 +1,7 @@
 // File: js/pages/movie-info/movie-info.js
 import { getMovieBySlug } from '../../modules/utils.js';
 import { randomIDMb } from '../home/utils-content.js';
-import { initCommentManager } from '../../../auth/scripts/comment.js';
+import { initCommentManager } from '../../modules/comment.js';
 import { catagorMovie, updateMovieCategories } from "../../modules/categorize.js";
 
 // Hàm lấy slug từ URL

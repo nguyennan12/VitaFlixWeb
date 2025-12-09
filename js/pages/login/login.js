@@ -15,21 +15,23 @@ document.addEventListener('DOMContentLoaded', function () {
     const CURRENT_USER_KEY = 'vitaflix_current_user';
 
     // Ẩn cả 2 form khi load trang
-    loginFormContainer.classList.add('d-none');
-    registerFormContainer.classList.add('d-none');
+    if (loginFormContainer) loginFormContainer.classList.add('d-none');
+    if (registerFormContainer) registerFormContainer.classList.add('d-none');
 
     // Hàm hiển thị form
     function showForm(formToShow, formToHide) {
         if (formToHide) {
             formToHide.classList.add('d-none');
         }
-        formToShow.classList.remove('d-none');
+        if (formToShow) {
+            formToShow.classList.remove('d-none');
+        }
     }
 
     // Nút mở form đăng nhập
     if (mainBtnLogin) {
         mainBtnLogin.addEventListener('click', function () {
-            console.log('Nút đăng nhập được click'); // Debug
+            console.log('Nút đăng nhập được click');
             showForm(loginFormContainer, registerFormContainer);
         });
     }
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Nút mở form đăng ký
     if (mainBtnRegister) {
         mainBtnRegister.addEventListener('click', function () {
-            console.log('Nút đăng ký được click'); // Debug
+            console.log('Nút đăng ký được click');
             showForm(registerFormContainer, loginFormContainer);
         });
     }
@@ -120,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 username, 
                 email, 
                 password,
-                avatar: '' // Mặc định không có avatar
+                avatar: ''
             };
             
             users.push(newUser);
@@ -182,11 +184,13 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Đăng nhập thành công!');
             
             // Đóng form
-            loginFormContainer.classList.add('d-none');
+            if (loginFormContainer) {
+                loginFormContainer.classList.add('d-none');
+            }
 
-            // Chuyển hướng sau 500ms
+            // Chuyển hướng về trang chủ - cùng cấp thư mục
             setTimeout(() => {
-                window.location.href = '/index.html';
+                window.location.href = '../index.html';
             }, 500);
         });
     }
