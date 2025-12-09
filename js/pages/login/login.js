@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Chuyển hướng về trang chủ - cùng cấp thư mục
             setTimeout(() => {
-                window.location.href = '../index.html';
+                window.location.href = 'index.html';
             }, 500);
         });
     }
