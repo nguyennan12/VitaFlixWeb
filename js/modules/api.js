@@ -6,11 +6,12 @@ const IS_PRODUCTION = window.location.hostname !== 'localhost' &&
 
 
 function getProxyUrl(apiUrl) {
-  if (IS_PRODUCTION) {
-    return `/api/proxy?url=${encodeURIComponent(apiUrl)}`;
-  } else {
+//   if (IS_PRODUCTION) {
+//     return `/api/proxy?url=${encodeURIComponent(apiUrl)}`;
+//   } else {
+//     return apiUrl;
+//   }
     return apiUrl;
-  }
 }
 
 // BASE URL JSON Cục Bộ
