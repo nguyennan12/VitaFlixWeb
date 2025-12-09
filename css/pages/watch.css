@@ -104,16 +104,13 @@
 
 .like span,
 .prev-episode span,
+.next-episode span,
 .share span,
 .repost span{
   font-size: 12px;
   margin-right: 6px;
 }
 
-.next-episode span{
-  font-size: 12px;
-  margin-left: 6px;
-}
 
 .cinema span,
 .change-episode span{
