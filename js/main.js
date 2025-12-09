@@ -32,28 +32,3 @@ $(function () {
   });
 });
 
-// Fallback header khi load thất bại
-function createFallbackHeader() {
-  return `
-    <header class="home-header fixed-top d-flex align-items-center" style="background: #17191d; padding: 1rem;">
-      <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
-        <a href="index.html" style="color: #fff; font-size: 1.5rem; font-weight: bold; text-decoration: none;">
-          VitaFlix
-        </a>
-        <nav>
-          <a href="index.html" style="color: #fff; text-decoration: none; margin: 0 1rem;">Trang chủ</a>
-          <a href="categorize-movie.html" style="color: #fff; text-decoration: none; margin: 0 1rem;">Thể loại</a>
-        </nav>
-      </div>
-    </header>
-  `;
-}
-
-// Fallback footer khi load thất bại
-function createFallbackFooter() {
-  return `
-    <footer style="background: #17191d; color: #fff; padding: 2rem; text-align: center; margin-top: 3rem;">
-      <p>&copy; 2025 VitaFlix. All rights reserved.</p>
-    </footer>
-  `;
-}
