@@ -213,7 +213,7 @@ function changeBanner(movie) {
     if (imageUrlSegment.startsWith('http')) {
       imageUrl = imageUrlSegment;
     } else {
-      imageUrl = `https://phimimg.com/${imageUrlSegment}`;
+      imageUrl = `${imageUrlSegment}`;
     }
 
     const img = new Image();
