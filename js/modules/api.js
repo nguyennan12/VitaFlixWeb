@@ -1,6 +1,23 @@
 import { Movie, MovieDetail } from "./model.js";
 
-// BASE URL  JSON CỤC BỘ
+// ===== CẤU HÌNH PROXY =====
+// Khi chạy local: dùng trực tiếp phimapi.com
+// Khi deploy Vercel: dùng proxy để bypass CORS
+const IS_PRODUCTION = window.location.hostname !== 'localhost' && 
+                      window.location.hostname !== '127.0.0.1';
+
+// Hàm helper để tạo URL qua proxy
+function getProxyUrl(apiUrl) {
+  if (IS_PRODUCTION) {
+    // Trên production: dùng Vercel serverless function
+    return `/api/proxy?url=${encodeURIComponent(apiUrl)}`;
+  } else {
+    // Local development: gọi trực tiếp
+    return apiUrl;
+  }
+}
+
+// BASE URL JSON Cục Bộ
 const LOCAL_DATA_URL = '/data/movie.json';
 
 // BASE URL API QUỐC GIA
@@ -21,7 +38,7 @@ const COUNTRIES_TO_FETCH = [
     'nhat-ban'
 ];
 
-//Fetch từ file json
+// Fetch từ file json
 export const loadMoviesFetch = () => {
     return axios({
         url: LOCAL_DATA_URL,
@@ -40,10 +57,13 @@ export const loadMoviesFetch = () => {
     });
 };
 
-// fetch từ link chi tiếy
+// fetch từ link chi tiết
 const DETAIL_BASE_URL = 'https://phimapi.com/phim/';
 export const fetchMovieDetail = (slug) => {
-    return axios.get(`${DETAIL_BASE_URL}${slug}`)
+    const apiUrl = `${DETAIL_BASE_URL}${slug}`;
+    const url = getProxyUrl(apiUrl);
+    
+    return axios.get(url)
         .then(response => {
             return response.data; 
         })
@@ -53,9 +73,11 @@ export const fetchMovieDetail = (slug) => {
         });
 };
 
-
 export const fetchNewMovies = (page = 1) => {
-    return axios.get(`${NEW_MOVIES_BASE_URL}?page=${page}`)
+    const apiUrl = `${NEW_MOVIES_BASE_URL}?page=${page}`;
+    const url = getProxyUrl(apiUrl);
+    
+    return axios.get(url)
         .then(response => {
             if (response.data && Array.isArray(response.data.items)) {
                 return response.data.items;
@@ -67,14 +89,16 @@ export const fetchNewMovies = (page = 1) => {
             return [];
         });
 };
-// --- HÀM 3: Fetch phim theo từng quốc gia (Cập nhật limit) ---
+
+// Fetch phim theo từng quốc gia (Cập nhật limit)
 const fetchMoviesByCountry = (countrySlug, page = 1) => {
-    // Thêm limit=24 để lấy được 24 phim/trang
-    return axios.get(`${COUNTRY_API_BASE}/${countrySlug}?limit=24&page=${page}`) 
+    const apiUrl = `${COUNTRY_API_BASE}/${countrySlug}?limit=24&page=${page}`;
+    const url = getProxyUrl(apiUrl);
+    
+    return axios.get(url) 
         .then(response => {
             const responseData = response.data;
             if (responseData && responseData.data && Array.isArray(responseData.data.items)) {
-                
                 return responseData.data.items.map(item => {
                     const movie = new Movie(item);
                     // QUAN TRỌNG: Tự động gán country_slug
@@ -90,13 +114,11 @@ const fetchMoviesByCountry = (countrySlug, page = 1) => {
         });
 };
 
-
-
-// --- HÀM 4: Cập nhật phim mới (LOGIC QUÉT 10 TRANG MỚI) ---
+// Cập nhật phim mới (LOGIC QUÉT 5 TRANG MỚI)
 export const updateNewMovies = async () => {
     console.log(`Đang quét ${MAX_PAGES_TO_FETCH} trang phim mới cho ${COUNTRIES_TO_FETCH.length} quốc gia...`);
 
-    // Tạo mảng lớn chứa tất cả promises (5 quốc gia * 10 trang = 50 promises)
+    // Tạo mảng lớn chứa tất cả promises (5 quốc gia * 5 trang = 25 promises)
     const allPromises = [];
 
     COUNTRIES_TO_FETCH.forEach(slug => {
@@ -143,13 +165,13 @@ export const updateNewMovies = async () => {
     }
 };
 
-// --- HÀM 5: Polling định kỳ (giữ nguyên) ---
+// Polling định kỳ
 export const startNewMoviesPolling = (intervalMs = 30 * 60 * 1000) => {
     const intervalId = setInterval(updateNewMovies, intervalMs);
     return intervalId;
 };
 
-// --- BIẾN TOÀN CỤC: Danh sách phim đầy đủ (giữ nguyên) ---
+// BIẾN TOÀN CỤC: Danh sách phim đầy đủ
 export let fullMovieList = [];
 
 // Khởi tạo
@@ -179,11 +201,14 @@ export const moviePromise = loadMoviesFetch().then(async (movies) => {
     return fullMovieList;
 });
 
-// Hàm 6: API TÌM KIẾM PHIM
+// API TÌMKIẾM PHIM
 const SEARCH_API_BASE = 'https://phimapi.com/v1/api/tim-kiem';
 
 export const searchMovies = (keyword, limit = 20) => {
-    return axios.get(`${SEARCH_API_BASE}?keyword=${encodeURIComponent(keyword)}&limit=${limit}`)
+    const apiUrl = `${SEARCH_API_BASE}?keyword=${encodeURIComponent(keyword)}&limit=${limit}`;
+    const url = getProxyUrl(apiUrl);
+    
+    return axios.get(url)
         .then(response => {
             const responseData = response.data;
             if (responseData && responseData.data && Array.isArray(responseData.data.items)) {
