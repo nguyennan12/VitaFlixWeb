@@ -26,8 +26,6 @@ class movieFilter {
     });
   }
 
-  
-
   //Lọc phim yêu thích
   static async filterFavMovie() {
     try {
@@ -229,7 +227,7 @@ export async function updateMovieCategories() {
     catagorMovie.headerSeries = movieFilter.filterRandomMovies(seriesList, 5);
     catagorMovie.headerSingle = movieFilter.filterRandomMovies(singleList, 5);
 
-    console.log(catagorMovie.favMovie);
+    // console.log(catagorMovie.favMovie);
 
   
     let randomMovies = [];
@@ -241,7 +239,6 @@ export async function updateMovieCategories() {
         const parsedCache = JSON.parse(cachedRandom);
         if (Array.isArray(parsedCache) && parsedCache.length > 0) {
           randomMovies = parsedCache; 
-          console.log("Đã tải list Random từ Cache.");
         }
       } catch (e) {
         localStorage.removeItem(RANDOM_LIST_CACHE_KEY);
@@ -254,12 +251,10 @@ export async function updateMovieCategories() {
 
       randomMovies = movieFilter.filterRandomMovies(allMoviesForRandom, RANDOM_MOVIE_COUNT); 
       
-      // Lưu danh sách ngẫu nhiên vừa tạo vào cache
       localStorage.setItem(RANDOM_LIST_CACHE_KEY, JSON.stringify(randomMovies));
-      console.log("Đã tạo và lưu list Random mới vào Cache.");
     }
     
-    // Cập nhật vào catagorMovie để render
+ 
     catagorMovie.randomMovies = randomMovies 
     
     const event = new CustomEvent("moviesUpdated", { detail: catagorMovie });
@@ -270,7 +265,7 @@ export async function updateMovieCategories() {
   }
 }
 
-// Hàm này được gọi khi nhấn nút Random
+// khi nhấn nút Random
 export function generateAndCacheRandomList() {
     localStorage.removeItem(RANDOM_LIST_CACHE_KEY);
 
@@ -279,11 +274,10 @@ export function generateAndCacheRandomList() {
     
     localStorage.setItem(RANDOM_LIST_CACHE_KEY, JSON.stringify(newRandomMovies));
 
-    catagorMovie.randomMovies = newRandomMovies; // <== ĐỒNG BỘ: Sử dụng randomMovies
+    catagorMovie.randomMovies = newRandomMovies; 
     const event = new CustomEvent("moviesUpdated", { detail: catagorMovie });
     window.dispatchEvent(event);
-    
-    console.log("Đã tạo lại list Random mới và lưu cache.");
+  
     return newRandomMovies;
 }
 

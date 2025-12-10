@@ -14,7 +14,6 @@ export class CommentManager {
         this.isAnonymous = true;
         this.maxLength = 1000;
         
-        // Đường dẫn avatar mặc định (tương đối từ file HTML ở root)
         this.DEFAULT_ANONYMOUS_AVATAR = 'assets/images/avatar-default-3.jpg';
         this.DEFAULT_USER_AVATAR = 'assets/images/user-avatar.png';
         
@@ -70,14 +69,13 @@ export class CommentManager {
         const user = this.loggedInUser;
 
         if (this.isAnonymous || !user) {
-            // Nếu không đăng nhập, luôn đặt lại về ẩn danh
+            // Nếu không đăng nhập, đặt ẩn danh
             if (!user) this.isAnonymous = true; 
             
             privacyText.innerHTML = 'Ẩn danh<span><i class="fa-solid fa-rotate"></i></span>';
             this.avatarViewer.src = this.DEFAULT_ANONYMOUS_AVATAR;
             this.nameViewer.textContent = 'Vô Danh';
         } else {
-            // CÔNG KHAI VÀ ĐÃ ĐĂNG NHẬP
             const username = user.username || user.fullname || 'Người dùng'; 
             
             // Nếu avatar rỗng hoặc không có, dùng ảnh mặc định
@@ -108,7 +106,7 @@ export class CommentManager {
         let authorName = 'Vô Danh';
         let authorAvatar = this.DEFAULT_ANONYMOUS_AVATAR;
 
-        // Cập nhật nếu chế độ Công khai VÀ đã đăng nhập
+        // Cập nhật nếu chế độ ẩn danh và người dùng
         if (!this.isAnonymous && user) {
             authorName = user.username || user.fullname || 'Người dùng';
             authorAvatar = (user.avatar && user.avatar.trim() !== '') 

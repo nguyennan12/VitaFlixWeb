@@ -3,22 +3,19 @@ import {
 } from "../../modules/categorize.js";
 import { randomIDMb } from "../home/utils-content.js";
 
-// --- 1. CẤU HÌNH "TỪ ĐIỂN" (MAPPING) ---
-// Dùng để dịch từ URL (slug) sang Key trong data và Tên hiển thị
-// Cấu trúc: 'slug-tren-url': { key: 'key_trong_catagorMovie', name: 'Tên Hiển Thị', [filterKeyword: 'từ khóa lọc thêm'] }
 const dictionary = {
-  // QUỐC GIA (Key phải khớp với catagorMovie trong categorize.js)
+  // QUỐC GIA 
   'han-quoc':   { key: 'korea', name: 'Phim Hàn Quốc' },
   'trung-quoc': { key: 'china', name: 'Phim Trung Quốc' },
   'thai-lan':   { key: 'thai',  name: 'Phim Thái Lan' },
-  'my':         { key: 'auMy',  name: 'Phim Mỹ - Âu' }, // Mapped tới key 'auMy'
+  'my':         { key: 'auMy',  name: 'Phim Mỹ - Âu' }, 
   'au-my':      { key: 'auMy',  name: 'Phim Mỹ - Âu' },
-  'nhat-ban':   { key: 'japan', name: 'Phim Nhật Bản' }, // Mapped tới key 'japan'
-  'viet-nam':   { key: 'vietNam', name: 'Phim Việt Nam' }, // Mapped tới key 'vietNam'
+  'nhat-ban':   { key: 'japan', name: 'Phim Nhật Bản' }, 
+  'viet-nam':   { key: 'vietNam', name: 'Phim Việt Nam' }, 
   'an-do':      { key: 'other', name: 'Phim Ấn Độ', filterKeyword: 'ấn độ' }, 
   'khac':       { key: 'other', name: 'Quốc Gia Khác' }, 
   
-  // THỂ LOẠI (Key là null/undefined, dùng name để filter)
+  // THỂ LOẠI 
   'hanh-dong':           { name: 'Hành Động' },
   'kinh-di':             { name: 'Kinh Dị' },
   'hai-huoc':            { name: 'Hài Hước' },
@@ -29,14 +26,10 @@ const dictionary = {
   'tai-lieu':            { name: 'Tài Liệu' },
 };
 
-// --- 2. CÁC HÀM XỬ LÝ DỮ LIỆU ---
-
-// Gộp tất cả phim lại (dùng cho Thể loại)
 function getAllMovies() {
   const sources = Object.keys(catagorMovie).filter(key => ['korea', 'china', 'japan', 'vietNam', 'auMy', 'other'].includes(key));
   return sources.reduce((acc, source) => {
     if (catagorMovie[source]) {
-      // Gộp series, single và anime (nếu có)
       return acc.concat(
         catagorMovie[source].series || [], 
         catagorMovie[source].single || [], 
@@ -47,12 +40,10 @@ function getAllMovies() {
   }, []);
 }
 
-// Kiểm tra xem phim có khớp với từ khóa (dùng cho Thể loại)
 function isMovieMatch(movie, searchKeyword) {
     if (!searchKeyword) return true;
     const keyword = searchKeyword.toLowerCase();
 
-    // Lọc theo trường category (chuyển sang chuỗi JSON để tìm kiếm sâu)
     if (movie.category) {
         const catStr = JSON.stringify(movie.category || []).toLowerCase();
         if (catStr.includes(keyword)) return true;
@@ -61,7 +52,6 @@ function isMovieMatch(movie, searchKeyword) {
     return false;
 }
 
-// Hàm render giao diện (Giữ nguyên logic HTML)
 function renderListMovie(movies, categoryTitle) {
   const titleElement = document.querySelector(".title-list.more h2");
   const listElement = document.querySelector(".js-movie-list-korea"); 
@@ -118,9 +108,7 @@ function renderListMovie(movies, categoryTitle) {
   listElement.innerHTML = listHTML;
 }
 
-// --- 3. LOGIC CHÍNH: PHÂN LOẠI DYNAMIC ---
 function handleRender() {
-  // Kiểm tra dữ liệu
   if (!catagorMovie || !catagorMovie.korea) return;
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -130,19 +118,14 @@ function handleRender() {
   let resultMovies = [];
   let displayTitle = "";
 
-  // 1. XỬ LÝ THEO TYPE CHUNG (Phim Bộ / Phim Lẻ)
   if (type === 'series' || type === 'single') {
-    // Duyệt qua tất cả các key quốc gia đã được phân loại trong categorize.js
     const countryKeys = ['korea', 'china', 'japan', 'vietNam', 'auMy'];
     
     countryKeys.forEach(key => {
-      // Truy cập động: catagorMovie['korea']['series']
       if (catagorMovie[key] && catagorMovie[key][type]) {
         resultMovies.push(...catagorMovie[key][type]);
       }
     });
-
-    // Thêm các phim hoạt hình (anime) vào list phim bộ nếu có
     if (type === 'series' && catagorMovie.japan?.anime) {
       resultMovies.push(...catagorMovie.japan.anime);
     }
@@ -150,24 +133,19 @@ function handleRender() {
     displayTitle = type === 'series' ? "Phim Bộ Mới Cập Nhật" : "Phim Lẻ Mới Cập Nhật";
   } 
   
-  // 2. XỬ LÝ DYNAMIC: QUỐC GIA HOẶC THỂ LOẠI
   else if (slug && dictionary[slug]) {
     const config = dictionary[slug]; 
     displayTitle = config.name;
 
     if (type === 'country') {
-      // ==> LOGIC QUỐC GIA: Truy cập trực tiếp catagorMovie[key]
       const dataKey = config.key; 
       
       if (catagorMovie[dataKey]) {
-        // Gộp series, single và anime (nếu có)
         resultMovies = [
           ...(catagorMovie[dataKey].series || []),
           ...(catagorMovie[dataKey].single || []),
           ...(catagorMovie[dataKey].anime || [])
         ];
-
-        // Lọc thêm theo từ khóa (Chủ yếu cho các nước chưa phân loại riêng, vd: Ấn Độ)
         if (config.filterKeyword) {
           resultMovies = resultMovies.filter(m => 
             (m.origin_name && m.origin_name.toLowerCase().includes(config.filterKeyword)) ||
@@ -177,7 +155,6 @@ function handleRender() {
       }
     } 
     else if (type === 'genre') {
-      // ==> LOGIC THỂ LOẠI: Quét tất cả và lọc
       const keyword = config.name.toLowerCase(); 
       const allMovies = getAllMovies();
       
@@ -186,7 +163,6 @@ function handleRender() {
     }
   } 
   
-  // 3. MẶC ĐỊNH
   else {
     resultMovies = catagorMovie.korea?.series || [];
     displayTitle = "Hàn Xẻng Nay Có Gì Hot ?";
@@ -205,10 +181,8 @@ function handleRender() {
 }
 
 
-// --- 4. KHỞI TẠO & SỰ KIỆN ---
 window.addEventListener("moviesUpdated", handleRender);
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Đợi một chút để module categorize.js load xong data lần đầu
   setTimeout(handleRender, 300);
 });

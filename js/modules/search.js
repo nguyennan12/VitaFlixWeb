@@ -3,29 +3,24 @@ import { searchMovies } from './api.js';
 
 let searchTimeout;
 
-// Hàm khởi tạo search
 function initSearch() {
     const searchInput = document.querySelector('#searchInput');
     const searchResults = document.querySelector('#searchResults');
     const searchResultsContent = document.querySelector('.search-results-content');
 
-    console.log('Search elements:', { searchInput, searchResults, searchResultsContent });
-
     if (!searchInput || !searchResults || !searchResultsContent) {
-        console.error('Không tìm thấy search elements!');
+       
         return;
     }
 
     searchInput.addEventListener('input', handleSearch);
     
-    // Đóng dropdown khi click bên ngoài
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.search-box')) {
             searchResults.style.display = 'none';
         }
     });
     
-    // Giữ dropdown mở khi click vào nó
     searchResults.addEventListener('click', (e) => {
         e.stopPropagation();
     });
@@ -85,15 +80,12 @@ function initSearch() {
     }
 }
 
-// Thử khởi tạo khi DOM ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initSearch);
 } else {
     initSearch();
 }
 
-// Thử lại sau 1 giây nếu header chưa load
 setTimeout(initSearch, 1000);
 
-// Export để có thể gọi từ bên ngoài
 export { initSearch };

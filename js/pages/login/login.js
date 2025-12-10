@@ -14,11 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const USERS_KEY = 'vitaflix_users';
     const CURRENT_USER_KEY = 'vitaflix_current_user';
 
-    // Ẩn cả 2 form khi load trang
     if (loginFormContainer) loginFormContainer.classList.add('d-none');
     if (registerFormContainer) registerFormContainer.classList.add('d-none');
 
-    // Hàm hiển thị form
     function showForm(formToShow, formToHide) {
         if (formToHide) {
             formToHide.classList.add('d-none');
@@ -28,23 +26,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Nút mở form đăng nhập
     if (mainBtnLogin) {
         mainBtnLogin.addEventListener('click', function () {
-            console.log('Nút đăng nhập được click');
             showForm(loginFormContainer, registerFormContainer);
         });
     }
 
-    // Nút mở form đăng ký
     if (mainBtnRegister) {
         mainBtnRegister.addEventListener('click', function () {
-            console.log('Nút đăng ký được click');
             showForm(registerFormContainer, loginFormContainer);
         });
     }
 
-    // Link chuyển sang form đăng ký
+    
     if (showRegisterLink) {
         showRegisterLink.addEventListener('click', function (e) {
             e.preventDefault();
@@ -60,23 +54,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Nút đóng form đăng nhập
     if (closeLoginFormBtn) {
         closeLoginFormBtn.addEventListener('click', function () {
             loginFormContainer.classList.add('d-none');
         });
     }
 
-    // Nút đóng form đăng ký
     if (closeRegisterFormBtn) {
         closeRegisterFormBtn.addEventListener('click', function () {
             registerFormContainer.classList.add('d-none');
         });
     }
 
-    // ===========================
-    //  XỬ LÝ ĐĂNG KÝ
-    // ===========================
     if (registerForm) {
         registerForm.addEventListener('submit', function (event) {
             event.preventDefault();
@@ -88,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const password = document.getElementById('regPasswordInput').value;
             const confirmPassword = document.getElementById('confirmPasswordInput').value;
 
-            // Validate
             if (!lastName || !firstName || !username || !email || !password || !confirmPassword) {
                 alert('Vui lòng điền đầy đủ thông tin đăng ký!');
                 return;
@@ -136,9 +124,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ===========================
-    //  XỬ LÝ ĐĂNG NHẬP
-    // ===========================
     if (loginForm) {
         loginForm.addEventListener('submit', function (event) {
             event.preventDefault();
@@ -178,7 +163,6 @@ document.addEventListener('DOMContentLoaded', function () {
             // Đăng nhập thành công
             localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
             
-            // Dispatch event để cập nhật UI
             window.dispatchEvent(new Event('storage'));
 
             alert('Đăng nhập thành công!');
@@ -188,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 loginFormContainer.classList.add('d-none');
             }
 
-            // Chuyển hướng về trang chủ - cùng cấp thư mục
+            // Chuyển hướng về trang chủ 
             setTimeout(() => {
                 window.location.href = 'index.html';
             }, 500);

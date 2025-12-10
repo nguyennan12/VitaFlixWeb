@@ -16,8 +16,8 @@ async function initWatchPage() {
     let isAutoNext = true;
 
     const urlParams = new URLSearchParams(window.location.search);
-    let movieSlug = urlParams.get('slug');
-    let episodeIndex = parseInt(urlParams.get('ep')) || 0; 
+    let movieSlug = urlParams.get('slug');// Lấy slug phim từ URL
+    let episodeIndex = parseInt(urlParams.get('ep')) || 0; //lấy số tập từu URL
 
     if (!movieSlug) movieSlug = 'nguu-lang-chuc-nu';
 
@@ -33,6 +33,7 @@ async function initWatchPage() {
         const el = document.querySelector(selector);
         if (el) el.textContent = value;
     };
+    //set nội dung cho các thẻ
     setContent('.name-film-play p', movie.name);
     setContent('.name-film', movie.name);
     setContent('.origin_name', movie.origin_name);

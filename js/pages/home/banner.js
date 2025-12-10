@@ -5,7 +5,6 @@ window.catagorMovie = catagorMovie;
 window.movieListPromise = movieListPromise;
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("🎬 Banner.js loaded - Static Multi-Item Carousel");
   
   movieListPromise
     .then(() => {
@@ -87,7 +86,6 @@ function renderCarousel(movies) {
   let html = '';
   
   movies.forEach((movie) => {
-    // ✅ FIX: Đảm bảo URL đầy đủ cho poster
     const posterUrl = movie.poster_url.startsWith('http') 
       ? movie.poster_url 
       : `https://phimimg.com/${movie.poster_url}`;
@@ -205,10 +203,8 @@ function changeBanner(movie) {
   const banner = document.querySelector(".js-banner");
 
   if (banner) {
-    // ✅ FIX: Đảm bảo URL đầy đủ cho background
     let imageUrlSegment = movie.thumb_url || movie.poster_url;
     
-    // Kiểm tra xem URL đã có domain chưa
     let imageUrl;
     if (imageUrlSegment.startsWith('http')) {
       imageUrl = imageUrlSegment;
@@ -222,7 +218,7 @@ function changeBanner(movie) {
       banner.style.backgroundSize = "cover";
       banner.style.backgroundPosition = "center";
       banner.style.backgroundRepeat = "no-repeat";
-      console.log("✅ Banner updated successfully");
+      console.log("Banner updated successfully");
     };
     img.onerror = () => {
       console.warn("Banner image failed to load, using gradient fallback");

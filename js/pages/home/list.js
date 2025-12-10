@@ -165,27 +165,24 @@ function renderAllLists() {
   }
 }
 
-// Lưu phim yêu thích VÀ CẬP NHẬT NGAY
+// Lưu phim yêu thích
 async function toggleFavoriteMovie(slug, iconElement) {
   let favList = JSON.parse(localStorage.getItem("movieFavSlug")) || [];
 
-  // Nếu đang có → xóa
   if (favList.includes(slug)) {
     favList = favList.filter(item => item !== slug);
     updateFavIcon(iconElement, false);
     
-    // Animation bỏ thích
     iconElement.style.transform = 'scale(0.8)';
     setTimeout(() => {
       iconElement.style.transform = 'scale(1)';
     }, 200);
   } 
-  // Nếu chưa có → thêm vào đầu (LIFO: Last added shows first)
+  // Nếu chưa có 
   else {
     favList.unshift(slug);
     updateFavIcon(iconElement, true);
     
-    // Animation thích
     iconElement.style.transform = 'scale(1.3)';
     setTimeout(() => {
       iconElement.style.transform = 'scale(1)';
@@ -194,24 +191,20 @@ async function toggleFavoriteMovie(slug, iconElement) {
 
   localStorage.setItem("movieFavSlug", JSON.stringify(favList));
   
-  // XÓA CACHE CŨ để filterFavMovie fetch lại từ API
   localStorage.removeItem("movieFav");
-  
-  // CẬP NHẬT NGAY danh sách categories
+
   await updateMovieCategories();
-  
-  // RENDER LẠI danh sách yêu thích
+
   renderFavoriteMovies(catagorMovie.favMovie);
 }
 
-// Lắng nghe sự kiện click vào icon 
+
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("js-fav-btn")) {
     e.preventDefault();
     e.stopPropagation();
     const slug = e.target.dataset.slug;
     
-    // Gọi hàm async và truyền cả icon element
     toggleFavoriteMovie(slug, e.target);
   }
 });
@@ -263,12 +256,11 @@ function renderFavoriteMovies(movies) {
 // Khi dữ liệu movies được update từ categorize.js
 window.addEventListener("moviesUpdated", (event) => {
   const categories = event.detail;
-  console.log("Movies updated event received", categories);
   renderAllLists();
 
   // Render favorite movies khi load trang
   renderFavoriteMovies(catagorMovie.favMovie);
 });
 
-// Export hàm để có thể gọi từ nơi khác
+
 export { renderFavoriteMovies };

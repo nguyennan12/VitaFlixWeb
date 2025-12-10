@@ -87,15 +87,12 @@ export function initMovieCards() {
     ".js-movie-list-single-korea",
     ".js-movie-list-single-auMy",
     ".js-movie-list-random",
-    ".js-movie-list-continute",
-    ".filter-results-grid",
   ];
 
   movieContainers.forEach((selector) => {
     attachMovieCardClickHandlers(selector);
   });
 
-  console.log("Movie card handlers đã được khởi tạo");
 }
 
 if (document.readyState === "loading") {
