@@ -69,7 +69,6 @@ export class CommentManager {
         const user = this.loggedInUser;
 
         if (this.isAnonymous || !user) {
-            // Nếu không đăng nhập, đặt ẩn danh
             if (!user) this.isAnonymous = true; 
             
             privacyText.innerHTML = 'Ẩn danh<span><i class="fa-solid fa-rotate"></i></span>';
@@ -77,8 +76,6 @@ export class CommentManager {
             this.nameViewer.textContent = 'Vô Danh';
         } else {
             const username = user.username || user.fullname || 'Người dùng'; 
-            
-            // Nếu avatar rỗng hoặc không có, dùng ảnh mặc định
             const avatarUrl = (user.avatar && user.avatar.trim() !== '') 
                               ? user.avatar 
                               : this.DEFAULT_USER_AVATAR;
@@ -102,11 +99,9 @@ export class CommentManager {
 
         const user = this.loggedInUser;
         
-        // Khởi tạo mặc định là ẩn danh
         let authorName = 'Vô Danh';
         let authorAvatar = this.DEFAULT_ANONYMOUS_AVATAR;
 
-        // Cập nhật nếu chế độ ẩn danh và người dùng
         if (!this.isAnonymous && user) {
             authorName = user.username || user.fullname || 'Người dùng';
             authorAvatar = (user.avatar && user.avatar.trim() !== '') 
@@ -216,7 +211,6 @@ export class CommentManager {
             }
 
             if (target.classList.contains('reply-btn')) {
-                // Chỉ cho phép reply ở comment cha
                 if (replyItem) return;
 
                 let replyBox = commentItem.querySelector('.reply-input-box');

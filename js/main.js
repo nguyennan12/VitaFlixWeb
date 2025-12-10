@@ -1,5 +1,3 @@
-
-
 $(function () {
   const currentPath = window.location.pathname;
   let basePath = '';
