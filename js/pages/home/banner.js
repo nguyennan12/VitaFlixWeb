@@ -8,9 +8,12 @@ document.addEventListener("DOMContentLoaded", function () {
   
   movieListPromise
     .then(() => {
-      if (!catagorMovie.favMovie || catagorMovie.favMovie.length === 0) {
-        useFallbackMovies();
-      } else {
+      // Kiểm tra xem có phim yêu thích không
+      const hasFavMovies = catagorMovie.favMovie && 
+                           Array.isArray(catagorMovie.favMovie) && 
+                           catagorMovie.favMovie.length > 0;
+      
+      if (hasFavMovies) {
         const validFavMovies = catagorMovie.favMovie.filter((movie) => {
           return movie && movie.name && movie.poster_url;
         });
@@ -20,14 +23,16 @@ document.addEventListener("DOMContentLoaded", function () {
           renderCarousel(limitedMovies);
           changeBanner(limitedMovies[0]);
           attachCarouselEvents();
-        } else {
-          useFallbackMovies();
+          return; // Đã xử lý xong, thoát ra
         }
       }
+      
+      // Nếu không có phim yêu thích, dùng fallback
+      useFallbackMovies();
     })
     .catch((error) => {
       console.error("Error loading banner:", error);
-      showBannerError();
+      useFallbackMovies(); // Dùng fallback thay vì chỉ hiện lỗi
     });
 });
 
@@ -48,17 +53,31 @@ function showBannerError() {
 }
 
 function useFallbackMovies() {
-  if (catagorMovie.korea?.series && catagorMovie.korea.series.length > 0) {
-    const fallbackMovies = catagorMovie.korea.series.slice(0, 5);
-    renderCarousel(fallbackMovies);
-    changeBanner(fallbackMovies[0]);
-    attachCarouselEvents();
-  } else if (catagorMovie.full && catagorMovie.full.length > 0) {
-    const fallbackMovies = catagorMovie.full.slice(0, 5);
+  let fallbackMovies = [];
+  
+  // Ưu tiên 1: Dùng phim đang xem (continute)
+  if (catagorMovie.continute && Array.isArray(catagorMovie.continute) && catagorMovie.continute.length > 0) {
+    fallbackMovies = catagorMovie.continute.slice(0, 5);
+    console.log("Using continute movies as fallback");
+  }
+  // Ưu tiên 2: Dùng phim Hàn Quốc series
+  else if (catagorMovie.korea?.series && catagorMovie.korea.series.length > 0) {
+    fallbackMovies = catagorMovie.korea.series.slice(0, 5);
+    console.log("Using Korea series as fallback");
+  }
+  // Ưu tiên 3: Dùng phim từ danh sách full
+  else if (catagorMovie.full && catagorMovie.full.length > 0) {
+    fallbackMovies = catagorMovie.full.slice(0, 5);
+    console.log("Using full list as fallback");
+  }
+  
+  // Nếu có phim fallback, render carousel và banner
+  if (fallbackMovies.length > 0) {
     renderCarousel(fallbackMovies);
     changeBanner(fallbackMovies[0]);
     attachCarouselEvents();
   } else {
+    // Chỉ hiện lỗi khi thực sự không có phim nào
     showBannerError();
   }
 }
