@@ -23,16 +23,15 @@ document.addEventListener("DOMContentLoaded", function () {
           renderCarousel(limitedMovies);
           changeBanner(limitedMovies[0]);
           attachCarouselEvents();
-          return; // Đã xử lý xong, thoát ra
+          return; 
         }
       }
       
-      // Nếu không có phim yêu thích, dùng fallback
       useFallbackMovies();
     })
     .catch((error) => {
       console.error("Error loading banner:", error);
-      useFallbackMovies(); // Dùng fallback thay vì chỉ hiện lỗi
+      useFallbackMovies(); 
     });
 });
 
@@ -55,29 +54,18 @@ function showBannerError() {
 function useFallbackMovies() {
   let fallbackMovies = [];
   
-  // Ưu tiên 1: Dùng phim đang xem (continute)
   if (catagorMovie.continute && Array.isArray(catagorMovie.continute) && catagorMovie.continute.length > 0) {
     fallbackMovies = catagorMovie.continute.slice(0, 5);
-    console.log("Using continute movies as fallback");
+
   }
-  // Ưu tiên 2: Dùng phim Hàn Quốc series
-  else if (catagorMovie.korea?.series && catagorMovie.korea.series.length > 0) {
-    fallbackMovies = catagorMovie.korea.series.slice(0, 5);
-    console.log("Using Korea series as fallback");
-  }
-  // Ưu tiên 3: Dùng phim từ danh sách full
-  else if (catagorMovie.full && catagorMovie.full.length > 0) {
-    fallbackMovies = catagorMovie.full.slice(0, 5);
-    console.log("Using full list as fallback");
-  }
-  
-  // Nếu có phim fallback, render carousel và banner
+ 
+
   if (fallbackMovies.length > 0) {
     renderCarousel(fallbackMovies);
     changeBanner(fallbackMovies[0]);
     attachCarouselEvents();
   } else {
-    // Chỉ hiện lỗi khi thực sự không có phim nào
+
     showBannerError();
   }
 }
