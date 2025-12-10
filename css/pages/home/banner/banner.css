@@ -122,9 +122,8 @@
   font-size: 60px;
   font-family: Oswald !important;
   color: rgb(249, 247, 247);
-  white-space: normal; 
+  white-space: normal;
   word-break: break-word;
- 
 }
 
 .movie-title div {
@@ -181,13 +180,13 @@
   gap: 10px;
 }
 
-.genre-link{
+.genre-link {
   text-decoration: none;
-  color:white;
+  color: white;
 }
 
 .button-genre div {
-  color: white ;
+  color: white;
   margin-top: 8px;
   padding: 6px 12px;
   font-size: 13px;
@@ -195,7 +194,6 @@
   cursor: pointer;
   transition: 0.15s;
   background-color: rgba(0, 0, 0, 0.3);
- 
 }
 
 .button-genre div:hover {
@@ -215,7 +213,6 @@
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
- 
 }
 
 /* ==================== BUTTON STYLES ==================== */
@@ -279,7 +276,7 @@
 }
 
 .banner .content .button-display div a:hover {
-  background: linear-gradient(90deg, #97dde8, #ffccf2) ;
+  background: linear-gradient(90deg, #97dde8, #ffccf2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -311,7 +308,6 @@
 .carousel .carousel-item {
   width: 200px;
   cursor: pointer;
-
 }
 
 .carousel .carousel-item img {
@@ -346,18 +342,16 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-
-
 .carousel .carousel-item {
-    display: block !important; 
-    visibility: visible !important;
-    position: absolute; 
-    top: 0;
-    left: 0;
+  display: block !important;
+  visibility: visible !important;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 /* Đảm bảo ảnh không bị méo */
 .carousel .carousel-item img {
-    width: 100%;
-    pointer-events: none; /* Tránh việc kéo ảnh thay vì kéo carousel */
-} 
+  width: 100%;
+  pointer-events: none; /* Tránh việc kéo ảnh thay vì kéo carousel */
+}
