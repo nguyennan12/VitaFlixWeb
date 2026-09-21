@@ -3,14 +3,34 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getImageUrl, handleImageError } from '../../utils/image';
 import { useFavorites } from '../../context/FavoritesContext';
 import { stripHtml } from '../../utils/format';
+import { api } from '../../services/api';
 
 export function HeroBanner({ movies = [] }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [detailsMap, setDetailsMap] = useState({});
   const { isFavorite, toggleFavorite } = useFavorites();
   const navigate = useNavigate();
 
   const featuredList = movies.slice(0, 6);
-  const activeMovie = featuredList[activeIndex] || featuredList[0];
+  const rawActiveMovie = featuredList[activeIndex] || featuredList[0];
+
+  // Fetch full details (including description / content) for the active movie if not fetched yet
+  useEffect(() => {
+    if (!rawActiveMovie?.slug) return;
+    const slug = rawActiveMovie.slug;
+    if (detailsMap[slug]) return;
+
+    let isMounted = true;
+    api.getMovieDetail(slug).then((res) => {
+      if (isMounted && res?.movie) {
+        setDetailsMap((prev) => ({ ...prev, [slug]: res.movie }));
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [rawActiveMovie?.slug]);
 
   // Auto rotate banner every 8 seconds
   useEffect(() => {
@@ -21,7 +41,7 @@ export function HeroBanner({ movies = [] }) {
     return () => clearInterval(timer);
   }, [featuredList.length]);
 
-  if (!activeMovie) {
+  if (!rawActiveMovie) {
     return (
       <div className="hero-banner" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div className="hero-banner-overlay" />
@@ -33,8 +53,15 @@ export function HeroBanner({ movies = [] }) {
     );
   }
 
+  const activeMovie = detailsMap[rawActiveMovie.slug]
+    ? { ...rawActiveMovie, ...detailsMap[rawActiveMovie.slug] }
+    : rawActiveMovie;
+
   const bgUrl = getImageUrl(activeMovie.thumb_url || activeMovie.poster_url);
   const favorited = isFavorite(activeMovie.slug);
+  const imdbRating = activeMovie.tmdb?.vote_average
+    ? Number(activeMovie.tmdb.vote_average).toFixed(1)
+    : '8.6';
 
   return (
     <div
@@ -54,7 +81,7 @@ export function HeroBanner({ movies = [] }) {
           </div>
 
           <div className="hero-badges">
-            <span className="badge-item badge-imdb">IMDb 8.6</span>
+            <span className="badge-item badge-imdb">IMDb {imdbRating}</span>
             <span className="badge-item badge-quality">{activeMovie.quality || 'HD'}</span>
             <span className="badge-item badge-year">{activeMovie.year || '2024'}</span>
             <span className="badge-item badge-episode">{activeMovie.episode_current || 'Full'}</span>
@@ -95,23 +122,34 @@ export function HeroBanner({ movies = [] }) {
           </div>
         </div>
 
-        {/* Right: 3D Cards Carousel */}
+        {/* Right: Fan/Stack Cards Carousel */}
         <div className="hero-carousel-wrap d-none d-lg-flex">
           <div className="carousel-cards-container">
-            {featuredList.map((movie, idx) => (
-              <div
-                key={movie.slug || idx}
-                className={`carousel-card ${idx === activeIndex ? 'active' : ''}`}
-                onClick={() => setActiveIndex(idx)}
-                title={movie.name}
-              >
-                <img
-                  src={getImageUrl(movie.poster_url || movie.thumb_url)}
-                  alt={movie.name}
-                  onError={handleImageError}
-                />
-              </div>
-            ))}
+            {featuredList.map((movie, idx) => {
+              // Calculate relative position from active card
+              let pos = idx - activeIndex;
+              // Wrap around for circular carousel
+              const half = Math.floor(featuredList.length / 2);
+              if (pos > half) pos -= featuredList.length;
+              if (pos < -half) pos += featuredList.length;
+              // Only render cards within visible range (-3 to 3)
+              if (Math.abs(pos) > 2) return null;
+              return (
+                <div
+                  key={movie.slug || idx}
+                  className="carousel-card"
+                  data-pos={String(pos)}
+                  onClick={() => setActiveIndex(idx)}
+                  title={movie.name}
+                >
+                  <img
+                    src={getImageUrl(movie.poster_url || movie.thumb_url)}
+                    alt={movie.name}
+                    onError={handleImageError}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

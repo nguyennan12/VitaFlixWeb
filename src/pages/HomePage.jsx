@@ -38,7 +38,7 @@ export function HomePage() {
 
         // Initial random pool
         const pool = [...newItems, ...(korRes.items || []), ...(chnRes.items || [])];
-        const shuffled = [...pool].sort(() => 0.5 - Math.random()).slice(0, 10);
+        const shuffled = [...pool].sort(() => 0.5 - Math.random()).slice(0, 14);
         setRandomMovies(shuffled);
 
         setLoading(false);
@@ -55,7 +55,7 @@ export function HomePage() {
 
   const handleShuffleRandom = () => {
     const pool = [...newMovies, ...koreaMovies, ...chinaMovies, ...singleMovies];
-    const shuffled = [...pool].sort(() => 0.5 - Math.random()).slice(0, 10);
+    const shuffled = [...pool].sort(() => 0.5 - Math.random()).slice(0, 14);
     setRandomMovies(shuffled);
   };
 
@@ -91,6 +91,7 @@ export function HomePage() {
               title="Bom Tấn Cập Cảng — Phim Lẻ Nổi Bật"
               viewMoreLink="/category?type=single"
               movies={singleMovies}
+              splitLayout
             />
 
             {/* Phim Hoạt Hình / Anime Slider */}
