@@ -1,17 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useFavorites } from '../../context/FavoritesContext';
 import { ASSETS } from '../../config/constants';
 import { MovieCard } from '../common/MovieCard';
+import { api } from '../../services/api';
 
 export function ProfileBox() {
   const { user, isLoggedIn } = useAuth();
   const { favorites } = useFavorites();
+  const [enrichedFavs, setEnrichedFavs] = useState({});
 
   const avatar = isLoggedIn && user?.avatar ? user.avatar : ASSETS.DEFAULT_AVATAR_3;
   const username = isLoggedIn ? user?.fullname || user?.username : 'Khách';
   const bio = isLoggedIn ? user?.bio || 'Love faded, peace stayed.' : 'Đăng nhập để lưu danh sách phim yêu thích của bạn.';
+
+  // Enrich favorites items if poster/thumb details are missing (e.g. old stored favorites)
+  useEffect(() => {
+    favorites.forEach((fav) => {
+      if ((!fav.poster_url && !fav.thumb_url) || fav.name === fav.slug) {
+        api.getMovieDetail(fav.slug).then((res) => {
+          if (res?.movie) {
+            setEnrichedFavs((prev) => ({
+              ...prev,
+              [fav.slug]: res.movie
+            }));
+          }
+        });
+      }
+    });
+  }, [favorites]);
 
   return (
     <section
@@ -96,7 +114,7 @@ export function ProfileBox() {
       </div>
 
       {/* Favorites Movies List */}
-      <div>
+      <div style={{ minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
           <h3 style={{ fontSize: '18px', fontWeight: '600', color: 'var(--text-white)', margin: 0 }}>
             <i className="fa-solid fa-heart text-danger me-2" />
@@ -113,17 +131,22 @@ export function ProfileBox() {
           <div
             style={{
               display: 'flex',
-              gap: '14px',
+              gap: '16px',
               overflowX: 'auto',
-              paddingBottom: '8px'
+              overflowY: 'visible',
+              padding: '8px 4px 16px 4px',
+              scrollbarWidth: 'none'
             }}
             className="favorites-horizontal-list"
           >
-            {favorites.slice(0, 8).map((movie) => (
-              <div key={movie.slug} style={{ width: '150px', flexShrink: 0 }}>
-                <MovieCard movie={movie} showHeart={true} />
-              </div>
-            ))}
+            {favorites.map((movie) => {
+              const displayMovie = enrichedFavs[movie.slug]
+                ? { ...movie, ...enrichedFavs[movie.slug] }
+                : movie;
+              return (
+                <MovieCard key={movie.slug} movie={displayMovie} showHeart={true} />
+              );
+            })}
           </div>
         )}
       </div>
