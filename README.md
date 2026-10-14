@@ -13,7 +13,7 @@
 
 ## Cài đặt
 
-Yêu cầu Node.js 18 trở lên.
+Yêu cầu Node.js 18 trở lên
 
 ```bash
 npm install
