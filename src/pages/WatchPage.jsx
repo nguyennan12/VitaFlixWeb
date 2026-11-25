@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { api } from '../services/api';
+import { useAuth } from '../context/AuthContext';
+import { useHistory } from '../context/HistoryContext';
 import { getImageUrl, handleImageError } from '../utils/image';
 import { VideoPlayer } from '../components/watch/VideoPlayer';
 import { EpisodeList } from '../components/watch/EpisodeList';
@@ -12,11 +14,14 @@ export function WatchPage() {
   const { slug } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { isLoggedIn, authLoading } = useAuth();
+  const { getMovieProgress, saveProgress } = useHistory();
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [currentServer, setCurrentServer] = useState(0);
   const [currentEpisode, setCurrentEpisode] = useState(0);
+  const [savedProgress, setSavedProgress] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
 
   // Read episode index from URL query param `?ep=0`
@@ -30,9 +35,11 @@ export function WatchPage() {
     }
   }, [searchParams]);
 
+  // Fetch movie details
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
+    setSavedProgress(null);
 
     api.getMovieDetail(slug)
       .then((res) => {
@@ -66,6 +73,51 @@ export function WatchPage() {
     };
   }, [slug]);
 
+  // Fetch saved watch progress after auth state settles
+  useEffect(() => {
+    if (authLoading || !slug) return;
+    let isMounted = true;
+
+    getMovieProgress(slug).then((progress) => {
+      if (!isMounted || !progress) return;
+      setSavedProgress(progress);
+      if (searchParams.get('ep') === null && typeof progress.episode_index === 'number') {
+        setCurrentEpisode(progress.episode_index);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, authLoading, isLoggedIn, getMovieProgress]);
+
+  const movie = data?.movie;
+  const servers = data?.episodes || [];
+  const currentServerData = servers[currentServer]?.server_data || [];
+  const activeEpisodeData = currentServerData[currentEpisode] || currentServerData[0];
+
+  const handleProgressSave = useCallback(
+    (currentTimeSeconds, durationSeconds, options) => {
+      if (!movie) return;
+      saveProgress(
+        {
+          movie_slug: movie.slug,
+          movie_name: movie.name,
+          origin_name: movie.origin_name || '',
+          poster_url: movie.poster_url || '',
+          thumb_url: movie.thumb_url || '',
+          episode_index: currentEpisode,
+          episode_name: activeEpisodeData?.name || `Tập ${currentEpisode + 1}`,
+          current_time_seconds: currentTimeSeconds,
+          duration_seconds: durationSeconds
+        },
+        options
+      );
+    },
+    [movie, currentEpisode, activeEpisodeData, saveProgress]
+  );
+
   if (loading) {
     return <LoadingSpinner text="Đang tải video..." />;
   }
@@ -80,15 +132,18 @@ export function WatchPage() {
     );
   }
 
-  const movie = data.movie;
-  const servers = data.episodes || [];
-  const currentServerData = servers[currentServer]?.server_data || [];
-  const activeEpisodeData = currentServerData[currentEpisode] || currentServerData[0];
-
   const handleSelectEpisode = (serverIndex, episodeIndex) => {
     setCurrentServer(serverIndex);
     setCurrentEpisode(episodeIndex);
     setSearchParams({ ep: episodeIndex.toString() });
+  };
+
+  const handleSelectServer = (serverIndex) => {
+    const targetData = servers[serverIndex]?.server_data || [];
+    const safeEp = targetData.length > 0 ? Math.min(currentEpisode, targetData.length - 1) : 0;
+    setCurrentServer(serverIndex);
+    setCurrentEpisode(safeEp);
+    setSearchParams({ ep: safeEp.toString() });
   };
 
   const handleNextEpisode = () => {
@@ -105,6 +160,10 @@ export function WatchPage() {
 
   const videoSource = activeEpisodeData?.link_m3u8 || activeEpisodeData?.link_embed || '';
   const posterUrl = getImageUrl(movie.thumb_url || movie.poster_url);
+  const initialTime =
+    savedProgress && savedProgress.episode_index === currentEpisode
+      ? savedProgress.current_time_seconds || 0
+      : 0;
 
   return (
     <div className="container-fluid px-lg-5 px-3 py-4" style={{ maxWidth: '1600px', margin: '0 auto' }}>
@@ -117,6 +176,8 @@ export function WatchPage() {
             poster={posterUrl}
             movieName={movie.name}
             episodeName={activeEpisodeData?.name || `Tập ${currentEpisode + 1}`}
+            initialTime={initialTime}
+            onProgressSave={handleProgressSave}
             onNextEpisode={handleNextEpisode}
             onPrevEpisode={handlePrevEpisode}
             hasNext={currentEpisode < currentServerData.length - 1}
@@ -129,6 +190,7 @@ export function WatchPage() {
             currentServer={currentServer}
             currentEpisode={currentEpisode}
             onSelectEpisode={handleSelectEpisode}
+            onSelectServer={handleSelectServer}
           />
 
           {/* Movie Summary Details */}

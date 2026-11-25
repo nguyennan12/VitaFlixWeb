@@ -1,52 +1,64 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { storage } from '../services/storage';
-import { STORAGE_KEYS } from '../config/constants';
+import { backendClient } from '../services/backendClient';
+import { useAuth } from './AuthContext';
 
 const FavoritesContext = createContext();
 
 export function FavoritesProvider({ children }) {
-  // Store array of favorite movie objects and slugs
-  const [favorites, setFavorites] = useState(() => storage.get(STORAGE_KEYS.FAVORITES, []));
+  const { isLoggedIn, authLoading } = useAuth();
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    // Migration helper: if old fav slugs exist, keep them in sync
-    const oldSlugs = storage.get(STORAGE_KEYS.FAV_SLUGS, []);
-    if (oldSlugs.length > 0 && favorites.length === 0) {
-      const initialFavs = oldSlugs.map(slug => ({ slug, name: slug }));
-      setFavorites(initialFavs);
-      storage.set(STORAGE_KEYS.FAVORITES, initialFavs);
+    if (authLoading) return;
+
+    if (!isLoggedIn) {
+      setFavorites([]);
+      return;
     }
-  }, []);
+
+    backendClient
+      .get('/favorites')
+      .then((res) => {
+        setFavorites(res.data?.items || []);
+      })
+      .catch((err) => {
+        console.error('[Favorites] Fetch error:', err);
+      });
+  }, [isLoggedIn, authLoading]);
 
   const isFavorite = (slug) => {
     if (!slug) return false;
-    return favorites.some(m => m.slug === slug);
+    return favorites.some((m) => m.slug === slug);
   };
 
-  const toggleFavorite = (movie) => {
+  const toggleFavorite = async (movie) => {
     if (!movie || !movie.slug) return;
-    
-    let updated;
-    if (isFavorite(movie.slug)) {
-      updated = favorites.filter(m => m.slug !== movie.slug);
-    } else {
-      const newFav = {
-        _id: movie._id || movie.id || movie.slug,
-        slug: movie.slug,
-        name: movie.name,
-        origin_name: movie.origin_name || '',
-        thumb_url: movie.thumb_url || movie.poster_url || '',
-        poster_url: movie.poster_url || movie.thumb_url || '',
-        year: movie.year || new Date().getFullYear(),
-        quality: movie.quality || 'HD',
-        episode_current: movie.episode_current || 'Full'
-      };
-      updated = [newFav, ...favorites];
+    if (!isLoggedIn) {
+      alert('Vui lòng đăng nhập Google để lưu phim yêu thích!');
+      return;
     }
-    
-    setFavorites(updated);
-    storage.set(STORAGE_KEYS.FAVORITES, updated);
-    storage.set(STORAGE_KEYS.FAV_SLUGS, updated.map(m => m.slug));
+
+    const payload = {
+      slug: movie.slug,
+      name: movie.name || movie.slug,
+      origin_name: movie.origin_name || '',
+      thumb_url: movie.thumb_url || movie.poster_url || '',
+      poster_url: movie.poster_url || movie.thumb_url || '',
+      year: movie.year || new Date().getFullYear(),
+      quality: movie.quality || 'HD',
+      episode_current: movie.episode_current || 'Full'
+    };
+
+    try {
+      const res = await backendClient.post('/favorites/toggle', payload);
+      if (res.data?.favorited) {
+        setFavorites((prev) => [res.data.item || payload, ...prev.filter((m) => m.slug !== payload.slug)]);
+      } else {
+        setFavorites((prev) => prev.filter((m) => m.slug !== payload.slug));
+      }
+    } catch (err) {
+      console.error('[Favorites] Toggle error:', err);
+    }
   };
 
   return (

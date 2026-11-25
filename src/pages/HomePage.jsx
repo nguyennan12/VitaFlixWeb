@@ -3,16 +3,19 @@ import { api } from '../services/api';
 import { HeroBanner } from '../components/home/HeroBanner';
 import { MovieSlider } from '../components/home/MovieSlider';
 import { ProfileBox } from '../components/home/ProfileBox';
+import { ContinueWatchingSlider } from '../components/home/ContinueWatchingSlider';
 import { LoadingSpinner } from '../components/common/Loading';
 import { MovieCard } from '../components/common/MovieCard';
 
 export function HomePage() {
   const [loading, setLoading] = useState(true);
+  const [bannerMovies, setBannerMovies] = useState([]);
   const [newMovies, setNewMovies] = useState([]);
   const [koreaMovies, setKoreaMovies] = useState([]);
   const [chinaMovies, setChinaMovies] = useState([]);
   const [japanMovies, setJapanMovies] = useState([]);
   const [singleMovies, setSingleMovies] = useState([]);
+  const [dubbedMovies, setDubbedMovies] = useState([]);
   const [randomMovies, setRandomMovies] = useState([]);
 
   useEffect(() => {
@@ -21,24 +24,29 @@ export function HomePage() {
 
     // Fetch initial datasets in parallel
     Promise.all([
+      api.getTopRatedMovies(8),
       api.getNewMovies(1),
       api.getMoviesByCountry('han-quoc', 1, 16),
       api.getMoviesByCountry('trung-quoc', 1, 16),
       api.getMoviesByCountry('nhat-ban', 1, 16),
-      api.getMoviesByType('single', 1, 16)
+      api.getMoviesByType('single', 1, 16),
+      api.getMoviesByList('phim-long-tieng', { page: 1, limit: 16 })
     ])
-      .then(([newRes, korRes, chnRes, jpnRes, sglRes]) => {
+      .then(([topRated, newRes, korRes, chnRes, jpnRes, sglRes, dubRes]) => {
         if (!isMounted) return;
         const newItems = newRes.items || [];
         setNewMovies(newItems);
+        setBannerMovies(topRated.length > 0 ? topRated : newItems);
         setKoreaMovies(korRes.items || []);
         setChinaMovies(chnRes.items || []);
         setJapanMovies(jpnRes.items || []);
         setSingleMovies(sglRes.items || []);
+        setDubbedMovies(dubRes.items || []);
 
-        // Initial random pool
+        // Initial random pool (deduplicated by slug)
         const pool = [...newItems, ...(korRes.items || []), ...(chnRes.items || [])];
-        const shuffled = [...pool].sort(() => 0.5 - Math.random()).slice(0, 14);
+        const uniquePool = Array.from(new Map(pool.filter((m) => m?.slug).map((m) => [m.slug, m])).values());
+        const shuffled = uniquePool.sort(() => 0.5 - Math.random()).slice(0, 14);
         setRandomMovies(shuffled);
 
         setLoading(false);
@@ -55,18 +63,22 @@ export function HomePage() {
 
   const handleShuffleRandom = () => {
     const pool = [...newMovies, ...koreaMovies, ...chinaMovies, ...singleMovies];
-    const shuffled = [...pool].sort(() => 0.5 - Math.random()).slice(0, 14);
+    const uniquePool = Array.from(new Map(pool.filter((m) => m?.slug).map((m) => [m.slug, m])).values());
+    const shuffled = uniquePool.sort(() => 0.5 - Math.random()).slice(0, 14);
     setRandomMovies(shuffled);
   };
 
   return (
     <div>
-      {/* Hero Banner with active carousel */}
-      <HeroBanner movies={newMovies} />
+      {/* Hero Banner with active top-rated carousel */}
+      <HeroBanner movies={bannerMovies} />
 
       <div className="container-fluid px-lg-5 px-3 py-4" style={{ maxWidth: '1600px', margin: '0 auto' }}>
         {/* User Profile & Favorites Highlight */}
         <ProfileBox />
+
+        {/* Continue Watching History */}
+        <ContinueWatchingSlider />
 
         {loading ? (
           <LoadingSpinner text="Đang tải danh sách phim..." />
@@ -93,6 +105,15 @@ export function HomePage() {
               movies={singleMovies}
               splitLayout
             />
+
+            {/* Phim Lồng Tiếng Slider */}
+            {dubbedMovies.length > 0 && (
+              <MovieSlider
+                title="Phim Lồng Tiếng Tuyển Chọn"
+                viewMoreLink="/category?type=phim-long-tieng&sort_lang=long-tieng"
+                movies={dubbedMovies}
+              />
+            )}
 
             {/* Phim Hoạt Hình / Anime Slider */}
             <MovieSlider

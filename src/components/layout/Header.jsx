@@ -145,8 +145,15 @@ export function Header() {
 
             {/* Phim Lẻ */}
             <li className="nav-item">
-              <Link to="/category?type=single" className="nav-link">
+              <Link to="/category?type=phim-le" className="nav-link">
                 Phim Lẻ
+              </Link>
+            </li>
+
+            {/* Lồng Tiếng */}
+            <li className="nav-item">
+              <Link to="/category?type=phim-long-tieng&sort_lang=long-tieng" className="nav-link">
+                Lồng Tiếng
               </Link>
             </li>
 
@@ -262,7 +269,7 @@ export function Header() {
                   <div className="user-name">{user.fullname || user.username}</div>
                 </div>
                 <Link to="/profile" className="user-dropdown-link">
-                  <i className="fa-solid fa-gear text-cyan" /> Quản lý tài khoản
+                  <i className="fa-solid fa-clock-rotate-left text-cyan" /> Lịch sử xem & Hồ sơ
                 </Link>
                 <button
                   className="user-dropdown-link logout"
@@ -325,8 +332,13 @@ export function Header() {
             </Link>
           </li>
           <li>
-            <Link to="/category?type=single" className="text-secondary py-2 d-block">
+            <Link to="/category?type=phim-le" className="text-secondary py-2 d-block">
               <i className="fa-solid fa-clapperboard me-2" /> Phim lẻ
+            </Link>
+          </li>
+          <li>
+            <Link to="/category?type=phim-long-tieng&sort_lang=long-tieng" className="text-secondary py-2 d-block">
+              <i className="fa-solid fa-microphone-lines me-2" /> Phim lồng tiếng
             </Link>
           </li>
 

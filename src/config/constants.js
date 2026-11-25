@@ -54,8 +54,28 @@ export const COUNTRIES = [
 ];
 
 export const TYPES = [
-  { slug: 'series', name: 'Phim Bộ' },
-  { slug: 'single', name: 'Phim Lẻ' },
-  { slug: 'hoathinh', name: 'Anime / Hoạt Hình' },
-  { slug: 'tvshows', name: 'TV Shows' }
+  { slug: 'phim-bo', name: 'Phim Bộ' },
+  { slug: 'phim-le', name: 'Phim Lẻ' },
+  { slug: 'hoat-hinh', name: 'Anime / Hoạt Hình' },
+  { slug: 'tv-shows', name: 'TV Shows' },
+  { slug: 'phim-long-tieng', name: 'Phim Lồng Tiếng' },
+  { slug: 'phim-thuyet-minh', name: 'Phim Thuyết Minh' },
+  { slug: 'phim-vietsub', name: 'Phim Vietsub' },
+  { slug: 'phim-chieu-rap', name: 'Phim Chiếu Rạp' },
+  { slug: 'phim-bo-dang-chieu', name: 'Phim Bộ Đang Chiếu' },
+  { slug: 'phim-bo-hoan-thanh', name: 'Phim Bộ Hoàn Thành' },
+  { slug: 'subteam', name: 'Subteam' }
+];
+
+export const LANG_OPTIONS = [
+  { value: '', name: 'Tất cả ngôn ngữ' },
+  { value: 'long-tieng', name: 'Lồng Tiếng' },
+  { value: 'thuyet-minh', name: 'Thuyết Minh' },
+  { value: 'vietsub', name: 'Vietsub' }
+];
+
+export const SORT_OPTIONS = [
+  { value: 'modified.time', name: 'Mới cập nhật' },
+  { value: 'year', name: 'Năm phát hành' },
+  { value: '_id', name: 'Mặc định' }
 ];

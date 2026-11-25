@@ -1,99 +1,88 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { storage } from '../services/storage';
-import { STORAGE_KEYS, ASSETS } from '../config/constants';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { backendClient } from '../services/backendClient';
+import { ASSETS } from '../config/constants';
 
 const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => storage.get(STORAGE_KEYS.CURRENT_USER, null));
+function normalizeUser(rawUser) {
+  if (!rawUser) return null;
+  return {
+    id: rawUser.id,
+    email: rawUser.email,
+    fullname: rawUser.full_name || rawUser.email?.split('@')[0] || 'Người dùng',
+    username: rawUser.email?.split('@')[0] || 'user',
+    avatar: rawUser.avatar_url || ASSETS.DEFAULT_AVATAR,
+    role: rawUser.role || 'user',
+    createdAt: rawUser.created_at
+  };
+}
 
-  useEffect(() => {
-    const handleStorageChange = (e) => {
-      if (e.key === STORAGE_KEYS.CURRENT_USER) {
-        setUser(storage.get(STORAGE_KEYS.CURRENT_USER, null));
+let inflightMePromise = null;
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
+
+  const checkSession = useCallback(async () => {
+    try {
+      if (!inflightMePromise) {
+        inflightMePromise = backendClient.get('/auth/me').finally(() => {
+          inflightMePromise = null;
+        });
       }
-    };
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+      const res = await inflightMePromise;
+      setUser(normalizeUser(res.data?.user));
+    } catch {
+      setUser(null);
+    } finally {
+      setAuthLoading(false);
+    }
   }, []);
 
-  const login = (identifier, password) => {
-    const users = storage.get(STORAGE_KEYS.USERS, []);
-    const cleanId = identifier.trim();
-    
-    const foundUser = users.find(
-      (u) => (u.username === cleanId || u.email === cleanId) && u.password === password
-    );
+  useEffect(() => {
+    checkSession();
+  }, [checkSession]);
 
-    if (foundUser) {
-      storage.set(STORAGE_KEYS.CURRENT_USER, foundUser);
-      setUser(foundUser);
-      return { success: true, user: foundUser };
-    }
-    return { success: false, message: 'Tài khoản hoặc mật khẩu không chính xác' };
-  };
-
-  const register = ({ username, email, password, firstName, lastName }) => {
-    const users = storage.get(STORAGE_KEYS.USERS, []);
-    
-    const usernameExists = users.some((u) => u.username?.toLowerCase() === username.toLowerCase());
-    if (usernameExists) {
-      return { success: false, message: 'Tên người dùng đã tồn tại' };
-    }
-
-    const emailExists = users.some((u) => u.email?.toLowerCase() === email.toLowerCase());
-    if (emailExists) {
-      return { success: false, message: 'Email đã được đăng ký' };
-    }
-
-    const newUser = {
-      id: Date.now().toString(),
-      username: username.trim(),
-      email: email.trim(),
-      password,
-      fullname: `${lastName || ''} ${firstName || ''}`.trim() || username,
-      avatar: ASSETS.DEFAULT_AVATAR,
-      bio: 'Yêu điện ảnh, thích hòa bình.',
-      createdAt: new Date().toISOString()
+  useEffect(() => {
+    const handleExpired = () => {
+      setUser(null);
     };
+    window.addEventListener('auth:session-expired', handleExpired);
+    return () => window.removeEventListener('auth:session-expired', handleExpired);
+  }, []);
 
-    users.push(newUser);
-    storage.set(STORAGE_KEYS.USERS, users);
-    
-    // Auto login
-    storage.set(STORAGE_KEYS.CURRENT_USER, newUser);
-    setUser(newUser);
-
-    return { success: true, user: newUser };
-  };
-
-  const logout = () => {
-    storage.remove(STORAGE_KEYS.CURRENT_USER);
-    setUser(null);
-  };
-
-  const updateProfile = (updatedFields) => {
-    if (!user) return { success: false, message: 'Chưa đăng nhập' };
-
-    const updatedUser = { ...user, ...updatedFields };
-    
-    // Update current user
-    storage.set(STORAGE_KEYS.CURRENT_USER, updatedUser);
-    setUser(updatedUser);
-
-    // Update in users database
-    const users = storage.get(STORAGE_KEYS.USERS, []);
-    const userIndex = users.findIndex((u) => u.email === user.email || u.username === user.username);
-    if (userIndex !== -1) {
-      users[userIndex] = { ...users[userIndex], ...updatedFields };
-      storage.set(STORAGE_KEYS.USERS, users);
+  const loginWithGoogle = async (credential) => {
+    try {
+      const res = await backendClient.post('/auth/google', { credential });
+      const normalized = normalizeUser(res.data?.user);
+      setUser(normalized);
+      return { success: true, user: normalized };
+    } catch (err) {
+      const message = err.response?.data?.message || 'Đăng nhập Google thất bại.';
+      return { success: false, message };
     }
+  };
 
-    return { success: true, user: updatedUser };
+  const logout = async () => {
+    try {
+      await backendClient.post('/auth/logout');
+    } catch (err) {
+      console.warn('[Auth] Logout request failed:', err);
+    } finally {
+      setUser(null);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn: !!user, login, register, logout, updateProfile }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isLoggedIn: !!user,
+        authLoading,
+        loginWithGoogle,
+        logout
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

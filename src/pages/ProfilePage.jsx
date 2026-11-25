@@ -1,200 +1,257 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useHistory } from '../context/HistoryContext';
+import { useFavorites } from '../context/FavoritesContext';
 import { ASSETS } from '../config/constants';
+import { getImageUrl, handleImageError } from '../utils/image';
+
+function formatTime(seconds) {
+  const s = Math.max(0, Math.floor(seconds || 0));
+  const hrs = Math.floor(s / 3600);
+  const mins = Math.floor((s % 3600) / 60);
+  const secs = s % 60;
+  if (hrs > 0) {
+    return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+  return `${mins}:${String(secs).padStart(2, '0')}`;
+}
 
 export function ProfilePage() {
-  const { user, isLoggedIn, updateProfile, logout } = useAuth();
+  const { user, isLoggedIn, authLoading, logout } = useAuth();
+  const { history, removeHistoryItem, clearHistory } = useHistory();
+  const { favorites, toggleFavorite } = useFavorites();
   const navigate = useNavigate();
-
-  const [fullname, setFullname] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [avatar, setAvatar] = useState('');
-  const [bio, setBio] = useState('');
-  const [showPass, setShowPass] = useState(false);
-  const [msg, setMsg] = useState({ type: '', text: '' });
+  const [activeTab, setActiveTab] = useState('history');
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!authLoading && !isLoggedIn) {
       navigate('/login');
-      return;
     }
-    if (user) {
-      setFullname(user.fullname || '');
-      setEmail(user.email || '');
-      setPassword(user.password || '');
-      setAvatar(user.avatar || '');
-      setBio(user.bio || '');
-    }
-  }, [user, isLoggedIn, navigate]);
+  }, [authLoading, isLoggedIn, navigate]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setMsg({ type: '', text: '' });
-
-    const res = updateProfile({
-      fullname: fullname.trim(),
-      email: email.trim(),
-      password: password,
-      avatar: avatar.trim() || ASSETS.DEFAULT_AVATAR,
-      bio: bio.trim()
-    });
-
-    if (res.success) {
-      setMsg({ type: 'success', text: 'Cập nhật thông tin tài khoản thành công!' });
-    } else {
-      setMsg({ type: 'danger', text: res.message || 'Cập nhật thất bại.' });
-    }
-  };
-
-  if (!isLoggedIn || !user) return null;
+  if (authLoading || !isLoggedIn || !user) return null;
 
   return (
-    <div className="container py-5" style={{ maxWidth: '600px' }}>
+    <div className="container py-5" style={{ maxWidth: '1000px' }}>
+      {/* User Header Card */}
       <div
         style={{
           background: 'var(--bg-surface)',
           border: '1px solid var(--border-card)',
           borderRadius: 'var(--radius-lg)',
-          padding: '36px',
-          boxShadow: 'var(--shadow-lg)'
+          padding: '28px',
+          boxShadow: 'var(--shadow-lg)',
+          marginBottom: '28px'
         }}
       >
-        <div className="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom border-secondary">
-          <h2 style={{ fontSize: '24px', fontWeight: '700', color: 'var(--text-white)', margin: 0 }}>
-            <i className="fa-solid fa-user-gear text-cyan me-2" />
-            Quản Lý Tài Khoản
-          </h2>
-          <button
-            onClick={() => navigate(-1)}
-            className="text-secondary fs-6 border-0 bg-transparent"
-          >
-            ← Quay lại
-          </button>
-        </div>
-
-        {msg.text && (
-          <div className={`alert alert-${msg.type} py-2 fs-6 mb-4`}>
-            {msg.text}
-          </div>
-        )}
-
-        {/* Avatar Preview */}
-        <div className="text-center mb-4">
-          <div
-            style={{
-              width: '120px',
-              height: '120px',
-              borderRadius: '50%',
-              overflow: 'hidden',
-              margin: '0 auto 16px auto',
-              border: '3px solid var(--accent-cyan)',
-              boxShadow: '0 0 15px rgba(0, 212, 255, 0.3)'
-            }}
-          >
-            <img
-              src={avatar || ASSETS.DEFAULT_AVATAR}
-              alt="Avatar preview"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              onError={(e) => { e.currentTarget.src = ASSETS.DEFAULT_AVATAR; }}
-            />
-          </div>
-          <div className="text-muted small">Tên đăng nhập: <strong className="text-white">@{user.username}</strong></div>
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label text-secondary small">Link ảnh đại diện (Avatar URL)</label>
-            <input
-              type="text"
-              className="form-control bg-dark text-white border-secondary"
-              placeholder="Dán link ảnh avatar mới..."
-              value={avatar}
-              onChange={(e) => setAvatar(e.target.value)}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label text-secondary small">Họ và tên</label>
-            <input
-              type="text"
-              className="form-control bg-dark text-white border-secondary"
-              value={fullname}
-              onChange={(e) => setFullname(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label text-secondary small">Email</label>
-            <input
-              type="email"
-              className="form-control bg-dark text-white border-secondary"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label text-secondary small">Mật khẩu</label>
-            <div className="input-group">
-              <input
-                type={showPass ? 'text' : 'password'}
-                className="form-control bg-dark text-white border-secondary"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+        <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div className="d-flex align-items-center gap-3">
+            <div
+              style={{
+                width: '76px',
+                height: '76px',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                border: '3px solid var(--accent-cyan)',
+                flexShrink: 0
+              }}
+            >
+              <img
+                src={user.avatar || ASSETS.DEFAULT_AVATAR}
+                alt={user.fullname}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                onError={(e) => { e.currentTarget.src = ASSETS.DEFAULT_AVATAR; }}
               />
-              <button
-                type="button"
-                className="btn btn-outline-secondary"
-                onClick={() => setShowPass(!showPass)}
-              >
-                <i className={`fa-solid fa-eye${showPass ? '-slash' : ''}`} />
-              </button>
+            </div>
+            <div>
+              <h2 style={{ fontSize: '22px', fontWeight: '700', color: 'var(--text-white)', margin: '0 0 4px 0' }}>
+                {user.fullname}
+              </h2>
+              <div style={{ fontSize: '14px', color: 'var(--text-muted)' }}>
+                {user.email}
+                <span
+                  className="ms-2 badge"
+                  style={{ background: 'rgba(0, 212, 255, 0.15)', color: 'var(--accent-cyan)', fontWeight: '600' }}
+                >
+                  {user.role}
+                </span>
+              </div>
             </div>
           </div>
 
-          <div className="mb-4">
-            <label className="form-label text-secondary small">Tiểu sử (Bio)</label>
-            <textarea
-              className="form-control bg-dark text-white border-secondary"
-              rows={3}
-              placeholder="Chia sẻ một chút về bản thân..."
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="btn w-100 py-2 mb-3"
-            style={{
-              background: 'var(--gradient-brand)',
-              color: '#fff',
-              fontWeight: '700',
-              borderRadius: 'var(--radius-md)'
-            }}
-          >
-            Lưu Thay Đổi
-          </button>
-
           <button
             type="button"
-            className="btn btn-outline-danger w-100 py-2"
-            onClick={() => {
+            className="btn btn-outline-danger btn-sm px-3 py-2"
+            onClick={async () => {
               if (window.confirm('Bạn có muốn đăng xuất không?')) {
-                logout();
+                await logout();
                 navigate('/');
               }
             }}
           >
-            <i className="fa-solid fa-right-from-bracket me-2" /> Đăng Xuất
+            <i className="fa-solid fa-right-from-bracket me-2" /> Đăng xuất
           </button>
-        </form>
+        </div>
       </div>
+
+      {/* Tabs */}
+      <div className="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+        <div className="d-flex gap-2">
+          <button
+            type="button"
+            className={`btn btn-sm px-3 py-2 ${activeTab === 'history' ? 'btn-info text-dark fw-bold' : 'btn-outline-secondary text-white'}`}
+            onClick={() => setActiveTab('history')}
+          >
+            <i className="fa-solid fa-clock-rotate-left me-2" />
+            Lịch sử xem ({history.length})
+          </button>
+          <button
+            type="button"
+            className={`btn btn-sm px-3 py-2 ${activeTab === 'favorites' ? 'btn-info text-dark fw-bold' : 'btn-outline-secondary text-white'}`}
+            onClick={() => setActiveTab('favorites')}
+          >
+            <i className="fa-solid fa-heart me-2 text-danger" />
+            Phim yêu thích ({favorites.length})
+          </button>
+        </div>
+
+        {activeTab === 'history' && history.length > 0 && (
+          <button
+            type="button"
+            className="btn btn-outline-danger btn-sm"
+            onClick={() => {
+              if (window.confirm('Xóa toàn bộ lịch sử xem phim?')) {
+                clearHistory();
+              }
+            }}
+          >
+            <i className="fa-solid fa-trash me-1" /> Xóa tất cả lịch sử
+          </button>
+        )}
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === 'history' ? (
+        history.length === 0 ? (
+          <div className="text-center py-5 text-muted" style={{ background: 'var(--bg-surface)', borderRadius: 'var(--radius-md)' }}>
+            <i className="fa-solid fa-film fa-2x mb-3 opacity-50" />
+            <p className="m-0">Bạn chưa xem bộ phim nào gần đây.</p>
+          </div>
+        ) : (
+          <div className="row g-3">
+            {history.map((item) => {
+              const duration = item.duration_seconds || 0;
+              const current = item.current_time_seconds || 0;
+              const percent = duration > 0 ? Math.min(100, Math.round((current / duration) * 100)) : 0;
+
+              return (
+                <div key={item.movie_slug} className="col-12 col-md-6">
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: '14px',
+                      background: 'var(--bg-surface)',
+                      border: '1px solid var(--border-subtle)',
+                      borderRadius: 'var(--radius-md)',
+                      padding: '12px',
+                      position: 'relative'
+                    }}
+                  >
+                    <Link to={`/watch/${item.movie_slug}?ep=${item.episode_index || 0}`} style={{ flexShrink: 0 }}>
+                      <img
+                        src={getImageUrl(item.poster_url || item.thumb_url)}
+                        alt={item.movie_name}
+                        style={{ width: '80px', height: '112px', objectFit: 'cover', borderRadius: '6px' }}
+                        onError={handleImageError}
+                      />
+                    </Link>
+                    <div className="flex-grow-1 d-flex flex-column justify-content-between" style={{ minWidth: 0 }}>
+                      <div>
+                        <Link
+                          to={`/watch/${item.movie_slug}?ep=${item.episode_index || 0}`}
+                          className="text-white fw-bold d-block text-truncate"
+                          style={{ fontSize: '15px' }}
+                        >
+                          {item.movie_name}
+                        </Link>
+                        {item.origin_name && (
+                          <div className="text-muted small text-truncate">{item.origin_name}</div>
+                        )}
+                        <div className="text-cyan small mt-1">
+                          {item.episode_name || `Tập ${(item.episode_index || 0) + 1}`}
+                          {current > 0 && ` • ${formatTime(current)}`}
+                          {duration > 0 && ` / ${formatTime(duration)}`}
+                        </div>
+                      </div>
+
+                      <div>
+                        {duration > 0 && (
+                          <div style={{ height: '4px', background: 'rgba(255,255,255,0.12)', borderRadius: '4px', overflow: 'hidden', marginBottom: '8px' }}>
+                            <div style={{ width: `${percent}%`, height: '100%', background: 'var(--accent-cyan)' }} />
+                          </div>
+                        )}
+                        <div className="d-flex align-items-center justify-content-between">
+                          <Link
+                            to={`/watch/${item.movie_slug}?ep=${item.episode_index || 0}`}
+                            className="btn btn-sm btn-primary py-1 px-2"
+                            style={{ fontSize: '12px' }}
+                          >
+                            <i className="fa-solid fa-play me-1" /> Tiếp tục xem
+                          </Link>
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-outline-secondary border-0 text-muted"
+                            title="Xóa khỏi lịch sử"
+                            onClick={() => removeHistoryItem(item.movie_slug)}
+                          >
+                            <i className="fa-solid fa-xmark" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )
+      ) : favorites.length === 0 ? (
+        <div className="text-center py-5 text-muted" style={{ background: 'var(--bg-surface)', borderRadius: 'var(--radius-md)' }}>
+          <i className="fa-regular fa-heart fa-2x mb-3 opacity-50" />
+          <p className="m-0">Bạn chưa lưu phim nào vào danh sách yêu thích.</p>
+        </div>
+      ) : (
+        <div className="row g-3">
+          {favorites.map((fav) => (
+            <div key={fav.slug} className="col-6 col-sm-4 col-md-3">
+              <div style={{ background: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--border-subtle)' }}>
+                <Link to={`/movie/${fav.slug}`}>
+                  <img
+                    src={getImageUrl(fav.poster_url || fav.thumb_url)}
+                    alt={fav.name}
+                    style={{ width: '100%', aspectRatio: '2/3', objectFit: 'cover' }}
+                    onError={handleImageError}
+                  />
+                </Link>
+                <div className="p-2 d-flex align-items-center justify-content-between gap-2">
+                  <Link to={`/movie/${fav.slug}`} className="text-white small fw-semibold text-truncate">
+                    {fav.name}
+                  </Link>
+                  <button
+                    type="button"
+                    className="btn btn-sm border-0 text-danger p-1"
+                    title="Bỏ yêu thích"
+                    onClick={() => toggleFavorite(fav)}
+                  >
+                    <i className="fa-solid fa-heart" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
