@@ -4,19 +4,6 @@ import { api } from '../services/api';
 import { getImageUrl, handleImageError } from '../utils/image';
 import { stripHtml } from '../utils/format';
 import { useFavorites } from '../context/FavoritesContext';
-import { useAuth } from '../context/AuthContext';
-import { useHistory } from '../context/HistoryContext';
-
-function formatTime(seconds) {
-  const s = Math.max(0, Math.floor(seconds || 0));
-  const hrs = Math.floor(s / 3600);
-  const mins = Math.floor((s % 3600) / 60);
-  const secs = s % 60;
-  if (hrs > 0) {
-    return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-  }
-  return `${mins}:${String(secs).padStart(2, '0')}`;
-}
 import { LoadingSpinner } from '../components/common/Loading';
 import { ErrorState } from '../components/common/ErrorState';
 import { CommentSection } from '../components/comments/CommentSection';
@@ -26,12 +13,9 @@ export function MovieDetailPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { isFavorite, toggleFavorite } = useFavorites();
-  const { isLoggedIn, authLoading } = useAuth();
-  const { getMovieProgress } = useHistory();
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
-  const [savedProgress, setSavedProgress] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
@@ -71,17 +55,6 @@ export function MovieDetailPage() {
       isMounted = false;
     };
   }, [slug]);
-
-  useEffect(() => {
-    if (authLoading || !slug) return;
-    let isMounted = true;
-    getMovieProgress(slug).then((progress) => {
-      if (isMounted) setSavedProgress(progress || null);
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, [slug, authLoading, isLoggedIn, getMovieProgress]);
 
   if (loading) {
     return <LoadingSpinner text="Đang tải thông tin phim..." />;
@@ -153,18 +126,11 @@ export function MovieDetailPage() {
             {/* Actions */}
             <div className="d-flex align-items-center justify-content-center gap-3 mt-4">
               <Link
-                to={
-                  savedProgress && typeof savedProgress.episode_index === 'number'
-                    ? `/watch/${movie.slug}?ep=${savedProgress.episode_index}`
-                    : `/watch/${movie.slug}`
-                }
+                to={`/watch/${movie.slug}`}
                 className="btn-play-hero"
-                style={{ padding: '10px 20px', fontSize: '14px', textAlign: 'center' }}
+                style={{ padding: '10px 24px', fontSize: '15px' }}
               >
-                <i className="fa-solid fa-play" />{' '}
-                {savedProgress && savedProgress.current_time_seconds > 5
-                  ? `Xem tiếp ${savedProgress.episode_name || `Tập ${(savedProgress.episode_index || 0) + 1}`} (${formatTime(savedProgress.current_time_seconds)})`
-                  : 'Xem Phim'}
+                <i className="fa-solid fa-play" /> Xem Phim
               </Link>
               <button
                 className={`btn-like-hero ${favorited ? 'active' : ''}`}
@@ -257,19 +223,15 @@ export function MovieDetailPage() {
                   Danh Sách Tập ({episodes.length} tập)
                 </h3>
                 <div className="episodes-grid" style={{ maxHeight: '200px' }}>
-                  {episodes.map((ep, idx) => {
-                    const isLastWatched = savedProgress?.episode_index === idx;
-                    return (
-                      <Link
-                        key={ep.slug || idx}
-                        to={`/watch/${movie.slug}?ep=${idx}`}
-                        className={`episode-btn text-decoration-none ${isLastWatched ? 'active' : ''}`}
-                        title={isLastWatched && savedProgress.current_time_seconds > 5 ? `Đang xem đến ${formatTime(savedProgress.current_time_seconds)}` : ep.name}
-                      >
-                        {ep.name || `Tập ${idx + 1}`}
-                      </Link>
-                    );
-                  })}
+                  {episodes.map((ep, idx) => (
+                    <Link
+                      key={ep.slug || idx}
+                      to={`/watch/${movie.slug}?ep=${idx}`}
+                      className="episode-btn text-decoration-none"
+                    >
+                      {ep.name || `Tập ${idx + 1}`}
+                    </Link>
+                  ))}
                 </div>
               </div>
             )}
