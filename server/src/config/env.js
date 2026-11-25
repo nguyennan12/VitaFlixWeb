@@ -16,7 +16,10 @@ export const env = {
   port: parseInt(process.env.PORT || '5000', 10),
   nodeEnv: process.env.NODE_ENV || 'development',
   isProd: process.env.NODE_ENV === 'production',
-  clientOrigin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
+  clientOrigins: (process.env.CLIENT_ORIGIN || 'http://localhost:3000')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean),
   databaseUrl: process.env.DATABASE_URL,
   googleClientId: process.env.GOOGLE_CLIENT_ID,
   jwtAccessSecret: process.env.JWT_ACCESS_SECRET,

@@ -11,7 +11,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: CLIENT_ORIGIN
-        value: https://vitaflix.static4j.app
+        value: https://www.vitaflix.id.vn,https://vitaflix.static4j.app
       - key: DATABASE_URL
         sync: false
       - key: GOOGLE_CLIENT_ID
