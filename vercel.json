@@ -7,8 +7,20 @@
   },
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
+      "source": "/api/auth/:path*",
+      "destination": "https://vitaflix-api.onrender.com/api/auth/:path*"
+    },
+    {
+      "source": "/api/history/:path*",
+      "destination": "https://vitaflix-api.onrender.com/api/history/:path*"
+    },
+    {
+      "source": "/api/favorites/:path*",
+      "destination": "https://vitaflix-api.onrender.com/api/favorites/:path*"
+    },
+    {
+      "source": "/api/health",
+      "destination": "https://vitaflix-api.onrender.com/api/health"
     },
     {
       "source": "/(.*)",
