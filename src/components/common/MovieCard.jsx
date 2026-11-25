@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getImageUrl, handleImageError } from '../../utils/image';
 import { useFavorites } from '../../context/FavoritesContext';
 
-export function MovieCard({ movie, showHeart = true }) {
+export function MovieCard({ movie, showHeart = true, enableHover = true }) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
@@ -24,8 +24,8 @@ export function MovieCard({ movie, showHeart = true }) {
   return (
     <div
       className="movie-card"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => enableHover && setHovered(true)}
+      onMouseLeave={() => enableHover && setHovered(false)}
     >
       {/* ── Normal state ── */}
       <Link to={`/movie/${movie.slug}`} className="movie-card-poster">
@@ -48,7 +48,7 @@ export function MovieCard({ movie, showHeart = true }) {
       </div>
 
       {/* ── Hover popup ── */}
-      {hovered && (
+      {enableHover && hovered && (
         <div className="movie-card-popup">
           {/* Thumb banner */}
           <div className="mcp-thumb">

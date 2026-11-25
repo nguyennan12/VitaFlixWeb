@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { backendClient } from '../services/backendClient';
 import { useAuth } from './AuthContext';
+import { useToast } from './ToastContext';
 
 const FavoritesContext = createContext();
 
 export function FavoritesProvider({ children }) {
   const { isLoggedIn, authLoading } = useAuth();
+  const { showToast } = useToast();
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export function FavoritesProvider({ children }) {
   const toggleFavorite = async (movie) => {
     if (!movie || !movie.slug) return;
     if (!isLoggedIn) {
-      alert('Vui lòng đăng nhập Google để lưu phim yêu thích!');
+      showToast('Vui lòng đăng nhập Google để lưu phim yêu thích!', 'warning');
       return;
     }
 
@@ -53,11 +55,14 @@ export function FavoritesProvider({ children }) {
       const res = await backendClient.post('/favorites/toggle', payload);
       if (res.data?.favorited) {
         setFavorites((prev) => [res.data.item || payload, ...prev.filter((m) => m.slug !== payload.slug)]);
+        showToast(`Đã thêm "${payload.name}" vào yêu thích`, 'success');
       } else {
         setFavorites((prev) => prev.filter((m) => m.slug !== payload.slug));
+        showToast(`Đã bỏ "${payload.name}" khỏi yêu thích`, 'info');
       }
     } catch (err) {
       console.error('[Favorites] Toggle error:', err);
+      showToast('Không thể cập nhật danh sách yêu thích.', 'error');
     }
   };
 

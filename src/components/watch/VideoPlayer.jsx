@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Hls from 'hls.js';
+import Plyr from 'plyr';
+import 'plyr/dist/plyr.css';
 
 export function VideoPlayer({
   source,
@@ -16,9 +18,9 @@ export function VideoPlayer({
 }) {
   const videoRef = useRef(null);
   const hlsRef = useRef(null);
+  const plyrRef = useRef(null);
   const hasSeekedRef = useRef(false);
   const lastSavedAtRef = useRef(0);
-  const skipTimerRef = useRef(null);
   const initialTimeRef = useRef(initialTime);
   const onProgressSaveRef = useRef(onProgressSave);
 
@@ -32,7 +34,6 @@ export function VideoPlayer({
 
   const [cinemaMode, setCinemaMode] = useState(false);
   const [autoNext, setAutoNext] = useState(true);
-  const [skipFeedback, setSkipFeedback] = useState(null);
 
   const triggerProgressSave = useCallback((options) => {
     const video = videoRef.current;
@@ -54,47 +55,13 @@ export function VideoPlayer({
     }
   }, [initialTime]);
 
-  const skipSeconds = useCallback((delta) => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const duration = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : Infinity;
-    const targetTime = Math.max(0, Math.min(duration, video.currentTime + delta));
-    video.currentTime = targetTime;
-
-    setSkipFeedback(delta > 0 ? `+${delta}s` : `${delta}s`);
-    if (skipTimerRef.current) clearTimeout(skipTimerRef.current);
-    skipTimerRef.current = setTimeout(() => {
-      setSkipFeedback(null);
-    }, 700);
-  }, []);
-
-  // Keyboard shortcuts: ArrowLeft / J (-10s), ArrowRight / L (+10s)
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      const tag = document.activeElement?.tagName;
-      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(tag) || document.activeElement?.isContentEditable) {
-        return;
-      }
-      if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'j') {
-        e.preventDefault();
-        skipSeconds(-10);
-      } else if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'l') {
-        e.preventDefault();
-        skipSeconds(10);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [skipSeconds]);
-
   // Reset seek tracker when source changes
   useEffect(() => {
     hasSeekedRef.current = false;
     lastSavedAtRef.current = 0;
   }, [source]);
 
-  // Load Video source with Hls.js (only re-runs when `source` changes)
+  // Initialize Plyr + Hls.js when source changes
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !source) return;
@@ -106,6 +73,39 @@ export function VideoPlayer({
         const maxSeek = Number.isFinite(video.duration) && video.duration > 10 ? video.duration - 5 : startAt;
         video.currentTime = Math.min(startAt, maxSeek);
       }
+    };
+
+    const basePlyrOptions = {
+      controls: [
+        'play-large',
+        'play',
+        'progress',
+        'current-time',
+        'duration',
+        'mute',
+        'volume',
+        'settings',
+        'pip',
+        'airplay',
+        'fullscreen'
+      ],
+      settings: ['quality', 'speed'],
+      speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] },
+      keyboard: { focused: true, global: false },
+      i18n: {
+        speed: 'Tốc độ',
+        normal: 'Bình thường',
+        quality: 'Chất lượng',
+        qualityLabel: { 0: 'Tự động' }
+      }
+    };
+
+    const initPlyr = (extraOptions = {}) => {
+      if (plyrRef.current) {
+        plyrRef.current.destroy();
+        plyrRef.current = null;
+      }
+      plyrRef.current = new Plyr(video, { ...basePlyrOptions, ...extraOptions });
     };
 
     if (Hls.isSupported() && source.includes('.m3u8')) {
@@ -122,6 +122,29 @@ export function VideoPlayer({
       hlsRef.current = hls;
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        const levels = hls.levels || [];
+        const uniqueHeights = [...new Set(levels.map((l) => l.height).filter(Boolean))].sort((a, b) => b - a);
+
+        if (uniqueHeights.length > 1) {
+          initPlyr({
+            quality: {
+              default: 0,
+              options: [0, ...uniqueHeights],
+              forced: true,
+              onChange: (newQuality) => {
+                if (newQuality === 0) {
+                  hls.currentLevel = -1;
+                } else {
+                  const idx = hls.levels.findIndex((l) => l.height === newQuality);
+                  if (idx !== -1) hls.currentLevel = idx;
+                }
+              }
+            }
+          });
+        } else {
+          initPlyr({ settings: ['speed'] });
+        }
+
         applyInitialSeek();
         video.play().catch(() => {});
       });
@@ -142,6 +165,7 @@ export function VideoPlayer({
         }
       });
     } else {
+      initPlyr({ settings: ['speed'] });
       video.src = source;
       const onLoadedMeta = () => {
         applyInitialSeek();
@@ -152,6 +176,10 @@ export function VideoPlayer({
 
     return () => {
       triggerProgressSave();
+      if (plyrRef.current) {
+        plyrRef.current.destroy();
+        plyrRef.current = null;
+      }
       if (hlsRef.current) {
         hlsRef.current.destroy();
         hlsRef.current = null;
@@ -197,36 +225,12 @@ export function VideoPlayer({
       <div className={`watch-player-wrap ${cinemaMode ? 'cinema-mode-active' : ''}`} style={{ position: 'relative' }}>
         <video
           ref={videoRef}
-          controls
           playsInline
           poster={poster}
           onTimeUpdate={handleTimeUpdate}
           onPause={triggerProgressSave}
           onEnded={handleVideoEnded}
         />
-
-        {/* Skip +/-10s Visual Feedback */}
-        {skipFeedback && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              background: 'rgba(0, 0, 0, 0.78)',
-              color: '#fff',
-              padding: '12px 22px',
-              borderRadius: '999px',
-              fontSize: '20px',
-              fontWeight: '700',
-              pointerEvents: 'none',
-              zIndex: 20,
-              border: '1px solid rgba(0, 212, 255, 0.5)'
-            }}
-          >
-            {skipFeedback}
-          </div>
-        )}
 
         {cinemaMode && (
           <button
@@ -252,24 +256,6 @@ export function VideoPlayer({
       <div className="player-control-bar">
         {/* Left options */}
         <div className="player-control-group">
-          <button
-            className="player-ctrl-btn"
-            onClick={() => skipSeconds(-10)}
-            title="Lùi 10 giây (Phím mũi tên trái hoặc J)"
-          >
-            <i className="fa-solid fa-rotate-left" />
-            <span>-10s</span>
-          </button>
-
-          <button
-            className="player-ctrl-btn"
-            onClick={() => skipSeconds(10)}
-            title="Tới 10 giây (Phím mũi tên phải hoặc L)"
-          >
-            <i className="fa-solid fa-rotate-right" />
-            <span>+10s</span>
-          </button>
-
           <button
             className={`player-ctrl-btn ${cinemaMode ? 'active' : ''}`}
             onClick={() => setCinemaMode(!cinemaMode)}

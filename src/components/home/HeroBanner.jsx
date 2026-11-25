@@ -8,11 +8,38 @@ import { api } from '../../services/api';
 export function HeroBanner({ movies = [] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [detailsMap, setDetailsMap] = useState({});
+  const [touchStartX, setTouchStartX] = useState(null);
   const { isFavorite, toggleFavorite } = useFavorites();
   const navigate = useNavigate();
 
   const featuredList = movies.slice(0, 6);
   const rawActiveMovie = featuredList[activeIndex] || featuredList[0];
+
+  const handleNextSlide = () => {
+    if (featuredList.length <= 1) return;
+    setActiveIndex((prev) => (prev + 1) % featuredList.length);
+  };
+
+  const handlePrevSlide = () => {
+    if (featuredList.length <= 1) return;
+    setActiveIndex((prev) => (prev - 1 + featuredList.length) % featuredList.length);
+  };
+
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.changedTouches?.[0]?.clientX ?? null);
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartX === null) return;
+    const endX = e.changedTouches?.[0]?.clientX;
+    if (typeof endX !== 'number') return;
+    const diff = touchStartX - endX;
+    if (Math.abs(diff) > 45) {
+      if (diff > 0) handleNextSlide();
+      else handlePrevSlide();
+    }
+    setTouchStartX(null);
+  };
 
   // Fetch full details (including description / content) for the active movie if not fetched yet
   useEffect(() => {
@@ -66,6 +93,8 @@ export function HeroBanner({ movies = [] }) {
   return (
     <div
       className="hero-banner"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       style={{
         backgroundImage: `url("${bgUrl}")`
       }}
@@ -120,6 +149,41 @@ export function HeroBanner({ movies = [] }) {
               <i className={`fa-${favorited ? 'solid' : 'regular'} fa-heart`} />
             </button>
           </div>
+
+          {/* Mobile Slide Controls (Dots + Prev/Next) */}
+          {featuredList.length > 1 && (
+            <div className="hero-mobile-controls d-flex d-lg-none align-items-center justify-content-between mt-3">
+              <div className="d-flex align-items-center gap-2">
+                {featuredList.map((m, idx) => (
+                  <button
+                    key={m.slug || idx}
+                    type="button"
+                    aria-label={`Phim ${idx + 1}`}
+                    onClick={() => setActiveIndex(idx)}
+                    className={`hero-dot-btn ${idx === activeIndex ? 'active' : ''}`}
+                  />
+                ))}
+              </div>
+              <div className="d-flex align-items-center gap-2">
+                <button
+                  type="button"
+                  aria-label="Phim trước"
+                  onClick={handlePrevSlide}
+                  className="hero-nav-circle"
+                >
+                  <i className="fa-solid fa-chevron-left" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Phim tiếp theo"
+                  onClick={handleNextSlide}
+                  className="hero-nav-circle"
+                >
+                  <i className="fa-solid fa-chevron-right" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right: Fan/Stack Cards Carousel */}

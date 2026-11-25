@@ -3,6 +3,18 @@ import { useParams, useSearchParams, useNavigate, Link } from 'react-router-dom'
 import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useHistory } from '../context/HistoryContext';
+import { useToast } from '../context/ToastContext';
+
+function formatTime(seconds) {
+  const s = Math.max(0, Math.floor(seconds || 0));
+  const hrs = Math.floor(s / 3600);
+  const mins = Math.floor((s % 3600) / 60);
+  const secs = s % 60;
+  if (hrs > 0) {
+    return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+  return `${mins}:${String(secs).padStart(2, '0')}`;
+}
 import { getImageUrl, handleImageError } from '../utils/image';
 import { VideoPlayer } from '../components/watch/VideoPlayer';
 import { EpisodeList } from '../components/watch/EpisodeList';
@@ -16,6 +28,7 @@ export function WatchPage() {
   const navigate = useNavigate();
   const { isLoggedIn, authLoading } = useAuth();
   const { getMovieProgress, saveProgress } = useHistory();
+  const { showToast } = useToast();
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -81,8 +94,16 @@ export function WatchPage() {
     getMovieProgress(slug).then((progress) => {
       if (!isMounted || !progress) return;
       setSavedProgress(progress);
-      if (searchParams.get('ep') === null && typeof progress.episode_index === 'number') {
+
+      const urlEp = searchParams.get('ep');
+      const targetEp = urlEp !== null ? parseInt(urlEp, 10) : progress.episode_index;
+      if (urlEp === null && typeof progress.episode_index === 'number') {
         setCurrentEpisode(progress.episode_index);
+      }
+
+      if (targetEp === progress.episode_index && progress.current_time_seconds > 5) {
+        const epLabel = progress.episode_name || `Tập ${(progress.episode_index || 0) + 1}`;
+        showToast(`Tiếp tục ${epLabel} từ ${formatTime(progress.current_time_seconds)}`, 'info', 4500);
       }
     });
 

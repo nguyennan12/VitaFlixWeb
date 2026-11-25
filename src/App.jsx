@@ -4,6 +4,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from './context/AuthContext';
 import { FavoritesProvider } from './context/FavoritesContext';
 import { HistoryProvider } from './context/HistoryContext';
+import { ToastProvider } from './context/ToastContext';
 import { Layout } from './components/layout/Layout';
 
 // Pages
@@ -23,35 +24,37 @@ const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 export function App() {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <AuthProvider>
-        <FavoritesProvider>
-          <HistoryProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Layout />}>
-                  <Route index element={<HomePage />} />
-                  <Route path="movie/:slug" element={<MovieDetailPage />} />
-                  <Route path="watch/:slug" element={<WatchPage />} />
-                  <Route path="category" element={<CategorizePage />} />
-                  <Route path="categorize" element={<CategorizePage />} />
-                  <Route path="search" element={<SearchPage />} />
-                  <Route path="login" element={<LoginPage />} />
-                  <Route path="profile" element={<ProfilePage />} />
-                  <Route path="faq" element={<FaqPage />} />
-                  <Route path="policy" element={<PolicyPage />} />
-                  <Route path="terms" element={<TermsPage />} />
-                  {/* Legacy URL redirects */}
-                  <Route path="movie-info.html" element={<Navigate to="/" replace />} />
-                  <Route path="watch.html" element={<Navigate to="/" replace />} />
-                  <Route path="categorize-movie.html" element={<Navigate to="/category" replace />} />
-                  <Route path="login.html" element={<Navigate to="/login" replace />} />
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Route>
-              </Routes>
-            </BrowserRouter>
-          </HistoryProvider>
-        </FavoritesProvider>
-      </AuthProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <FavoritesProvider>
+            <HistoryProvider>
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Layout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="movie/:slug" element={<MovieDetailPage />} />
+                    <Route path="watch/:slug" element={<WatchPage />} />
+                    <Route path="category" element={<CategorizePage />} />
+                    <Route path="categorize" element={<CategorizePage />} />
+                    <Route path="search" element={<SearchPage />} />
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="profile" element={<ProfilePage />} />
+                    <Route path="faq" element={<FaqPage />} />
+                    <Route path="policy" element={<PolicyPage />} />
+                    <Route path="terms" element={<TermsPage />} />
+                    {/* Legacy URL redirects */}
+                    <Route path="movie-info.html" element={<Navigate to="/" replace />} />
+                    <Route path="watch.html" element={<Navigate to="/" replace />} />
+                    <Route path="categorize-movie.html" element={<Navigate to="/category" replace />} />
+                    <Route path="login.html" element={<Navigate to="/login" replace />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Route>
+                </Routes>
+              </BrowserRouter>
+            </HistoryProvider>
+          </FavoritesProvider>
+        </AuthProvider>
+      </ToastProvider>
     </GoogleOAuthProvider>
   );
 }

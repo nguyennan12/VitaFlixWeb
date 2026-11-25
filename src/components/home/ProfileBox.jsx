@@ -144,7 +144,7 @@ export function ProfileBox() {
                 ? { ...movie, ...enrichedFavs[movie.slug] }
                 : movie;
               return (
-                <MovieCard key={movie.slug} movie={displayMovie} showHeart={true} />
+                <MovieCard key={movie.slug} movie={displayMovie} showHeart={true} enableHover={false} />
               );
             })}
           </div>

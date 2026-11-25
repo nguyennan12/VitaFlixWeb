@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { api } from '../services/api';
-import { GENRES, COUNTRIES, TYPES, LANG_OPTIONS, SORT_OPTIONS } from '../config/constants';
+import { GENRES, COUNTRIES, TYPES, LANG_OPTIONS } from '../config/constants';
 import { MovieCard } from '../components/common/MovieCard';
 import { Pagination } from '../components/common/Pagination';
 import { LoadingSpinner } from '../components/common/Loading';
@@ -148,45 +148,41 @@ export function CategorizePage() {
   return (
     <div className="container-fluid px-lg-5 px-3 py-4" style={{ maxWidth: '1600px', margin: '0 auto' }}>
       {/* Category Header */}
-      <div className="section-title-wrap border-bottom pb-3 mb-3">
+      <div className="section-title-wrap border-bottom pb-3 mb-4" style={{ borderColor: 'var(--border-subtle)' }}>
         <h1 className="section-title" style={{ fontSize: '28px' }}>
           <i className="fa-solid fa-layer-group text-cyan me-2" />
           {pageTitle}
         </h1>
-        <span className="text-muted fs-6">
+        <span className="page-count-badge">
           Trang {pagination.currentPage} / {pagination.totalPages}
         </span>
       </div>
 
-      {/* Filter Bar (KKPhim #bo-loc) */}
-      <div
-        className="mb-4 p-3"
-        style={{
-          background: 'var(--bg-surface)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-md)'
-        }}
-      >
-        <div className="row g-2 align-items-end">
-          {/* Ngôn ngữ / Lồng tiếng */}
-          <div className="col-6 col-md-4 col-lg-2">
-            <label className="form-label text-secondary small mb-1">Ngôn ngữ</label>
-            <select
-              className="form-select form-select-sm bg-dark text-white border-secondary"
-              value={sortLang}
-              onChange={(e) => updateFilter('sort_lang', e.target.value)}
+      {/* Filter Panel (KKPhim #bo-loc) */}
+      <div className="filter-panel">
+        {/* Quick Language Pills */}
+        <div className="filter-lang-pills">
+          <span className="filter-lang-label">
+            <i className="fa-solid fa-microphone-lines text-cyan me-1" /> Ngôn ngữ:
+          </span>
+          {LANG_OPTIONS.map((opt) => (
+            <button
+              key={opt.value || 'all'}
+              type="button"
+              className={`filter-pill-btn ${sortLang === opt.value ? 'active' : ''}`}
+              onClick={() => updateFilter('sort_lang', opt.value)}
             >
-              {LANG_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>{opt.name}</option>
-              ))}
-            </select>
-          </div>
+              {opt.name}
+            </button>
+          ))}
+        </div>
 
-          {/* Danh mục / Loại */}
-          <div className="col-6 col-md-4 col-lg-2">
-            <label className="form-label text-secondary small mb-1">Danh sách</label>
+        {/* Select Controls Grid */}
+        <div className="filter-controls-grid">
+          <div>
+            <label className="filter-field-label">Danh sách</label>
             <select
-              className="form-select form-select-sm bg-dark text-white border-secondary"
+              className="vf-select"
               value={type}
               onChange={(e) => updateFilter('type', e.target.value)}
             >
@@ -196,11 +192,10 @@ export function CategorizePage() {
             </select>
           </div>
 
-          {/* Thể loại */}
-          <div className="col-6 col-md-4 col-lg-2">
-            <label className="form-label text-secondary small mb-1">Thể loại</label>
+          <div>
+            <label className="filter-field-label">Thể loại</label>
             <select
-              className="form-select form-select-sm bg-dark text-white border-secondary"
+              className="vf-select"
               value={genreSlug}
               onChange={(e) => updateFilter('genre', e.target.value)}
             >
@@ -211,11 +206,10 @@ export function CategorizePage() {
             </select>
           </div>
 
-          {/* Quốc gia */}
-          <div className="col-6 col-md-4 col-lg-2">
-            <label className="form-label text-secondary small mb-1">Quốc gia</label>
+          <div>
+            <label className="filter-field-label">Quốc gia</label>
             <select
-              className="form-select form-select-sm bg-dark text-white border-secondary"
+              className="vf-select"
               value={countrySlug}
               onChange={(e) => updateFilter('country', e.target.value)}
             >
@@ -226,26 +220,24 @@ export function CategorizePage() {
             </select>
           </div>
 
-          {/* Năm */}
-          <div className="col-6 col-md-4 col-lg-1">
-            <label className="form-label text-secondary small mb-1">Năm</label>
+          <div>
+            <label className="filter-field-label">Năm phát hành</label>
             <select
-              className="form-select form-select-sm bg-dark text-white border-secondary"
+              className="vf-select"
               value={yearParam}
               onChange={(e) => updateFilter('year', e.target.value)}
             >
-              <option value="">Tất cả</option>
+              <option value="">Tất cả năm</option>
               {yearsList.map((y) => (
                 <option key={y} value={y}>{y}</option>
               ))}
             </select>
           </div>
 
-          {/* Sắp xếp */}
-          <div className="col-6 col-md-4 col-lg-2">
-            <label className="form-label text-secondary small mb-1">Sắp xếp</label>
+          <div>
+            <label className="filter-field-label">Sắp xếp</label>
             <select
-              className="form-select form-select-sm bg-dark text-white border-secondary"
+              className="vf-select"
               value={`${sortField}:${sortType}`}
               onChange={(e) => {
                 const [sf, st] = e.target.value.split(':');
@@ -256,26 +248,22 @@ export function CategorizePage() {
                 setSearchParams(next);
               }}
             >
-              {SORT_OPTIONS.map((s) => (
-                <React.Fragment key={s.value}>
-                  <option value={`${s.value}:desc`}>{s.name} (Mới → Cũ)</option>
-                  <option value={`${s.value}:asc`}>{s.name} (Cũ → Mới)</option>
-                </React.Fragment>
-              ))}
+              <option value="modified.time:desc">Mới cập nhật</option>
+              <option value="modified.time:asc">Cũ nhất</option>
+              <option value="year:desc">Năm mới → cũ</option>
+              <option value="year:asc">Năm cũ → mới</option>
+              <option value="_id:desc">Mặc định</option>
             </select>
           </div>
 
-          {/* Reset */}
-          <div className="col-12 col-lg-1 d-flex justify-content-end">
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-secondary w-100"
-              onClick={resetFilters}
-              title="Đặt lại bộ lọc"
-            >
-              <i className="fa-solid fa-rotate-left" /> Đặt lại
-            </button>
-          </div>
+          <button
+            type="button"
+            className="filter-reset-btn"
+            onClick={resetFilters}
+            title="Đặt lại bộ lọc"
+          >
+            <i className="fa-solid fa-rotate-left" /> Đặt lại
+          </button>
         </div>
       </div>
 
@@ -289,7 +277,7 @@ export function CategorizePage() {
         />
       ) : (
         <>
-          <div className="movie-grid-wrap">
+          <div className="movie-grid">
             {movies.map((movie) => (
               <MovieCard key={movie._id || movie.slug} movie={movie} />
             ))}
