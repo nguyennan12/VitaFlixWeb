@@ -35,6 +35,8 @@ export function WatchPage() {
   const [currentServer, setCurrentServer] = useState(0);
   const [currentEpisode, setCurrentEpisode] = useState(0);
   const [savedProgress, setSavedProgress] = useState(null);
+  const [resumeTime, setResumeTime] = useState(0);
+  const [resumePrompt, setResumePrompt] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
 
   // Read episode index from URL query param `?ep=0`
@@ -94,6 +96,7 @@ export function WatchPage() {
     getMovieProgress(slug).then((progress) => {
       if (!isMounted || !progress) return;
       setSavedProgress(progress);
+      setResumeTime(0);
 
       const urlEp = searchParams.get('ep');
       const targetEp = urlEp !== null ? parseInt(urlEp, 10) : progress.episode_index;
@@ -103,7 +106,13 @@ export function WatchPage() {
 
       if (targetEp === progress.episode_index && progress.current_time_seconds > 5) {
         const epLabel = progress.episode_name || `Tập ${(progress.episode_index || 0) + 1}`;
-        showToast(`Tiếp tục ${epLabel} từ ${formatTime(progress.current_time_seconds)}`, 'info', 4500);
+        setResumePrompt({
+          episodeName: epLabel,
+          timeSeconds: progress.current_time_seconds,
+          formattedTime: formatTime(progress.current_time_seconds)
+        });
+      } else {
+        setResumePrompt(null);
       }
     });
 
@@ -157,6 +166,18 @@ export function WatchPage() {
     setCurrentServer(serverIndex);
     setCurrentEpisode(episodeIndex);
     setSearchParams({ ep: episodeIndex.toString() });
+
+    if (savedProgress && savedProgress.episode_index === episodeIndex && savedProgress.current_time_seconds > 5) {
+      setResumeTime(0);
+      setResumePrompt({
+        episodeName: savedProgress.episode_name || `Tập ${episodeIndex + 1}`,
+        timeSeconds: savedProgress.current_time_seconds,
+        formattedTime: formatTime(savedProgress.current_time_seconds)
+      });
+    } else {
+      setResumeTime(0);
+      setResumePrompt(null);
+    }
   };
 
   const handleSelectServer = (serverIndex) => {
@@ -181,10 +202,6 @@ export function WatchPage() {
 
   const videoSource = activeEpisodeData?.link_m3u8 || activeEpisodeData?.link_embed || '';
   const posterUrl = getImageUrl(movie.thumb_url || movie.poster_url);
-  const initialTime =
-    savedProgress && savedProgress.episode_index === currentEpisode
-      ? savedProgress.current_time_seconds || 0
-      : 0;
 
   return (
     <div className="container-fluid px-lg-5 px-3 py-4" style={{ maxWidth: '1600px', margin: '0 auto' }}>
@@ -197,7 +214,17 @@ export function WatchPage() {
             poster={posterUrl}
             movieName={movie.name}
             episodeName={activeEpisodeData?.name || `Tập ${currentEpisode + 1}`}
-            initialTime={initialTime}
+            initialTime={resumeTime}
+            resumePrompt={resumePrompt}
+            onResumeConfirm={() => {
+              if (resumePrompt) setResumeTime(resumePrompt.timeSeconds);
+              setResumePrompt(null);
+            }}
+            onResumeRestart={() => {
+              setResumeTime(0);
+              setResumePrompt(null);
+            }}
+            onResumeDismiss={() => setResumePrompt(null)}
             onProgressSave={handleProgressSave}
             onNextEpisode={handleNextEpisode}
             onPrevEpisode={handlePrevEpisode}

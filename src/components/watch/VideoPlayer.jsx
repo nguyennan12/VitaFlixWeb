@@ -9,6 +9,10 @@ export function VideoPlayer({
   movieName,
   episodeName,
   initialTime = 0,
+  resumePrompt = null,
+  onResumeConfirm,
+  onResumeRestart,
+  onResumeDismiss,
   onProgressSave,
   onEnded,
   onNextEpisode,
@@ -231,6 +235,42 @@ export function VideoPlayer({
           onPause={triggerProgressSave}
           onEnded={handleVideoEnded}
         />
+
+        {resumePrompt && (
+          <div className="vf-resume-toast" role="dialog" aria-label="Xác nhận xem tiếp">
+            <div className="d-flex align-items-start justify-content-between gap-2">
+              <div style={{ fontSize: '13.5px', lineHeight: '1.45' }}>
+                <i className="fa-solid fa-clock-rotate-left text-cyan me-2" />
+                Bạn đã xem <strong>{resumePrompt.episodeName}</strong> đến{' '}
+                <strong className="text-cyan">{resumePrompt.formattedTime}</strong>. Bạn muốn xem tiếp chứ?
+              </div>
+              <button
+                type="button"
+                className="vf-toast-close"
+                onClick={onResumeDismiss}
+                aria-label="Đóng"
+              >
+                <i className="fa-solid fa-xmark" />
+              </button>
+            </div>
+            <div className="vf-resume-actions">
+              <button
+                type="button"
+                className="vf-resume-btn-primary"
+                onClick={onResumeConfirm}
+              >
+                <i className="fa-solid fa-play me-1" /> Xem tiếp ({resumePrompt.formattedTime})
+              </button>
+              <button
+                type="button"
+                className="vf-resume-btn-secondary"
+                onClick={onResumeRestart}
+              >
+                Xem từ đầu
+              </button>
+            </div>
+          </div>
+        )}
 
         {cinemaMode && (
           <button
