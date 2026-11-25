@@ -77,8 +77,6 @@ export const authController = {
 
       await tokenModel.deleteExpiredForUser(user.id);
       await issueSessionCookies(req, res, user);
-      const setCookies = res.getHeader('Set-Cookie');
-      console.log(`[Auth] Google login OK: user=${user.id} (${user.email}) | secure=${req.secure} | proto=${req.headers['x-forwarded-proto']} | setCookies=${JSON.stringify(setCookies)}`);
 
       return res.status(200).json({ user });
     } catch (err) {
